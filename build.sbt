@@ -12,6 +12,4 @@ libraryDependencies ++= Seq( jdbc , cache , ws , specs2 % Test )
 
 libraryDependencies += "org.reactivemongo" %% "play2-reactivemongo" % "0.12.6-play25"
 
-unmanagedResourceDirectories in Test <+=  baseDirectory ( _ /"target/web/public/test" )  
-
-      
+unmanagedResourceDirectories in Test <+=  baseDirectory ( _ /"target/web/public/test" )

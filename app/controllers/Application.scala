@@ -1,7 +1,13 @@
 package controllers
 
+import models.Movies
 import play.api._
+import play.api.libs.json
+import play.api.libs.json._
+import play.api.libs.json.{JsPath, Json}
 import play.api.mvc._
+
+import scala.concurrent.Future
 
 class Application extends Controller {
 
@@ -9,7 +15,10 @@ class Application extends Controller {
     Ok(views.html.index("Your new application is ready."))
   }
 
+
+
   def homepage = Action {
+    val m = new Movies
     Ok(views.html.homepage())
   }
 
