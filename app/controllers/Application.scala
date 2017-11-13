@@ -11,6 +11,8 @@ import scala.concurrent.Future
 
 class Application extends Controller {
 
+  val movie = new Movies
+
   def index = Action {
     Ok(views.html.index("Your new application is ready."))
   }
@@ -19,7 +21,7 @@ class Application extends Controller {
 
   def homepage = Action {
     val m = new Movies
-    Ok(views.html.homepage())
+    Ok(views.html.homepage(movie))
   }
 
   def classifications = Action {
