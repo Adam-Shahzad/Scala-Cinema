@@ -32,17 +32,12 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
-          <a class="navbar-brand" href="#">QA Cinemas</a>
+          <a class="navbar-brand" href=@routes.Application.homepage()><img src="@routes.Assets.at("images/homeSymbol.png")" style="width: 8%; height: 8%">  QA Cinemas</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href=@routes.Application.homepage()>Home
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>
             <li class="nav-item">
               <a class="nav-link" href=@routes.Application.listingsGallery()>Listings Gallery</a>
             </li>
@@ -74,22 +69,22 @@
           <!-- Slide One - Set the background image for this slide in the line below -->
           <div class="carousel-item active" style="background-image: url('http://placehold.it/1900x1080')">
             <div class="carousel-caption d-none d-md-block">
-              <h3>First Slide</h3>
-              <p>This is a description for the first slide.</p>
+              <h3>First Movie Title</h3>
+              <p>This is a description of the first movie.</p>
             </div>
           </div>
           <!-- Slide Two - Set the background image for this slide in the line below -->
           <div class="carousel-item" style="background-image: url('http://placehold.it/1900x1080')">
             <div class="carousel-caption d-none d-md-block">
-              <h3>Second Slide</h3>
-              <p>This is a description for the second slide.</p>
+              <h3>Second Movie Title</h3>
+              <p>This is a description of the second movie.</p>
             </div>
           </div>
           <!-- Slide Three - Set the background image for this slide in the line below -->
           <div class="carousel-item" style="background-image: url('http://placehold.it/1900x1080')">
             <div class="carousel-caption d-none d-md-block">
-              <h3>Third Slide</h3>
-              <p>This is a description for the third slide.</p>
+              <h3>Third Movie Title</h3>
+              <p>This is a description of the third movie.</p>
             </div>
           </div>
         </div>
