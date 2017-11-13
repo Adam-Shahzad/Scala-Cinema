@@ -15,8 +15,6 @@ class Application extends Controller {
     Ok(views.html.index("Your new application is ready."))
   }
 
-
-
   def homepage = Action {
     val m = new Movies
     Ok(views.html.homepage())
