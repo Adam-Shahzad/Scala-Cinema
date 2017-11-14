@@ -44,6 +44,7 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
   val movie = new Movies
 
 
+
   var seatList = scala.collection.mutable.Map[Int, Char]()
   val seatLetters = ('A' to 'F').toList
   val rowNumbers = (1 to 10).toList
@@ -57,7 +58,8 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
   val newMovies = new Movies(0)
   val currentMovies = new Movies(1)
 
-  //var seatList = ArrayBuffer[String]
+
+
 
 
   def index = Action {
@@ -93,9 +95,11 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
       Ok(views.html.payment("Please enter your payment details",Payment.createForm))
   }
 
+
   def discussion = Action{
     Ok(views.html.discussion(Discussion.createForm))
   }
+
 
   def processPaymentForm = Action { implicit request =>
     val formValidationResult = Payment.createForm.bindFromRequest()
@@ -110,7 +114,9 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
     }
     else {
       action match {
-        case "pay" => Ok(views.html.payment("Thanks for you purchase! Your tickets are ready to be collected",Payment.createForm ))
+        case "pay" =>
+          val thisPayment = new Payment(formValidationResult.value.head.name,formValidationResult.value.head.number,formValidationResult.value.head.expiry, formValidationResult.value.head.csv )
+          Ok(views.html.payment(s"Thanks ${formValidationResult.value.head.name} for you purchase! Your tickets are ready to be collected",Payment.createForm ))
         case "empty" =>
           Ok(views.html.payment("Basket Emptied", Payment.createForm))
       }
@@ -132,21 +138,7 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
 
   }
 
-  def seatSelection = Action {
-    val initialise = SeatSelection(List(true,false))
-    SeatSelection.seatList.append(initialise)
-    Ok(views.html.seatSelection(SeatSelection.createForm, SeatSelection.seatList, "start"))
-  }
 
-  def seatSelectionForm = Action{ implicit request =>
-    val retriveSeatsForm = SeatSelection.createForm.bindFromRequest()
-   retriveSeatsForm.fold({formWithErrors =>
-      BadRequest(views.html.seatSelection(SeatSelection.createForm, SeatSelection.seatList,"bad"))
-    },{seats =>
-     val toAdd = SeatSelection(seats.seat)
-      SeatSelection.seatList.append(toAdd)
-      Ok(views.html.seatSelection(SeatSelection.createForm, SeatSelection.seatList, "good"))
-    })
 
   def loadBookingPage = Action {
     val result = Await.result(getBooking, 5 second)
@@ -154,10 +146,7 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
 
   }
 
-//  def seatSelection = Action {
-//    val seatLetters = ('A' to 'F').toList
-//    val rowNumbers = (1 to 10).toList
-//    Ok(views.html.seatSelection(seatLetters, rowNumbers, seatList))
-//  }
+
+
 
 }
