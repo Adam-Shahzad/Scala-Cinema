@@ -1,8 +1,8 @@
 package controllers
 
 import javax.inject.Inject
-import models.JsonFormats.{BookingFormat,discussionFormat}
-import models.{Booking, Movies, Payment, Discussion}
+import models.JsonFormats.BookingFormat
+import models.{Booking, Movies, Payment}
 
 
 import models.{Discussion, Movies, Payment}
@@ -33,6 +33,8 @@ import scala.concurrent.duration._
 
 
 class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi: ReactiveMongoApi) extends Controller with I18nSupport with MongoController with ReactiveMongoComponents{
+  
+
 
   def bookingCollection : Future[JSONCollection] = database.map(_.collection[JSONCollection]("bookings"))
   def discussionCollection :Future[JSONCollection] = database.map(_.collection[JSONCollection]("discussion"))
@@ -40,6 +42,8 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
 
 
   var seatList = ArrayBuffer[String]()
+
+
 
   val newMovies = new Movies(0)
   val currentMovies = new Movies(1)
@@ -79,13 +83,8 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
       Ok(views.html.payment("Please enter your payment details",Payment.createForm))
   }
 
-  def createSuggestion(disc: Discussion) = Action { implicit request =>
-    val formValidationResult = Discussion.createForm.bindFromRequest
-    formValidationResult.fold({formWithErrors => BadRequest(views.html.discussion(mySuggestions, formWithErrors))},{
-      cd =>
-        mySuggestions += disc
-        Ok(views.html.discussion(mySuggestions, Discussion.createForm))
-    })
+  def discussion = Action{
+    Ok(views.html.discussion(Discussion.createForm))
   }
 
   def discussion = Action.async {
@@ -120,7 +119,9 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
     }
     else {
       action match {
-        case "pay" => Ok(views.html.payment("Thanks for you purchase! Your tickets are ready to be collected",Payment.createForm ))
+        case "pay" =>
+          val thisPayment = new Payment(formValidationResult.value.head.name,formValidationResult.value.head.number,formValidationResult.value.head.expiry, formValidationResult.value.head.csv )
+          Ok(views.html.payment(s"Thanks ${formValidationResult.value.head.name} for you purchase! Your tickets are ready to be collected",Payment.createForm ))
         case "empty" =>
           Ok(views.html.payment("Basket Emptied", Payment.createForm))
       }
