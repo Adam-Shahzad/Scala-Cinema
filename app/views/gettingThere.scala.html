@@ -1,0 +1,157 @@
+@main("Getting There") {
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Getting There</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="@routes.Assets.at("templates/Bare/vendor/bootstrap/css/bootstrap.min.css")" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <style>
+      body {
+        padding-top: 54px;
+          background-image: url('http://www.publicdomainpictures.net/pictures/30000/velka/film-background-1334067869u9d.jpg');
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: center center;
+      }
+      media (min-width: 992px) {
+        body {
+          padding-top: 56px;
+        }
+      }
+      table{
+          margin: 0 auto;
+      }
+
+    </style>
+
+  </head>
+
+ <body>
+
+    <!-- Page Content -->
+    <div class="container" style="background-color: rgba(0,0,0,0.5);width: 25%;
+        padding-right: 15px;
+        padding-left: 15px;
+        padding-top:15px;
+        padding-bottom:15px;
+        margin-right: auto;
+        margin-left: auto;
+        margin-top:50px;
+        ">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h1 class="mt-5" style="margin-top:0px;">Getting There</h1>
+          <p class="lead"></p>
+
+        </div>
+      </div>
+    </div>
+
+
+
+      <div class="container" style="background-color: rgba(0,0,0,0.5);  width: 90%;
+          padding-right: 15px;
+          padding-left: 15px;
+          padding-top:15px;
+          padding-bottom:15px;
+          margin-right: auto;
+          margin-left: auto;
+          margin-top:50px;
+        ">
+          <div class="row">
+      <div class="col-lg-12 text-center" style="width:80%; margin-left:auto; margin-right:auto">
+      <p style="font-size:14pt">QA cinemas is situated at the QA consulting training academy in Salford Quays. It is easily
+          accessed via public transport which runs frequently. It is roughly 3 miles from Manchester city
+          centre and only a 10 minute walk to MediaCityUk which hosts a range of shops and eateries.></p>
+          </div>
+          </div>
+      </div>
+
+
+          <div class="container" style="background-color: rgba(0,0,0,0.5);  width: 40%; display:block;
+              float: left;
+              padding-right: 15px;
+              padding-left: 15px;
+              padding-top: 5px;
+              padding-bottom:15px;
+              margin-right: auto;
+              margin-left: 100px;
+
+        ">
+
+          <div class="col-lg-12" style="width:80%; font-size:10pt; text-align:left">
+          <p>
+          By Car: There is parking opposite the building for £9 a day. Or parking at the lowry outlet multi
+          story car park. There is also free parking on roads around the area if you can find them.
+          <br><br>
+          By Bus: The 33, 147 and 53 are all frequent buses travelling from town and take about 30 minutes.
+           From salford the 50 is also a regular bus that drops off nearby.
+          <br><br>
+          By Train: If coming by train it would be best to travel to Picadilly station and then get the tram to
+          the anchorage stop, see below.
+          <br><br>
+          By Tram: Anchorage station is directly across the road. Accessible from Piccadilly on the E line
+          towards Eccles.
+          <br><br>
+          Cycling: There is a cycle hub in MediaCityUK to safely contain your bike. Mobikes are also available around
+              the city for only £50p a ride.</p>
+      </div>
+      </div>
+
+
+
+          <head>
+              <style>
+                      #map {
+                          height: 300px;
+                          width: 40%;
+                          margin-left: auto;
+                          margin-right: auto;
+                          margin-top: 5px;
+                          margin-bottom: 50px;
+
+                      }
+              </style>
+          </head>
+
+
+              <div id="map">
+              <script>
+                      function initMap() {
+                          var qa = {lat: 53.474300, lng: -2.286038};
+                          var map = new google.maps.Map(document.getElementById('map'), {
+                              zoom: 16,
+                              center: qa
+                          });
+                          var marker = new google.maps.Marker({
+                              position: qa,
+                              map: map
+                          });
+                      }
+              </script>
+              <script async defer
+              src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCAtRjlhtyQhtkd__kt2SCT0lcnj6OhaJ4&callback=initMap">
+              </script>
+              </div>
+
+
+
+
+          </body>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="@routes.Assets.at("templates/Bare/vendor/jquery/jquery.min.js")"></script>
+    <script src="@routes.Assets.at("templates/Bare/vendor/bootstrap/js/bootstrap.bundle.min.js")"></script>
+
+</html>
+}

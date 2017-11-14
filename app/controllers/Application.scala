@@ -149,6 +149,10 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
     Ok(views.html.ticketBooking(result.head))
   }
 
+  def gettingTherePage = Action {
+    Ok(views.html.gettingThere())
+  }
+
 //  def seatSelection = Action {
 //    val seatLetters = ('A' to 'F').toList
 //    val rowNumbers = (1 to 10).toList
