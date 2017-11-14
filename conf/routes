@@ -13,7 +13,7 @@ GET     /payment                    controllers.Application.payment
 POST    /payment                    controllers.Application.processPaymentForm
 GET     /screens                    controllers.Application.screens
 GET     /ticketBooking              controllers.Application.loadBookingPage
-GET     /seatSelection              controllers.Application.seatSelection
+#GET     /seatSelection              controllers.Application.seatSelection
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

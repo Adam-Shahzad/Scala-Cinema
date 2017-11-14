@@ -37,13 +37,21 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
   var seatList = ArrayBuffer[String]()
 
 
+
+  val newMovies = new Movies(0)
+  val currentMovies = new Movies(1)
+
+  //var seatList = ArrayBuffer[String]
+
   def index = Action {
     Ok(views.html.index("Your new application is ready."))
   }
 
   def homepage = Action {
+
     val m = new Movies
     Ok(views.html.homepage(movie))
+
   }
 
   def classifications = Action {
@@ -55,11 +63,11 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
   }
 
   def listingsGallery = Action {
-    Ok(views.html.listingsGallery())
+    Ok(views.html.listingsGallery(currentMovies))
   }
 
   def newReleasesGallery = Action {
-    Ok(views.html.newReleasesGallery())
+    Ok(views.html.newReleasesGallery(newMovies))
   }
 
   def openingTimes = Action {
@@ -112,10 +120,10 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
     Ok(views.html.ticketBooking(result.head))
   }
 
-  def seatSelection = Action {
-    val seatLetters = ('A' to 'F').toList
-    val rowNumbers = (1 to 10).toList
-    Ok(views.html.seatSelection(seatLetters, rowNumbers, seatList))
-  }
+//  def seatSelection = Action {
+//    val seatLetters = ('A' to 'F').toList
+//    val rowNumbers = (1 to 10).toList
+//    Ok(views.html.seatSelection(seatLetters, rowNumbers, seatList))
+//  }
 
 }
