@@ -1,8 +1,12 @@
 package controllers
 
 import javax.inject.Inject
+import models.JsonFormats.BookingFormat
+import models.{Booking, Movies, Payment}
+
 
 import models.{Discussion, Movies, Payment}
+
 import play.api._
 import play.api.libs.json
 import play.api.libs.json._
@@ -10,16 +14,31 @@ import play.api.libs.json.{JsPath, Json}
 import play.api.mvc._
 import reactivemongo.bson.BSONDocument
 import play.api.i18n.{I18nSupport, MessagesApi}
+import play.modules.reactivemongo.{MongoController, ReactiveMongoApi, ReactiveMongoComponents}
+import reactivemongo.api.Cursor
+import reactivemongo.play.json.collection._
 
 import scala.collection.mutable.ArrayBuffer
-import scala.concurrent.Future
-import scala.concurrent.Future
+import scala.concurrent.{Await, Future}
+import scala.concurrent.duration._
+import play.api.mvc.{Action, Controller}
+import play.api.libs.concurrent.Execution.Implicits.defaultContext
+import reactivemongo.play.json._
+import collection._
+import play.api.i18n.{I18nSupport, MessagesApi}
+
+import scala.collection.mutable.ListBuffer
+import scala.concurrent.duration._
 
 
-class Application  @Inject() (val messagesApi: MessagesApi) extends Controller with I18nSupport {
+
+class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi: ReactiveMongoApi) extends Controller with I18nSupport with MongoController with ReactiveMongoComponents{
+  
 
 
- var seatList = ArrayBuffer[String]()
+  def bookingCollection : Future[JSONCollection] = database.map(_.collection[JSONCollection]("bookings"))
+
+  var seatList = ArrayBuffer[String]()
 
 
 
@@ -89,8 +108,20 @@ class Application  @Inject() (val messagesApi: MessagesApi) extends Controller w
     Ok(views.html.screens())
   }
 
-  def ticketBooking = Action {
-    Ok(views.html.ticketBooking())
+  def getBooking:Future[List[Booking]]  = {
+    val cursor: Future[Cursor[Booking]] = bookingCollection.map{
+      _.find(Json.obj()).cursor[Booking]
+    }
+
+    val futureBooking : Future[List[Booking]] = cursor.flatMap(_.collect[List]())
+
+    futureBooking
+
+  }
+
+  def loadBookingPage = Action {
+    val result = Await.result(getBooking, 5 second)
+    Ok(views.html.ticketBooking(result.head))
   }
 
 //  def seatSelection = Action {
