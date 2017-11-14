@@ -23,7 +23,7 @@ class Application  @Inject() (val messagesApi: MessagesApi) extends Controller w
   
 val movie = new Movies
   
- var seatList = ArrayBuffer[String]
+ var seatList: ArrayBuffer[String] = ArrayBuffer("","")
   def index = Action {
     Ok(views.html.index("Your new application is ready."))
   }
