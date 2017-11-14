@@ -1,5 +1,5 @@
 
-@(disccusionForm: Form[Discussion] )(implicit messages: Messages)
+@(suggestions: scala.collection.mutable.Set[Discussion],disccusionForm: Form[Discussion] )(implicit messages: Messages)
 @main("Opening Times") {
 <!DOCTYPE html>
 <html lang="en">
@@ -43,19 +43,26 @@
       <div class="row">
         <div class="col-lg-12 text-center">
           <h1 class="mt-5">Opening Times</h1>
+            @for(disc <- suggestions) {
+              @disc.desc
+            }
+            <div>
+            @helper.form(routes.Application.discussion()) {
+                @helper.inputText(disccusionForm("name"), '_label -> "Name", '_showConstraints -> false)
+                @helper.inputText(disccusionForm("email"), '_label -> "Email", '_showConstraints -> false)
+                @helper.inputText(disccusionForm("desc"), '_label -> "Description", '_showConstraints -> false)
+                @helper.inputText(disccusionForm("filmName"), '_label -> "Film Name", '_showConstraints -> false)
+                @helper.inputText(disccusionForm("rating"), '_label -> "Rating", '_showConstraints -> false)
+                <button type="submit">Submit</button>
+            </div>
+            }
           <p class="lead"></p>
         </div>
       </div>
     </div>
 
 
-      @helper.form(routes.Application.processPaymentForm()) {
-          @helper.inputText(disccusionForm("name"), '_label -> "Name", '_showConstraints -> false)
-          @helper.inputText(disccusionForm("email"), '_label -> "Email", '_showConstraints -> false)
-          @helper.inputText(disccusionForm("desc"), '_label -> "Description", '_showConstraints -> false)
-          @helper.inputText(disccusionForm("filmName"), '_label -> "Film Name", '_showConstraints -> false)
-          @helper.inputText(disccusionForm("rating"), '_label -> "Rating", '_showConstraints -> false)
-      }
+
 
     <!-- Bootstrap core JavaScript -->
     <script src="@routes.Assets.at("templates/Bare/vendor/jquery/jquery.min.js")"></script>

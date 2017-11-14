@@ -17,5 +17,4 @@ object Payment {
       "csv" -> number(min = 100, max = 999)
     )(Payment.apply)(Payment.unapply)
   )
-
 }

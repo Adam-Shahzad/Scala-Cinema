@@ -1,8 +1,8 @@
 package controllers
 
 import javax.inject.Inject
-import models.JsonFormats.BookingFormat
-import models.{Booking, Movies, Payment}
+import models.JsonFormats.{BookingFormat,discussionFormat}
+import models.{Booking, Movies, Payment, Discussion}
 
 
 import models.{Discussion, Movies, Payment}
@@ -33,14 +33,13 @@ import scala.concurrent.duration._
 
 
 class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi: ReactiveMongoApi) extends Controller with I18nSupport with MongoController with ReactiveMongoComponents{
-  
-
 
   def bookingCollection : Future[JSONCollection] = database.map(_.collection[JSONCollection]("bookings"))
+  def discussionCollection :Future[JSONCollection] = database.map(_.collection[JSONCollection]("discussion"))
+  val mySuggestions: scala.collection.mutable.Set[Discussion] = scala.collection.mutable.Set.empty[Discussion]
+
 
   var seatList = ArrayBuffer[String]()
-
-
 
   val newMovies = new Movies(0)
   val currentMovies = new Movies(1)
@@ -80,9 +79,33 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
       Ok(views.html.payment("Please enter your payment details",Payment.createForm))
   }
 
-  def discussion = Action{
-    Ok(views.html.discussion(Discussion.createForm))
+  def createSuggestion(disc: Discussion) = Action { implicit request =>
+    val formValidationResult = Discussion.createForm.bindFromRequest
+    formValidationResult.fold({formWithErrors => BadRequest(views.html.discussion(mySuggestions, formWithErrors))},{
+      cd =>
+        mySuggestions += disc
+        Ok(views.html.discussion(mySuggestions, Discussion.createForm))
+    })
   }
+
+  def discussion = Action.async {
+    val cursor: Future[Cursor[Discussion]] = discussionCollection.map {
+      _.find(Json.obj()).sort(
+        Json.obj("created" -> -1)).cursor[Discussion]
+    }
+    val futureUsersList: Future[List[Discussion]] = cursor.flatMap(_.collect[List]())
+    futureUsersList.map { suggestions =>
+      suggestions.foreach(mySuggestions += _)
+      Ok(views.html.discussion(mySuggestions, Discussion.createForm))
+    }
+  }
+
+  //write to database
+//  def createSuggestion2(usr:User) = Action.async {
+//    val futureResult = collection.flatMap(_.insert(usr))
+//    mySuggestions += usr
+//    futureResult.map(_ => Ok("Success"))
+//  }
 
   def processPaymentForm = Action { implicit request =>
     val formValidationResult = Payment.createForm.bindFromRequest()
