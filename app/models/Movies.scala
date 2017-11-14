@@ -14,7 +14,6 @@ class Movies(newOrCurrent:Int){
     }
   }
   private val movieList = movies
-
   def id(value:Int):String = movieList(value).getOrElse("id","No Value")
   def voteAvg(value:Int):String = movieList(value).getOrElse("vote_average","No Value")
   def title(value:Int):String = movieList(value).getOrElse("title","No Value")
