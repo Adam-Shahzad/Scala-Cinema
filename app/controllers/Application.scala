@@ -31,6 +31,9 @@ import scala.collection.mutable.ListBuffer
 import scala.concurrent.duration._
 
 
+class Application  @Inject() (val messagesApi: MessagesApi) extends Controller with I18nSupport {
+
+
 
 
 class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi: ReactiveMongoApi) extends Controller with I18nSupport with MongoController with ReactiveMongoComponents{
