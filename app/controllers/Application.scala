@@ -1,12 +1,12 @@
 package controllers
 
 import javax.inject.Inject
-
-
-
 import models.JsonFormats.BookingFormat
+import models.{Booking, Movies, Payment}
 
-import models.{Discussion, Movies, Payment, Booking}
+
+import models.{Discussion, Movies, Payment}
+
 import play.api._
 import play.api.libs.json
 import play.api.libs.json._
@@ -31,14 +31,25 @@ import scala.collection.mutable.ListBuffer
 import scala.concurrent.duration._
 
 
+
 class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi: ReactiveMongoApi) extends Controller with I18nSupport with MongoController with ReactiveMongoComponents{
+  
+
 
   def bookingCollection : Future[JSONCollection] = database.map(_.collection[JSONCollection]("bookings"))
+  def discussionCollection :Future[JSONCollection] = database.map(_.collection[JSONCollection]("discussion"))
+  val mySuggestions: scala.collection.mutable.Set[Discussion] = scala.collection.mutable.Set.empty[Discussion]
+
+
+  var seatList = ArrayBuffer[String]()
+
+
 
   val newMovies = new Movies(0)
   val currentMovies = new Movies(1)
 
-  
+  //var seatList = ArrayBuffer[String]
+
   def index = Action {
     Ok(views.html.index("Your new application is ready."))
   }
@@ -72,11 +83,28 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
       Ok(views.html.payment("Please enter your payment details",Payment.createForm))
   }
 
-
   def discussion = Action{
     Ok(views.html.discussion(Discussion.createForm))
   }
 
+  def discussion = Action.async {
+    val cursor: Future[Cursor[Discussion]] = discussionCollection.map {
+      _.find(Json.obj()).sort(
+        Json.obj("created" -> -1)).cursor[Discussion]
+    }
+    val futureUsersList: Future[List[Discussion]] = cursor.flatMap(_.collect[List]())
+    futureUsersList.map { suggestions =>
+      suggestions.foreach(mySuggestions += _)
+      Ok(views.html.discussion(mySuggestions, Discussion.createForm))
+    }
+  }
+
+  //write to database
+//  def createSuggestion2(usr:User) = Action.async {
+//    val futureResult = collection.flatMap(_.insert(usr))
+//    mySuggestions += usr
+//    futureResult.map(_ => Ok("Success"))
+//  }
 
   def processPaymentForm = Action { implicit request =>
     val formValidationResult = Payment.createForm.bindFromRequest()
@@ -115,14 +143,15 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
 
   }
 
-
   def loadBookingPage = Action {
     val result = Await.result(getBooking, 5 second)
     Ok(views.html.ticketBooking(result.head))
-
   }
 
-
-
+//  def seatSelection = Action {
+//    val seatLetters = ('A' to 'F').toList
+//    val rowNumbers = (1 to 10).toList
+//    Ok(views.html.seatSelection(seatLetters, rowNumbers, seatList))
+//  }
 
 }
