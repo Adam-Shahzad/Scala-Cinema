@@ -1,8 +1,14 @@
 package controllers
 
 import javax.inject.Inject
+
+
+import models.{Payment, SeatSelection}
+import models.Payment
+
 import models.JsonFormats.BookingFormat
 import models.{Booking, Movies, Payment}
+
 
 
 import models.{Discussion, Movies, Payment}
@@ -32,9 +38,15 @@ import scala.concurrent.duration._
 
 
 
+
 class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi: ReactiveMongoApi) extends Controller with I18nSupport with MongoController with ReactiveMongoComponents{
   
+  val movie = new Movies
 
+
+  var seatList = scala.collection.mutable.Map[Int, Char]()
+  val seatLetters = ('A' to 'F').toList
+  val rowNumbers = (1 to 10).toList
 
   def bookingCollection : Future[JSONCollection] = database.map(_.collection[JSONCollection]("bookings"))
 
@@ -46,6 +58,7 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
   val currentMovies = new Movies(1)
 
   //var seatList = ArrayBuffer[String]
+
 
   def index = Action {
     Ok(views.html.index("Your new application is ready."))
@@ -119,9 +132,26 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
 
   }
 
+  def seatSelection = Action {
+    val initialise = SeatSelection(List(true,false))
+    SeatSelection.seatList.append(initialise)
+    Ok(views.html.seatSelection(SeatSelection.createForm, SeatSelection.seatList, "start"))
+  }
+
+  def seatSelectionForm = Action{ implicit request =>
+    val retriveSeatsForm = SeatSelection.createForm.bindFromRequest()
+   retriveSeatsForm.fold({formWithErrors =>
+      BadRequest(views.html.seatSelection(SeatSelection.createForm, SeatSelection.seatList,"bad"))
+    },{seats =>
+     val toAdd = SeatSelection(seats.seat)
+      SeatSelection.seatList.append(toAdd)
+      Ok(views.html.seatSelection(SeatSelection.createForm, SeatSelection.seatList, "good"))
+    })
+
   def loadBookingPage = Action {
     val result = Await.result(getBooking, 5 second)
     Ok(views.html.ticketBooking(result.head))
+
   }
 
 //  def seatSelection = Action {
