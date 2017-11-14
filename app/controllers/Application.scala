@@ -20,10 +20,12 @@ import scala.concurrent.Future
 
 import scala.concurrent.Future
 
-class Application extends Controller {
-
 
 class Application  @Inject() (val messagesApi: MessagesApi) extends Controller with I18nSupport {
+
+val movie = new Movies
+
+ var seatList = ArrayBuffer[String]
 
   var seatList = scala.collection.mutable.Map[Int, Char]()
   val seatLetters = ('A' to 'F').toList
@@ -35,7 +37,7 @@ class Application  @Inject() (val messagesApi: MessagesApi) extends Controller w
 
   def homepage = Action {
     val m = new Movies
-    Ok(views.html.homepage())
+    Ok(views.html.homepage(movie))
   }
 
   def classifications = Action {
