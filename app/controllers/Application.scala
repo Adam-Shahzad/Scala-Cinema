@@ -1,9 +1,12 @@
 package controllers
 
 import javax.inject.Inject
-import models.JsonFormats.BookingFormat
-import models.{Booking, Movies, Payment}
 
+
+
+import models.JsonFormats.BookingFormat
+
+import models.{Discussion, Movies, Payment, Booking}
 import play.api._
 import play.api.libs.json
 import play.api.libs.json._
@@ -31,18 +34,15 @@ import scala.concurrent.duration._
 
 
 class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi: ReactiveMongoApi) extends Controller with I18nSupport with MongoController with ReactiveMongoComponents{
-  
 
   def bookingCollection : Future[JSONCollection] = database.map(_.collection[JSONCollection]("bookings"))
-
-  var seatList = ArrayBuffer[String]()
-
-
 
   val newMovies = new Movies(0)
   val currentMovies = new Movies(1)
 
-  //var seatList = ArrayBuffer[String]
+
+
+
 
   def index = Action {
     Ok(views.html.index("Your new application is ready."))
@@ -74,9 +74,14 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
   }
 
   def payment = Action {
-
       Ok(views.html.payment("Please enter your payment details",Payment.createForm))
   }
+
+
+  def discussion = Action{
+    Ok(views.html.discussion(Discussion.createForm))
+  }
+
 
   def processPaymentForm = Action { implicit request =>
     val formValidationResult = Payment.createForm.bindFromRequest()
@@ -91,9 +96,10 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
     }
     else {
       action match {
-        case "pay" => Ok(views.html.payment("Thanks for you purchase! Your tickets are ready to be collected",Payment.createForm ))
+        case "pay" =>
+          val thisPayment = new Payment(formValidationResult.value.head.name,formValidationResult.value.head.number,formValidationResult.value.head.expiry, formValidationResult.value.head.csv )
+          Ok(views.html.payment(s"Thanks ${formValidationResult.value.head.name} for you purchase! Your tickets are ready to be collected",Payment.createForm ))
         case "empty" =>
-
           Ok(views.html.payment("Basket Emptied", Payment.createForm))
       }
     }
@@ -114,15 +120,14 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
 
   }
 
+
   def loadBookingPage = Action {
     val result = Await.result(getBooking, 5 second)
     Ok(views.html.ticketBooking(result.head))
+
   }
 
-//  def seatSelection = Action {
-//    val seatLetters = ('A' to 'F').toList
-//    val rowNumbers = (1 to 10).toList
-//    Ok(views.html.seatSelection(seatLetters, rowNumbers, seatList))
-//  }
+
+
 
 }
