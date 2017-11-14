@@ -1,3 +1,4 @@
+@(movie:Movies)
 @main("Homepage"){
 <!DOCTYPE html>
 <html lang="en">
@@ -20,10 +21,6 @@
   </head>
 
   <body>
-
-    <!-- Navigation -->
-
-
     <header>
       <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
@@ -33,24 +30,24 @@
         </ol>
         <div class="carousel-inner" role="listbox">
           <!-- Slide One - Set the background image for this slide in the line below -->
-          <div class="carousel-item active" style="background-image: url('http://placehold.it/1900x1080')">
+          <div class="carousel-item active" style="background-image: url('https://image.tmdb.org/t/p/w1400_and_h450_bestv2/@movie.backdropPath(5)'">
             <div class="carousel-caption d-none d-md-block">
-              <h3>First Movie Title</h3>
-              <p>This is a description of the first movie.</p>
+              <h3>@movie.title(5)</h3>
+              <p>@movie.overview(5)</p>
             </div>
           </div>
           <!-- Slide Two - Set the background image for this slide in the line below -->
-          <div class="carousel-item" style="background-image: url('http://placehold.it/1900x1080')">
+          <div class="carousel-item" style="background-image: url('https://image.tmdb.org/t/p/w1400_and_h450_bestv2/@movie.backdropPath(10)'">
             <div class="carousel-caption d-none d-md-block">
-              <h3>Second Movie Title</h3>
-              <p>This is a description of the second movie.</p>
+              <h3>@movie.title(10)</h3>
+              <p>@movie.overview(10)</p>
             </div>
           </div>
           <!-- Slide Three - Set the background image for this slide in the line below -->
-          <div class="carousel-item" style="background-image: url('http://placehold.it/1900x1080')">
+          <div class="carousel-item" style="background-image: url('https://image.tmdb.org/t/p/w1400_and_h450_bestv2/@movie.backdropPath(3)')">
             <div class="carousel-caption d-none d-md-block">
-              <h3>Third Movie Title</h3>
-              <p>This is a description of the third movie.</p>
+              <h3>@movie.title(3)</h3>
+              <p>@movie.overview(3)</p>
             </div>
           </div>
         </div>
