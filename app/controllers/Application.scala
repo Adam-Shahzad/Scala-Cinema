@@ -3,16 +3,10 @@ package controllers
 import javax.inject.Inject
 
 
-import models.{Payment, SeatSelection}
-import models.Payment
 
 import models.JsonFormats.BookingFormat
-import models.{Booking, Movies, Payment}
 
-
-
-import models.{Discussion, Movies, Payment}
-
+import models.{Discussion, Movies, Payment, Booking}
 import play.api._
 import play.api.libs.json
 import play.api.libs.json._
@@ -40,20 +34,8 @@ import scala.concurrent.duration._
 
 
 class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi: ReactiveMongoApi) extends Controller with I18nSupport with MongoController with ReactiveMongoComponents{
-  
-  val movie = new Movies
-
-
-
-  var seatList = scala.collection.mutable.Map[Int, Char]()
-  val seatLetters = ('A' to 'F').toList
-  val rowNumbers = (1 to 10).toList
 
   def bookingCollection : Future[JSONCollection] = database.map(_.collection[JSONCollection]("bookings"))
-
-  var seatList = ArrayBuffer[String]()
-
-
 
   val newMovies = new Movies(0)
   val currentMovies = new Movies(1)
@@ -137,7 +119,6 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
     futureBooking
 
   }
-
 
 
   def loadBookingPage = Action {
