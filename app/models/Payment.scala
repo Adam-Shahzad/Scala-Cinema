@@ -13,7 +13,7 @@ object Payment {
     mapping (
       "name" -> nonEmptyText,
       "number" -> nonEmptyText(minLength = 16, maxLength = 16),
-      "expiry" -> jodaDate(pattern = "mm/yy"),
+      "expiry" -> jodaDate(pattern = "mm/yy").verifying(_.isAfterNow),
       "csv" -> number(min = 100, max = 999)
     )(Payment.apply)(Payment.unapply)
   )
