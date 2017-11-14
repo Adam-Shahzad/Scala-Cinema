@@ -1,7 +1,7 @@
 package controllers
 
 import javax.inject.Inject
-import models.JsonFormats.BookingFormat
+import models.JsonFormats.{BookingFormat, discussionFormat}
 import models.{Booking, Movies, Payment}
 
 
@@ -83,8 +83,8 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
       Ok(views.html.payment("Please enter your payment details",Payment.createForm))
   }
 
-  def discussion = Action{
-    Ok(views.html.discussion(Discussion.createForm))
+  def discussion2 = Action{
+    Ok(views.html.discussion(mySuggestions,Discussion.createForm))
   }
 
   def discussion = Action.async {
