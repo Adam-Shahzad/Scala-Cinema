@@ -1,4 +1,7 @@
+
+@(message: String, paymentForm: Form[Payment] )(implicit messages: Messages)
 @main("Payment") {
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -38,16 +41,23 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-12 text-center">
-          <h1 class="mt-5">A Bootstrap 4 Starter Template</h1>
-          <p class="lead">Complete with pre-defined file paths and responsive navigation!</p>
-          <ul class="list-unstyled">
-            <li>Bootstrap 4.0.0-beta</li>
-            <li>jQuery 3.2.1</li>
-          </ul>
+          <h1 class="mt-5">Payment Form</h1>
         </div>
       </div>
     </div>
 
+      <h2>@message</h2>
+      @helper.form(routes.Application.processPaymentForm()) {
+          @helper.inputText(paymentForm("name"), '_label -> "Full Card Holder Name", '_showConstraints -> false)
+          @helper.inputText(paymentForm("number"), '_label -> "Card Number", '_showConstraints -> false)
+          @helper.inputText(paymentForm("expiry"), '_label -> "Expiry (MM/YY)", '_showConstraints -> false)
+          @helper.inputText(paymentForm("csv"), '_label -> "CSV", '_showConstraints -> false)
+
+          <button type="submit" name="action" value="pay">Make Payment</button>
+          <p>
+              <button type="submit" name="action" value="empty">Empty Basket</button>
+          </p>
+      }
     <!-- Bootstrap core JavaScript -->
     <script src="@routes.Assets.at("templates/Bare/vendor/jquery/jquery.min.js")"></script>
     <script src="@routes.Assets.at("templates/Bare/vendor/bootstrap/js/bootstrap.bundle.min.js")"></script>
