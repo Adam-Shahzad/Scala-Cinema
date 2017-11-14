@@ -3,13 +3,25 @@ package controllers
 import javax.inject.Inject
 
 import models.{Payment, SeatSelection}
+import models.Payment
+
+import models.Movies
+
 import play.api._
+import play.api.libs.json
+import play.api.libs.json._
+import play.api.libs.json.{JsPath, Json}
 import play.api.mvc._
 import reactivemongo.bson.BSONDocument
 import play.api.i18n.{I18nSupport, MessagesApi}
 
 import scala.collection.mutable.ArrayBuffer
 import scala.concurrent.Future
+
+import scala.concurrent.Future
+
+class Application extends Controller {
+
 
 class Application  @Inject() (val messagesApi: MessagesApi) extends Controller with I18nSupport {
 
@@ -22,6 +34,7 @@ class Application  @Inject() (val messagesApi: MessagesApi) extends Controller w
   }
 
   def homepage = Action {
+    val m = new Movies
     Ok(views.html.homepage())
   }
 
