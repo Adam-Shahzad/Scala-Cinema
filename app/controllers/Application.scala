@@ -22,8 +22,10 @@ import scala.concurrent.Future
 class Application  @Inject() (val messagesApi: MessagesApi) extends Controller with I18nSupport {
   
 val movie = new Movies
-  
- var seatList: ArrayBuffer[String] = ArrayBuffer("","")
+
+ var seatList = ArrayBuffer[String]()
+
+
   def index = Action {
     Ok(views.html.index("Your new application is ready."))
   }
