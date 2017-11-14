@@ -18,19 +18,19 @@ import scala.concurrent.Future
 
 import scala.concurrent.Future
 
-class Application extends Controller {
-
 
 class Application  @Inject() (val messagesApi: MessagesApi) extends Controller with I18nSupport {
-
-  var seatList = ArrayBuffer[String]
+  
+val movie = new Movies
+  
+ var seatList = ArrayBuffer[String]
   def index = Action {
     Ok(views.html.index("Your new application is ready."))
   }
 
   def homepage = Action {
     val m = new Movies
-    Ok(views.html.homepage())
+    Ok(views.html.homepage(movie))
   }
 
   def classifications = Action {
