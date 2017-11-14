@@ -13,3 +13,5 @@ libraryDependencies ++= Seq( jdbc , cache , ws , specs2 % Test )
 libraryDependencies += "org.reactivemongo" %% "play2-reactivemongo" % "0.12.6-play25"
 
 unmanagedResourceDirectories in Test <+=  baseDirectory ( _ /"target/web/public/test" )
+
+//libraryDependencies += "org.scalawebtest" %% "scalawebtest-core" % "2.0.0" % "it"
