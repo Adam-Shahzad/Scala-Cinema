@@ -84,10 +84,10 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
   }
 
   def discussion2 = Action{
-    Ok(views.html.discussion(mySuggestions,Discussion.createForm))
+    Ok(views.html.discussion(mySuggestions,Discussion.createForm,newMovies))
   }
 
-  def discussion = Action.async {
+  def getDiscussions = Action.async {
     val cursor: Future[Cursor[Discussion]] = discussionCollection.map {
       _.find(Json.obj()).sort(
         Json.obj("created" -> -1)).cursor[Discussion]
@@ -95,16 +95,26 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
     val futureUsersList: Future[List[Discussion]] = cursor.flatMap(_.collect[List]())
     futureUsersList.map { suggestions =>
       suggestions.foreach(mySuggestions += _)
-      Ok(views.html.discussion(mySuggestions, Discussion.createForm))
+      println(mySuggestions.mkString)
+      Ok("Success")
     }
   }
 
-  //write to database
-//  def createSuggestion2(usr:User) = Action.async {
-//    val futureResult = collection.flatMap(_.insert(usr))
-//    mySuggestions += usr
+  def createMessage(discussion: Discussion) = Action{
+    //val futureResult = discussionCollection.flatMap(_.insert(discussion))
+
 //    futureResult.map(_ => Ok("Success"))
-//  }
+    Ok("Success")
+  }
+
+  def discussion = Action {implicit request =>
+      val formValidationResult = Discussion.createForm.bindFromRequest
+      formValidationResult.fold({ formWithErrors => BadRequest(views.html.discussion(mySuggestions, formWithErrors,newMovies)) },
+    { input =>
+      mySuggestions += input
+      Ok(views.html.discussion(mySuggestions, Discussion.createForm,newMovies))
+    })}
+
 
   def processPaymentForm = Action { implicit request =>
     val formValidationResult = Payment.createForm.bindFromRequest()

@@ -1,5 +1,5 @@
 
-@(suggestions: scala.collection.mutable.Set[Discussion],disccusionForm: Form[Discussion] )(implicit messages: Messages)
+@(suggestions: scala.collection.mutable.Set[Discussion],disccusionForm: Form[Discussion],movies: Movies)(implicit messages: Messages)
 @main("Opening Times") {
 <!DOCTYPE html>
 <html lang="en">
@@ -11,7 +11,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Opening Times</title>
+    <title>Discussion Board</title>
 
     <!-- Bootstrap core CSS -->
     <link href="@routes.Assets.at("templates/Bare/vendor/bootstrap/css/bootstrap.min.css")" rel="stylesheet">
@@ -42,19 +42,34 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-12 text-center">
-          <h1 class="mt-5">Opening Times</h1>
-            @for(disc <- suggestions) {
-              @disc.desc
-            }
-            <div>
-            @helper.form(routes.Application.discussion()) {
-                @helper.inputText(disccusionForm("name"), '_label -> "Name", '_showConstraints -> false)
-                @helper.inputText(disccusionForm("email"), '_label -> "Email", '_showConstraints -> false)
-                @helper.inputText(disccusionForm("desc"), '_label -> "Description", '_showConstraints -> false)
-                @helper.inputText(disccusionForm("filmName"), '_label -> "Film Name", '_showConstraints -> false)
-                @helper.inputText(disccusionForm("rating"), '_label -> "Rating", '_showConstraints -> false)
-                <button type="submit">Submit</button>
+          <h1 class="mt-5" style="padding: 2rem;">Discussion Board</h1>
+
+          <div style="text-align: left; padding-left: 5rem; margin-bottom: 3rem">
+          @helper.form(routes.Application.discussion) {
+            @helper.inputText(disccusionForm("name"), '_label -> "Name", '_showConstraints -> false)
+            @helper.inputText(disccusionForm("email"), '_label -> "Email", '_showConstraints -> false)
+            @helper.inputText(disccusionForm("filmName"), '_label -> "Film Name", '_showConstraints -> false)
+            @helper.inputText(disccusionForm("rating"), '_label -> "Rating", '_showConstraints -> false)
+            @helper.textarea(disccusionForm("desc"), '_label -> "Description", '_showConstraints -> false)
+            <button type="submit">Submit</button>
+
+          }
+          </div>
+
+
+          @for(disc <- suggestions) {
+            <div style="background-color: rgba(0,0,0,0.5); padding: 2rem">
+              <img src="http://image.tmdb.org/t/p/w640/@movies.posterPath(0)" style="width: 200px; height: 320px; float:left">
+              <div style="align:right; padding-left: 25%;text-align:left">
+                <p><b>Name:</b> @disc.name</p>
+                <p><b>Email:</b> @disc.email</p>
+                <p><b>Film Title:</b> @disc.filmName</p>
+                <p><b>Rating:</b> @disc.rating/5</p>
+                <p><b>Description:</b></p><p>@disc.desc</p>
+
+              </div>
             </div>
+            <br>
             }
           <p class="lead"></p>
         </div>
