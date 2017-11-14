@@ -4,7 +4,9 @@ import javax.inject.Inject
 import models.JsonFormats.BookingFormat
 import models.{Booking, Movies, Payment}
 
-import models.{Movies, Payment}
+
+import models.{Discussion, Movies, Payment}
+
 import play.api._
 import play.api.libs.json
 import play.api.libs.json._
@@ -17,14 +19,29 @@ import reactivemongo.api.Cursor
 import reactivemongo.play.json.collection._
 
 import scala.collection.mutable.ArrayBuffer
-import scala.concurrent.Future
-import scala.concurrent.Future
+import scala.concurrent.{Await, Future}
+import scala.concurrent.duration._
+import play.api.mvc.{Action, Controller}
+import play.api.libs.concurrent.Execution.Implicits.defaultContext
+import reactivemongo.play.json._
+import collection._
+import play.api.i18n.{I18nSupport, MessagesApi}
 
+import scala.collection.mutable.ListBuffer
+import scala.concurrent.duration._
+
+
+
+class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi: ReactiveMongoApi) extends Controller with I18nSupport with MongoController with ReactiveMongoComponents{
 
 class Application  @Inject() (val messagesApi: MessagesApi) extends Controller with I18nSupport {
 
   def bookingCollection : Future[JSONCollection] = database.map(_.collection[JSONCollection]("bookings"))
 
+
+  def bookingCollection : Future[JSONCollection] = database.map(_.collection[JSONCollection]("bookings"))
+
+  var seatList = ArrayBuffer[String]()
   var seatList = ArrayBuffer[String]()
 
 
@@ -64,8 +81,11 @@ class Application  @Inject() (val messagesApi: MessagesApi) extends Controller w
   }
 
   def payment = Action {
-
       Ok(views.html.payment("Please enter your payment details",Payment.createForm))
+  }
+
+  def discussion = Action{
+    Ok(views.html.discussion(Discussion.createForm))
   }
 
   def processPaymentForm = Action { implicit request =>
@@ -83,7 +103,6 @@ class Application  @Inject() (val messagesApi: MessagesApi) extends Controller w
       action match {
         case "pay" => Ok(views.html.payment("Thanks for you purchase! Your tickets are ready to be collected",Payment.createForm ))
         case "empty" =>
-
           Ok(views.html.payment("Basket Emptied", Payment.createForm))
       }
     }

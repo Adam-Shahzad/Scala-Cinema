@@ -12,6 +12,8 @@ GET     /openingTimes               controllers.Application.openingTimes
 GET     /payment                    controllers.Application.payment
 POST    /payment                    controllers.Application.processPaymentForm
 GET     /screens                    controllers.Application.screens
+GET     /discussion                 controllers.Application.discussion
+GET     /ticketBooking              controllers.Application.loadBookingPage
 GET     /ticketBooking              controllers.Application.loadBookingPage
 #GET     /seatSelection              controllers.Application.seatSelection
 
