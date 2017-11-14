@@ -2,7 +2,7 @@ package controllers
 
 import javax.inject.Inject
 
-import models.{Movies, Payment}
+import models.{Discussion, Movies, Payment}
 import play.api._
 import play.api.libs.json
 import play.api.libs.json._
@@ -17,8 +17,7 @@ import scala.concurrent.Future
 
 
 class Application  @Inject() (val messagesApi: MessagesApi) extends Controller with I18nSupport {
-  
-val movie = new Movies
+
 
  var seatList = ArrayBuffer[String]()
 
@@ -34,9 +33,7 @@ val movie = new Movies
   }
 
   def homepage = Action {
-
-    val m = new Movies
-    Ok(views.html.homepage(movie))
+    Ok(views.html.homepage(newMovies))
 
   }
 
@@ -61,8 +58,11 @@ val movie = new Movies
   }
 
   def payment = Action {
-
       Ok(views.html.payment("Please enter your payment details",Payment.createForm))
+  }
+
+  def discussion = Action{
+    Ok(views.html.discussion(Discussion.createForm))
   }
 
   def processPaymentForm = Action { implicit request =>
@@ -80,7 +80,6 @@ val movie = new Movies
       action match {
         case "pay" => Ok(views.html.payment("Thanks for you purchase! Your tickets are ready to be collected",Payment.createForm ))
         case "empty" =>
-
           Ok(views.html.payment("Basket Emptied", Payment.createForm))
       }
     }
