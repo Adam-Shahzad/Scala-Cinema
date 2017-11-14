@@ -17,8 +17,6 @@ import scala.concurrent.Future
 
 
 class Application  @Inject() (val messagesApi: MessagesApi) extends Controller with I18nSupport {
-  
-val movie = new Movies
 
  var seatList = ArrayBuffer[String]()
 
@@ -34,9 +32,7 @@ val movie = new Movies
   }
 
   def homepage = Action {
-
-    val m = new Movies
-    Ok(views.html.homepage(movie))
+    Ok(views.html.homepage(newMovies))
 
   }
 
