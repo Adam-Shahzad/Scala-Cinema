@@ -30,7 +30,6 @@ import scala.concurrent.duration._
 
 class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi: ReactiveMongoApi) extends Controller with I18nSupport with MongoController with ReactiveMongoComponents{
   
-  val movie = new Movies
 
   def bookingCollection : Future[JSONCollection] = database.map(_.collection[JSONCollection]("bookings"))
 
@@ -48,9 +47,7 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
   }
 
   def homepage = Action {
-
-    val m = new Movies
-    Ok(views.html.homepage(movie))
+    Ok(views.html.homepage(newMovies))
 
   }
 
