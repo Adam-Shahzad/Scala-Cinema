@@ -1,10 +1,8 @@
 package controllers
 
 import javax.inject.Inject
-import models.Payment
 
-import models.Movies
-
+import models.{Movies, Payment}
 import play.api._
 import play.api.libs.json
 import play.api.libs.json._
@@ -15,21 +13,19 @@ import play.api.i18n.{I18nSupport, MessagesApi}
 
 import scala.collection.mutable.ArrayBuffer
 import scala.concurrent.Future
-
 import scala.concurrent.Future
-
-class Application extends Controller {
-
 
 class Application  @Inject() (val messagesApi: MessagesApi) extends Controller with I18nSupport {
 
-  var seatList = ArrayBuffer[String]
+  val newMovies = new Movies(0)
+  val currentMovies = new Movies(1)
+
+  //var seatList = ArrayBuffer[String]
   def index = Action {
     Ok(views.html.index("Your new application is ready."))
   }
 
   def homepage = Action {
-    val m = new Movies
     Ok(views.html.homepage())
   }
 
@@ -42,11 +38,11 @@ class Application  @Inject() (val messagesApi: MessagesApi) extends Controller w
   }
 
   def listingsGallery = Action {
-    Ok(views.html.listingsGallery())
+    Ok(views.html.listingsGallery(currentMovies))
   }
 
   def newReleasesGallery = Action {
-    Ok(views.html.newReleasesGallery())
+    Ok(views.html.newReleasesGallery(newMovies))
   }
 
   def openingTimes = Action {
@@ -87,10 +83,10 @@ class Application  @Inject() (val messagesApi: MessagesApi) extends Controller w
     Ok(views.html.ticketBooking())
   }
 
-  def seatSelection = Action {
-    val seatLetters = ('A' to 'F').toList
-    val rowNumbers = (1 to 10).toList
-    Ok(views.html.seatSelection(seatLetters, rowNumbers, seatList))
-  }
+//  def seatSelection = Action {
+//    val seatLetters = ('A' to 'F').toList
+//    val rowNumbers = (1 to 10).toList
+//    Ok(views.html.seatSelection(seatLetters, rowNumbers, seatList))
+//  }
 
 }
