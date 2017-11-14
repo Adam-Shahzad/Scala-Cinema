@@ -1,6 +1,8 @@
 package controllers
 
 import javax.inject.Inject
+import models.JsonFormats.BookingFormat
+import models.{Booking, Movies, Payment}
 
 import models.{Movies, Payment}
 import play.api._
@@ -10,6 +12,9 @@ import play.api.libs.json.{JsPath, Json}
 import play.api.mvc._
 import reactivemongo.bson.BSONDocument
 import play.api.i18n.{I18nSupport, MessagesApi}
+import play.modules.reactivemongo.{MongoController, ReactiveMongoApi, ReactiveMongoComponents}
+import reactivemongo.api.Cursor
+import reactivemongo.play.json.collection._
 
 import scala.collection.mutable.ArrayBuffer
 import scala.concurrent.Future
@@ -18,7 +23,9 @@ import scala.concurrent.Future
 
 class Application  @Inject() (val messagesApi: MessagesApi) extends Controller with I18nSupport {
 
- var seatList = ArrayBuffer[String]()
+  def bookingCollection : Future[JSONCollection] = database.map(_.collection[JSONCollection]("bookings"))
+
+  var seatList = ArrayBuffer[String]()
 
 
 
@@ -86,8 +93,20 @@ class Application  @Inject() (val messagesApi: MessagesApi) extends Controller w
     Ok(views.html.screens())
   }
 
-  def ticketBooking = Action {
-    Ok(views.html.ticketBooking())
+  def getBooking:Future[List[Booking]]  = {
+    val cursor: Future[Cursor[Booking]] = bookingCollection.map{
+      _.find(Json.obj()).cursor[Booking]
+    }
+
+    val futureBooking : Future[List[Booking]] = cursor.flatMap(_.collect[List]())
+
+    futureBooking
+
+  }
+
+  def loadBookingPage = Action {
+    val result = Await.result(getBooking, 5 second)
+    Ok(views.html.ticketBooking(result.head))
   }
 
 //  def seatSelection = Action {
