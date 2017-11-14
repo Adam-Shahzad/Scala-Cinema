@@ -10,8 +10,10 @@ GET     /listingsGallery            controllers.Application.listingsGallery
 GET     /newReleasesGallery         controllers.Application.newReleasesGallery
 GET     /openingTimes               controllers.Application.openingTimes
 GET     /payment                    controllers.Application.payment
+POST    /payment                    controllers.Application.processPaymentForm
 GET     /screens                    controllers.Application.screens
 GET     /ticketBooking              controllers.Application.ticketBooking
+GET     /seatSelection              controllers.Application.seatSelection
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

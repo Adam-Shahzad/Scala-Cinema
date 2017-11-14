@@ -5,11 +5,14 @@
  */
 
 .carousel-item {
-  height: 65vh;
+  height: 90vh;
   min-height: 300px;
   background: no-repeat center center scroll;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+  margin-top: 59px;
 }
+
+
