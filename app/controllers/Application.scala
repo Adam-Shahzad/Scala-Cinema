@@ -31,11 +31,6 @@ import scala.collection.mutable.ListBuffer
 import scala.concurrent.duration._
 
 
-class Application  @Inject() (val messagesApi: MessagesApi) extends Controller with I18nSupport {
-
-
-
-
 class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi: ReactiveMongoApi) extends Controller with I18nSupport with MongoController with ReactiveMongoComponents{
 
   def bookingCollection : Future[JSONCollection] = database.map(_.collection[JSONCollection]("bookings"))
@@ -43,10 +38,7 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
   val newMovies = new Movies(0)
   val currentMovies = new Movies(1)
 
-
-
-
-
+  
   def index = Action {
     Ok(views.html.index("Your new application is ready."))
   }
