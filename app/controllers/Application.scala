@@ -2,6 +2,7 @@ package controllers
 
 import javax.inject.Inject
 
+
 import models.JsonFormats.{BookingFormat, discussionFormat,ticketFormat,screeningFormat}
 import models.{Booking, Movies, Payment,Tickets,Screening}
 
@@ -85,7 +86,9 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
       Ok(views.html.payment("Please enter your payment details",Payment.createForm))
   }
 
+
   def getDiscussions = Action.async {
+
     val cursor: Future[Cursor[Discussion]] = discussionCollection.map {
       _.find(Json.obj()).sort(
         Json.obj("created" -> -1)).cursor[Discussion]
@@ -159,6 +162,11 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
 
     futureTickets
   }
+
+  def gettingTherePage = Action {
+    Ok(views.html.gettingThere())
+  }
+
 
   def getScreeningInfo(screeningID:Int): Future[List[Screening]] = {
 

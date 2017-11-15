@@ -33,26 +33,40 @@ background-position: center center;
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href=@routes.Application.newReleasesGallery()>New Releases</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href=@routes.Application.openingTimes()>Opening Times</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href=@routes.Application.classifications()>Classifications</a>
-                        </li>
+                    
+                      
                         <li class="nav-item">
                             <a class="nav-link" href=@routes.Application.loadBookingPage(1)>Ticket Bookings</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href=@routes.Application.screens()>Screens</a>
-                        </li>
+                  
                         <li class"nav-item">
                         <a class="nav-link" href=@routes.Application.getDiscussions()>Discussion Board</a>
                         </li>
+
                     </ul>
                 </div>
             </div>
         </nav>
         @content
     </body>
+
+    <footer class="py-5 bg-dark">
+        <div class="container">
+            <p class="m-0 text-center text-white">Copyright &copy; QACinemas 2017</p>
+            <ul >
+                <li style="display:inline-block;">
+                    <a class="nav-link" href="@routes.Application.gettingTherePage()">Getting There</a>
+                </li>
+                <li style="display:inline-block;">
+                    <a class="nav-link" href="@routes.Application.classifications()">Classifications</a>
+                </li>
+                <li style="display:inline-block;">
+                    <a class="nav-link" href=@routes.Application.openingTimes()>Opening Times</a>
+                </li>
+                <li style="display:inline-block;">
+                    <a class="nav-link" href=@routes.Application.screens()>Screens</a>
+                </li>
+            </ul>
+        </div>
+    </footer>
 </html>
