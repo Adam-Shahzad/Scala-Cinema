@@ -1,12 +1,9 @@
 package controllers
 
 import javax.inject.Inject
+
 import models.JsonFormats.{BookingFormat, discussionFormat}
-import models.{Booking, Movies, Payment}
-
-
-import models.{Discussion, Movies, Payment}
-
+import models._
 import play.api._
 import play.api.libs.json
 import play.api.libs.json._
@@ -39,16 +36,16 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
   def bookingCollection : Future[JSONCollection] = database.map(_.collection[JSONCollection]("bookings"))
   def discussionCollection :Future[JSONCollection] = database.map(_.collection[JSONCollection]("discussion"))
   val mySuggestions: scala.collection.mutable.Set[Discussion] = scala.collection.mutable.Set.empty[Discussion]
-
-
   var seatList = ArrayBuffer[String]()
-
-
-
   val newMovies = new Movies(0)
   val currentMovies = new Movies(1)
+  val test = new nearMe()
 
   //var seatList = ArrayBuffer[String]
+
+  def aroundUs = Action{
+    Ok(views.html.aroundUs())
+  }
 
   def index = Action {
     Ok(views.html.index("Your new application is ready."))
