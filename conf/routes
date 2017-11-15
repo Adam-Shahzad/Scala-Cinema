@@ -5,7 +5,7 @@
 # Home page
 GET     /                           controllers.Application.homepage
 GET     /classification             controllers.Application.classifications
-GET     /individualMovie            controllers.Application.individualMovie
+GET     /individualMovie:address    controllers.Application.individualMovie(address:Int)
 GET     /listingsGallery            controllers.Application.listingsGallery
 GET     /newReleasesGallery         controllers.Application.newReleasesGallery
 GET     /openingTimes               controllers.Application.openingTimes
@@ -13,7 +13,7 @@ GET     /payment                    controllers.Application.payment
 POST    /payment                    controllers.Application.processPaymentForm
 GET     /screens                    controllers.Application.screens
 GET     /discussion                 controllers.Application.discussion
-GET     /ticketBooking              controllers.Application.loadBookingPage
+GET     /ticketBooking:userID       controllers.Application.loadBookingPage(userID:Int)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
