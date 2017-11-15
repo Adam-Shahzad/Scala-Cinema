@@ -44,7 +44,11 @@
         <div class="col-lg-12 text-center">
           <h1 class="mt-5" style="padding: 2rem;">Discussion Board</h1>
 
-          <div style="text-align: left; padding-left: 5rem; margin-bottom: 3rem">
+
+          <div class = "row">
+          <div style="text-align: left; padding-left: 5rem; margin-bottom: 3rem; background-color: rgba(0,0,0,0.5);
+            width: 50%; padding: 3rem; align-content: center;">
+
           @helper.form(routes.Application.discussion) {
             @helper.inputText(disccusionForm("name"), '_label -> "Name", '_showConstraints -> false)
             @helper.inputText(disccusionForm("email"), '_label -> "Email", '_showConstraints -> false)
@@ -52,10 +56,21 @@
             @helper.inputText(disccusionForm("rating"), '_label -> "Rating", '_showConstraints -> false)
             @helper.textarea(disccusionForm("desc"), '_label -> "Description", '_showConstraints -> false)
             <button type="submit">Submit</button>
-
           }
           </div>
+            <div style="margin-left: 2rem; height:400px; width: 40%; background-color: rgba(0,0,0,0.5)">
+              <p style="margin-top: 2rem"><b>Rules</b></p>
+              <ul style="margin-left: 1rem">
+                <li style="text-align: left; margin-bottom: 1rem">testtext1</li>
+                <li style="text-align: left; margin-bottom: 1rem">testtext2</li>
+                <li style="text-align: left; margin-bottom: 1rem">testtext3</li>
+                <li style="text-align: left; margin-bottom: 1rem">testtext4</li>
+                <li style="text-align: left; margin-bottom: 1rem">testtext4</li>
+                <li style="text-align: left; margin-bottom: 1rem">testtext4</li>
+              </ul>
 
+              </div>
+          </div>
 
           @for(disc <- suggestions) {
             <div style="background-color: rgba(0,0,0,0.5); padding: 2rem">
