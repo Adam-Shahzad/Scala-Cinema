@@ -1,4 +1,9 @@
-@(booking:Booking)
+
+@(booking:Booking, tickets:List[Tickets], screening:Screening, movies:Movies)
+@import scala.Predef;var adultCount= 0
+@import scala.Predef;var childCount = 0
+@import scala.Predef;var concessionCount = 0
+
 @main("Ticket Booking"){
 <!DOCTYPE html>
 <html lang="en">
@@ -32,30 +37,40 @@
 
   <body>
 
+
+
     <!-- Page Content -->
-    <div class="container">
-      <div class="row">
+    <br>
+    <div class="container" >
+      <div style = "background-color: rgba(0,0,0,0.5)">
+      <div class="row" >
         <div class="col-lg-12 text-center">
           <h1 class="mt-5">Bookings</h1>
           <br>
           <br>
           <ul class = "col-lg-12 text-left">
+            <ul>
             <li>Booking no: @booking._id</li>
-            <li>Booker name: @booking.bookerName</li>
+            <li>Booker name: @booking.userID</li>
             <br>
-            <li>Movie title: @booking.movieTitle</li>
-            <li>Screen no: @booking.screenNo</li>
-            <li>Movie time:@booking.movieTime</li>
+            <li>Movie title: @movies.title(screening.movie_ID)</li>
+            <li>Screen no: @screening.screenLocation</li>
+            <li>Movie time:@screening.time</li>
+            </ul>
             <br>
-            <li>Ticket Infomation:</li>
-              <ul>
-                <li>@booking.noOfAdult x Adult (£11.00) = £@{booking.noOfAdult.toInt*11}.00 </li>
-                <li>@booking.noOfChild x Child (£5.00) = £@(booking.noOfChild.toInt*5).00 </li>
-                <li>@booking.noOfConcession x Child(£7.00) x Concession = £@(booking.noOfConcession.toInt*7).00</li>
-                <li> Total price = £@((booking.noOfAdult.toInt*11) + (booking.noOfChild.toInt*5) + (booking.noOfConcession.toInt*7)).00</li>
-              </ul>
+                @for(ticket <- tickets){
+                  @if(ticket.ticketType == "adult") @{adultCount = adultCount + 1}
+                  @if(ticket.ticketType == "child") @{childCount = childCount+1}
+                  @if(ticket.ticketType == "concession") @{concessionCount = concessionCount + 1}
+                } <ul> Tickets
+            <li>@adultCount x Adult (£11.00) = @{adultCount.toInt*11}.00</li>
+            <li>@childCount x Adult (£11.00) = @{childCount.toInt*6}.00</li>
+            <li>@concessionCount x Adult (£11.00) = @{concessionCount.toInt*7}.00</li>
+            <li>Total Price = £@{adultCount.toInt*11+childCount.toInt*6+concessionCount.toInt*7}.00</li>
+          </ul>
           </ul>
         </div>
+      </div>
       </div>
     </div>
 

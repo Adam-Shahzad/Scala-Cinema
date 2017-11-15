@@ -2,6 +2,10 @@ package controllers
 
 import javax.inject.Inject
 
+import models.JsonFormats.{BookingFormat, discussionFormat,ticketFormat,screeningFormat}
+import models.{Booking, Movies, Payment,Tickets,Screening}
+
+
 import models.JsonFormats.{BookingFormat, discussionFormat}
 import models._
 import play.api._
@@ -30,9 +34,9 @@ import scala.concurrent.duration._
 
 
 class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi: ReactiveMongoApi) extends Controller with I18nSupport with MongoController with ReactiveMongoComponents{
-  
 
-
+  def screeningCollection : Future[JSONCollection] = database.map(_.collection[JSONCollection]("screening"))
+  def ticketCollection : Future[JSONCollection] = database.map(_.collection[JSONCollection]("tickets"))
   def bookingCollection : Future[JSONCollection] = database.map(_.collection[JSONCollection]("bookings"))
   def discussionCollection :Future[JSONCollection] = database.map(_.collection[JSONCollection]("discussion"))
   val mySuggestions: scala.collection.mutable.Set[Discussion] = scala.collection.mutable.Set.empty[Discussion]
@@ -60,8 +64,9 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
     Ok(views.html.classifications())
   }
 
-  def individualMovie = Action {
-    Ok(views.html.individualMovie())
+
+  def individualMovie(address:Int) = Action {
+    Ok(views.html.individualMovie(currentMovies, address))
   }
 
   def listingsGallery = Action {
@@ -133,9 +138,9 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
     Ok(views.html.screens())
   }
 
-  def getBooking:Future[List[Booking]]  = {
+  def getBooking(userID:Int):Future[List[Booking]]  = {
     val cursor: Future[Cursor[Booking]] = bookingCollection.map{
-      _.find(Json.obj()).cursor[Booking]
+      _.find(Json.obj("userID"->userID)).cursor[Booking]
     }
 
     val futureBooking : Future[List[Booking]] = cursor.flatMap(_.collect[List]())
@@ -144,10 +149,41 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
 
   }
 
-  def loadBookingPage = Action {
-    val result = Await.result(getBooking, 5 second)
-    Ok(views.html.ticketBooking(result.head))
+  def getTicketInfo(bookingID:Int): Future[List[Tickets]] = {
+
+    val cursor: Future[Cursor[Tickets]] = ticketCollection.map{
+      _.find(Json.obj("bookingID"->bookingID)).cursor[Tickets]
+    }
+
+    val futureTickets : Future[List[Tickets]] = cursor.flatMap(_.collect[List]())
+
+    futureTickets
   }
+
+  def getScreeningInfo(screeningID:Int): Future[List[Screening]] = {
+
+    val cursor: Future[Cursor[Screening]] = screeningCollection.map{
+      _.find(Json.obj("_id"->screeningID)).cursor[Screening]
+    }
+
+    val futureScreening: Future[List[Screening]] = cursor.flatMap(_.collect[List]())
+
+    futureScreening
+  }
+
+  def loadBookingPage(userID:Int) = Action {
+    val bookingResult = Await.result(getBooking(userID), 5 second)
+    val ticketResult = Await.result(getTicketInfo(bookingResult.head._id),5 second)
+    val screeningResult = Await.result(getScreeningInfo(bookingResult.head.screeningID),5 second)
+
+    println(bookingResult.toString())
+    println(ticketResult.toString())
+    println(screeningResult.toString())
+
+    Ok(views.html.ticketBooking(bookingResult.head,ticketResult,screeningResult.head, currentMovies))
+  }
+
+
 
 //  def seatSelection = Action {
 //    val seatLetters = ('A' to 'F').toList
