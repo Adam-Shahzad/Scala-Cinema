@@ -70,6 +70,10 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
     Ok(views.html.individualMovie(currentMovies, address))
   }
 
+  def individualNewMovie(address:Int) = Action {
+    Ok(views.html.individualMovie(newMovies, address))
+  }
+
   def listingsGallery = Action {
     Ok(views.html.listingsGallery(currentMovies))
   }

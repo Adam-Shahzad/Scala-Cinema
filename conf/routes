@@ -6,6 +6,7 @@
 GET     /                           controllers.Application.homepage
 GET     /classification             controllers.Application.classifications
 GET     /individualMovie:address    controllers.Application.individualMovie(address:Int)
+GET     /individualNewMovie:address controllers.Application.individualNewMovie(address:Int)
 GET     /listingsGallery            controllers.Application.listingsGallery
 GET     /newReleasesGallery         controllers.Application.newReleasesGallery
 GET     /openingTimes               controllers.Application.openingTimes
