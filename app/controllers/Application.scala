@@ -83,10 +83,6 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
       Ok(views.html.payment("Please enter your payment details",Payment.createForm))
   }
 
-  def discussion2 = Action{
-    Ok(views.html.discussion(mySuggestions,Discussion.createForm,newMovies))
-  }
-
   def getDiscussions = Action.async {
     val cursor: Future[Cursor[Discussion]] = discussionCollection.map {
       _.find(Json.obj()).sort(
@@ -95,23 +91,21 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
     val futureUsersList: Future[List[Discussion]] = cursor.flatMap(_.collect[List]())
     futureUsersList.map { suggestions =>
       suggestions.foreach(mySuggestions += _)
-      println(mySuggestions.mkString)
-      Ok("Success")
+      Ok(views.html.discussion(mySuggestions,Discussion.createForm,newMovies))
     }
   }
 
-  def createMessage(discussion: Discussion) = Action{
-    //val futureResult = discussionCollection.flatMap(_.insert(discussion))
-
-//    futureResult.map(_ => Ok("Success"))
-    Ok("Success")
-  }
 
   def discussion = Action {implicit request =>
       val formValidationResult = Discussion.createForm.bindFromRequest
       formValidationResult.fold({ formWithErrors => BadRequest(views.html.discussion(mySuggestions, formWithErrors,newMovies)) },
     { input =>
-      mySuggestions += input
+      if (!mySuggestions.exists(value => value.desc == input.desc)) {
+        val disc = Discussion(input.name, input.email, input.desc, input.filmName, "%1.1f".format(input.rating).toDouble)
+        val futureResult = discussionCollection.flatMap(_.insert(disc))
+        futureResult.map(_ => Ok("Success"))
+        mySuggestions += disc
+      }
       Ok(views.html.discussion(mySuggestions, Discussion.createForm,newMovies))
     })}
 
