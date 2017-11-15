@@ -52,7 +52,7 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
   //var seatList = ArrayBuffer[String]
 
   def index = Action {
-    Ok(views.html.index("Your new application is ready."))
+    Ok(views.html.index("Your new application is not ready."))
   }
 
   def homepage = Action {
