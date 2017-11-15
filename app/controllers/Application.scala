@@ -44,7 +44,22 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
   var seatList = ArrayBuffer[String]()
   val newMovies = new Movies(0)
   val currentMovies = new Movies(1)
-  val nearBy = new NearMe(0)
+  val restaurant = new NearMe(0)
+
+//  def getFirstFiveNearBy(): List[Any] ={
+//    val restaurant = new NearMe(0)
+//    val bar = new NearMe(1)
+//    val nightClub = new NearMe(2)
+//    val museum = new NearMe(3)
+//    val shoppingMall = new NearMe(4)
+//  }
+//
+//  def getFirstFivePlaces(index:Int = 0, myList:List[Any]):List[Any] ={
+//
+//  }
+
+
+
 
   //var seatList = ArrayBuffer[String]
 
