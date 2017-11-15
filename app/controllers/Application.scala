@@ -44,7 +44,7 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
   var seatList = ArrayBuffer[String]()
   val newMovies = new Movies(0)
   val currentMovies = new Movies(1)
-  val test = new nearMe()
+  val nearBy = new nearMe()
 
   //var seatList = ArrayBuffer[String]
 
@@ -53,7 +53,7 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
   }
 
   def index = Action {
-    Ok(views.html.index("Your new application is not ready."))
+    Ok(views.html.index("Your new application is ready."))
   }
 
   def homepage = Action {
