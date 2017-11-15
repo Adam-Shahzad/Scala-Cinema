@@ -1,4 +1,5 @@
-@main("Opening Times") {
+@(nearBy:NearMe)
+@main("Places To Go") {
 <!DOCTYPE html>
 <html lang="en">
 
@@ -64,6 +65,14 @@
 
             </div>
 
+            <p>@nearBy.name(5)
+
+            @nearBy.rating(0)
+            @nearBy.vicinity(0)
+            @nearBy.types(0)
+            @nearBy.geometry(0)
+            @nearBy.photos(0)
+            @nearBy.icon(0)</p>
         </div>
       </div>
     </div>

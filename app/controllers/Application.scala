@@ -44,12 +44,12 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
   var seatList = ArrayBuffer[String]()
   val newMovies = new Movies(0)
   val currentMovies = new Movies(1)
-  val test = new nearMe()
+  val nearBy = new NearMe(0)
 
   //var seatList = ArrayBuffer[String]
 
   def aroundUs = Action{
-    Ok(views.html.aroundUs())
+    Ok(views.html.aroundUs(nearBy))
   }
 
   def index = Action {
