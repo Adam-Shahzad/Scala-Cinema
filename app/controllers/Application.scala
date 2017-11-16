@@ -4,7 +4,7 @@ import javax.inject.Inject
 
 
 import models.JsonFormats.{BookingFormat, discussionFormat,ticketFormat,screeningFormat}
-import models.{Booking, Movies, Payment,Tickets,Screening}
+import models._
 
 
 import models.JsonFormats.{BookingFormat, discussionFormat}
