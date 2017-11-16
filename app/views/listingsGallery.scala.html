@@ -1,4 +1,3 @@
-@(movies: Movies)
 @main("Listings Gallery"){
 <!DOCTYPE html>
 <html lang="en">
@@ -15,14 +14,14 @@
     <div class="container">
       <h1 class="my-4">Currently Showing </h1>
       <div class="row">
-      @for(i <- 0 until movies.length){
+      @for(i <- 0 until Movies.length(Movies.currentMovies)){
       <div class="card" style="width: 15rem; margin-left: 2rem; margin-top: 2rem; background-color: rgba(0,0,0,0.5)">
-        <img class="card-img-top" src="http://image.tmdb.org/t/p/w640/@movies.posterPath(i)" style="width: 240px; height: 360px; background-color: rgba(0,0,0,0.7)">
+        <img class="card-img-top" src="http://image.tmdb.org/t/p/w640/@Movies.posterPath(i,Movies.currentMovies)" style="width: 240px; height: 360px; background-color: rgba(0,0,0,0.7)">
         <div class="card-block" style="height: 200px">
-          <h4 class="card-title" style="color: white">@movies.title(i)</h4>
-          <p class="card-text" style="height: 60px; line-height: 20px; overflow: hidden; text-overflow: ellipsis; color: white">@movies.overview(i)</p>
+          <h4 class="card-title" style="color: white">@Movies.title(i, Movies.currentMovies)</h4>
+          <p class="card-text" style="height: 60px; line-height: 20px; overflow: hidden; text-overflow: ellipsis; color: white">@Movies.overview(i,Movies.currentMovies)</p>
           <a href="#" class="btn btn-primary" style="position:absolute; right: 0; bottom: 0; color: white; background-color:rgba(0,0,0,0.7)">Book Movie</a>
-          <a href="@routes.Application.individualMovie(i)" class="btn btn-primary" style="position:absolute; left: 0; bottom: 0; color: white; background-color: rgba(0,0,0,0.7)">More Details</a>
+          <a href="@routes.Application.individualMovie(i,false)" class="btn btn-primary" style="position:absolute; left: 0; bottom: 0; color: white; background-color: rgba(0,0,0,0.7)">More Details</a>
         </div>
       </div>
       }

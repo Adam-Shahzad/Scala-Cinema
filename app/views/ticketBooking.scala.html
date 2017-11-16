@@ -1,5 +1,5 @@
 
-@(booking:Booking, tickets:List[Tickets], screening:Screening, movies:Movies)
+@(booking:Booking, tickets:List[Tickets], screening:Screening)
 @import scala.Predef;var adultCount= 0
 @import scala.Predef;var childCount = 0
 @import scala.Predef;var concessionCount = 0
@@ -53,7 +53,7 @@
             <li>Booking no: @booking._id</li>
             <li>Booker name: @booking.userID</li>
             <br>
-            <li>Movie title: @movies.title(screening.movie_ID)</li>
+            <li>Movie title: @Movies.title(screening.movie_ID,Movies.newMovies)</li>
             <li>Screen no: @screening.screenLocation</li>
             <li>Movie time:@screening.time</li>
             </ul>
