@@ -1,5 +1,5 @@
 
-@(booking:Booking, tickets:List[Tickets], screening:Screening, movies:Movies)
+@(bookings:List[Booking], tickets:List[List[Tickets]], screening:List[Screening], movies:Movies)
 @import scala.Predef;var adultCount= 0
 @import scala.Predef;var childCount = 0
 @import scala.Predef;var concessionCount = 0
@@ -37,8 +37,6 @@
 
   <body>
 
-
-
     <!-- Page Content -->
     <br>
     <div class="container" >
@@ -48,17 +46,18 @@
           <h1 class="mt-5">Bookings</h1>
           <br>
           <br>
+          @for((booking, index) <- bookings.zipWithIndex){
           <ul class = "col-lg-12 text-left">
             <ul>
             <li>Booking no: @booking._id</li>
             <li>Booker name: @booking.userID</li>
             <br>
-            <li>Movie title: @movies.title(screening.movie_ID)</li>
-            <li>Screen no: @screening.screenLocation</li>
-            <li>Movie time:@screening.time</li>
+            <li>Movie title: @movies.title(screening(index).movie_ID)</li>
+            <li>Screen no: @screening(index).screenLocation</li>
+            <li>Movie time:@screening(index).time</li>
             </ul>
             <br>
-                @for(ticket <- tickets){
+                @for(ticket <- tickets(index)){
                   @if(ticket.ticketType == "adult") @{adultCount = adultCount + 1}
                   @if(ticket.ticketType == "child") @{childCount = childCount+1}
                   @if(ticket.ticketType == "concession") @{concessionCount = concessionCount + 1}
@@ -66,9 +65,11 @@
             <li>@adultCount x Adult (£11.00) = @{adultCount.toInt*11}.00</li>
             <li>@childCount x Adult (£11.00) = @{childCount.toInt*6}.00</li>
             <li>@concessionCount x Adult (£11.00) = @{concessionCount.toInt*7}.00</li>
+            @{concessionCount = 0;childCount=0;adultCount=0}
             <li>Total Price = £@{adultCount.toInt*11+childCount.toInt*6+concessionCount.toInt*7}.00</li>
           </ul>
-          </ul>
+          </ul>}
+
         </div>
       </div>
       </div>
