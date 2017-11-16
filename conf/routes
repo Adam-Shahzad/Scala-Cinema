@@ -16,9 +16,11 @@ GET     /screens                    controllers.Application.screens
 GET     /discussion                 controllers.Application.discussion
 GET     /gettingThere               controllers.Application.gettingTherePage
 GET     /getdiscussions             controllers.Application.getDiscussions
-# GET     /nearby                     controllers.Application.aroundUs
+GET     /nearby                     controllers.Application.aroundUs
 GET     /ticketBooking:userID       controllers.Application.loadBookingPage(userID:Int)
-
-
+GET     /seatSelection/:movie          controllers.Application.seatSelectionForm(movie)
+POST    /seatSelection/:movie          controllers.Application.getSeatFormAction(movie)
+GET      /ticketSelection/:movie        controllers.Application.ticketSelectionForm(movie)
+POST     /ticketSelection/:movie        controllers.Application.getTicketFormAction(movie)
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

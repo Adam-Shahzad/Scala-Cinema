@@ -1,0 +1,82 @@
+@(movieTitle: String, form: Form[SeatSelection])(implicit messages: Messages)
+@main("Seats") {
+
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Bare - Start Bootstrap Template</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="@routes.Assets.at("templates/Bare/vendor/bootstrap/css/bootstrap.min.css")" rel="stylesheet">
+      <link href="@routes.Assets.at("stylesheets/seatSelection.css")" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <style>
+      body {
+        padding-top: 54px;
+      }
+      media (min-width: 992px) {
+        body {
+          padding-top: 56px;
+        }
+      }
+
+
+    </style>
+
+
+
+
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+
+
+    <!-- Page Content -->
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h1 class="mt-5">Select Your Seats</h1>
+            <h2>@movieTitle</h2>
+                    @helper.form(routes.Application.getSeatFormAction(movieTitle)){
+                        <div style="float: left">
+                            <div style="float: left">@helper.checkbox(form("seat1A"),'_label -> "1A", '_showConstraints -> false)</div>
+                            <div style="float: left">@helper.checkbox(form("seat2A"),'_label -> "2A", '_showConstraints -> false)</div>
+                            <div style="float: left">@helper.checkbox(form("seat3A"),'_label -> "3A", '_showConstraints -> false)</div>
+                            <div style="float: left">@helper.checkbox(form("seat4A"),'_label -> "4A", '_showConstraints -> false)</div>
+                            <div style="float: left">@helper.checkbox(form("seat5A"),'_label -> "5A", '_showConstraints -> false)</div>
+                        </div>
+                            <br /><br /><br />
+                        <div id = "row2">
+                            <div style="float: left">@helper.checkbox(form("seat6A"),'_label -> "6A", '_showConstraints -> false)</div>
+                            <div style="float: left">@helper.checkbox(form("seat7A"),'_label -> "7A", '_showConstraints -> false)</div>
+                            <div style="float: left">@helper.checkbox(form("seat8A"),'_label -> "8A", '_showConstraints -> false)</div>
+                            <div style="float: left">@helper.checkbox(form("seat9A"),'_label -> "9A", '_showConstraints -> false)</div>
+                            <div style="float: left">@helper.checkbox(form("seat10A"),'_label -> "10A", '_showConstraints -> false)</div>
+                        </div>
+
+
+                        <input type="submit" value="Select" />
+
+                    }
+
+
+    </div>
+      </div>
+    </div>
+    <!-- Bootstrap core JavaScript -->
+    <script src="@routes.Assets.at("templates/Bare/vendor/jquery/jquery.min.js")"></script>
+    <script src="@routes.Assets.at("templates/Bare/vendor/bootstrap/js/bootstrap.bundle.min.js")"></script>
+
+  </body>
+
+</html>
+}
