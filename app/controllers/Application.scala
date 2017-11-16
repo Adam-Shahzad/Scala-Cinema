@@ -54,17 +54,12 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
 //    val shoppingMall = new NearMe(4)
 //  }
 //
-//  def getFirstFivePlaces(index:Int = 0, myList:List[Any]):List[Any] ={
-//
-//  }
-
-
 
 
   //var seatList = ArrayBuffer[String]
 
   def aroundUs = Action{
-    Ok(views.html.aroundUs(nearBy))
+    Ok(views.html.aroundUs(restaurant))
   }
 
   def index = Action {
