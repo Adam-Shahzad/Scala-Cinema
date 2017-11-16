@@ -1,6 +1,7 @@
 package controllers
 
 import javax.inject.Inject
+
 import play.modules.reactivemongo.{MongoController, ReactiveMongoApi, ReactiveMongoComponents}
 import play.api.mvc.{Action, Controller}
 import models._
@@ -10,8 +11,10 @@ import play.api.i18n.{I18nSupport, MessagesApi}
 
 
 
+
 class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi: ReactiveMongoApi) extends Controller with I18nSupport with MongoController with ReactiveMongoComponents{
   
+
 
   var seatList = scala.collection.mutable.ArrayBuffer[Boolean]()
 
