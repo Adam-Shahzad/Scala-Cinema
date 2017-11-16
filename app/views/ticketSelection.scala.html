@@ -1,0 +1,68 @@
+
+@(movieTitle: String, form: Form[TicketBooking], timeOptions: List[(String,String)] = List("18:00" -> "18:00", "21:00" ->"21:00","22:00" -> "22:00"))(implicit messages: Messages)
+@main("Payment") {
+
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Bare - Start Bootstrap Template</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="@routes.Assets.at("templates/Bare/vendor/bootstrap/css/bootstrap.min.css")" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <style>
+      body {
+        padding-top: 54px;
+      }
+      media (min-width: 992px) {
+        body {
+          padding-top: 56px;
+        }
+      }
+
+    </style>
+
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+
+
+    <!-- Page Content -->
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h1 class="mt-5">Select Your Tickets</h1>
+
+            <h1>@movieTitle</h1>
+            @helper.form(routes.Application.getTicketFormAction(movieTitle)) {
+                @helper.inputText(form("bookerName"), '_label -> "Booker's Full Name")
+                @helper.select(form("movieTime"),options = timeOptions, '_label -> "Screening Time", '_showConstraints -> false)
+                @helper.inputText(form("adultTicket"),'_label -> "No. of Adult Tickets", 'placeholder -> "0", '_showConstraints -> false)
+                @helper.inputText(form("childTicket"),'_label -> "No. of Child Tickets",'placeholder -> "0", '_showConstraints -> false)
+                @helper.inputText(form("studentTicket"),'_label -> "No. of Student Tickets",'placeholder -> "0", '_showConstraints -> false)
+                @helper.inputText(form("concessionTicket"),'_label -> "No. of Concession Tickets",'placeholder -> "0", '_showConstraints -> false)
+                @helper.checkbox(form("selectSeats"),'_label -> "Select Seats", '_showConstraints -> false)
+
+                <input type="submit" onclick="location.href='@controllers.routes.Application.getTicketFormAction(movieTitle)'" value="Select" />
+            }
+        </div>
+      </div>
+    </div>
+    <!-- Bootstrap core JavaScript -->
+    <script src="@routes.Assets.at("templates/Bare/vendor/jquery/jquery.min.js")"></script>
+    <script src="@routes.Assets.at("templates/Bare/vendor/bootstrap/js/bootstrap.bundle.min.js")"></script>
+
+  </body>
+
+</html>
+}

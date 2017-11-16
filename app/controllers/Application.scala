@@ -1,12 +1,9 @@
 package controllers
 
 import javax.inject.Inject
+
 import models.JsonFormats.{BookingFormat, discussionFormat}
-import models.{Booking, Movies, Payment}
-
-
-import models.{Discussion, Movies, Payment}
-
+import models._
 import play.api._
 import play.api.libs.json
 import play.api.libs.json._
@@ -41,14 +38,13 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
   val mySuggestions: scala.collection.mutable.Set[Discussion] = scala.collection.mutable.Set.empty[Discussion]
 
 
-  var seatList = ArrayBuffer[String]()
+  var seatList = scala.collection.mutable.ArrayBuffer[Boolean]()
 
 
 
   val newMovies = new Movies(0)
   val currentMovies = new Movies(1)
 
-  //var seatList = ArrayBuffer[String]
 
   def index = Action {
     Ok(views.html.index("Your new application is ready."))
@@ -148,10 +144,37 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
     Ok(views.html.ticketBooking(result.head))
   }
 
-//  def seatSelection = Action {
-//    val seatLetters = ('A' to 'F').toList
-//    val rowNumbers = (1 to 10).toList
-//    Ok(views.html.seatSelection(seatLetters, rowNumbers, seatList))
-//  }
+  def seatSelectionForm(movieTitle: String) = Action{implicit  request =>
+    Ok(views.html.seatSelection(movieTitle, SeatSelection.createForm))
+  }
+
+  def getSeatFormAction(movieTitle: String) = Action { implicit request =>
+    val formResult = SeatSelection.createForm.bindFromRequest()
+    formResult.fold({errors =>
+      BadRequest(views.html.seatSelection(movieTitle,errors))
+    },{ form =>
+      Ok(views.html.payment(form.seat1A.toString,Payment.createForm))
+    })
+  }
+
+
+  def ticketSelectionForm(movieTitle: String) = Action {implicit request =>
+    Ok(views.html.ticketSelection(movieTitle,TicketBooking.createForm))
+  }
+
+  def getTicketFormAction(movieTitle: String) = Action { implicit request =>
+      val formResult = TicketBooking.createForm.bindFromRequest()
+      formResult.fold({errors =>
+        BadRequest(views.html.ticketSelection(movieTitle,errors))
+      },{ form =>
+        if(form.selectSeats){
+          Ok(views.html.seatSelection(movieTitle, SeatSelection.createForm))
+        }
+        else{
+          Ok(views.html.payment(movieTitle+form.adultTicket,Payment.createForm))
+        }
+    })
+  }
+
 
 }
