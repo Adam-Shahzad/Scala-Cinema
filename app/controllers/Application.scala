@@ -2,35 +2,18 @@ package controllers
 
 import javax.inject.Inject
 
-
-import models.JsonFormats.{BookingFormat, discussionFormat,ticketFormat,screeningFormat}
-import models._
-
-
-import models.JsonFormats.{BookingFormat, discussionFormat}
-
-
-import play.api._
-import play.api.libs.json
-import play.api.libs.json._
+import models.JsonFormats.{BookingFormat, screeningFormat, ticketFormat}
 import play.api.libs.json.{JsPath, Json}
-import play.api.mvc._
-import reactivemongo.bson.BSONDocument
-import play.api.i18n.{I18nSupport, MessagesApi}
 import play.modules.reactivemongo.{MongoController, ReactiveMongoApi, ReactiveMongoComponents}
 import reactivemongo.api.Cursor
-import reactivemongo.play.json.collection._
-
-import scala.collection.mutable.ArrayBuffer
 import scala.concurrent.{Await, Future}
-import scala.concurrent.duration._
 import play.api.mvc.{Action, Controller}
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import reactivemongo.play.json._
 import collection._
+import models._
 import play.api.i18n.{I18nSupport, MessagesApi}
 
-import scala.collection.mutable.ListBuffer
 import scala.concurrent.duration._
 
 
@@ -41,101 +24,15 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
   def screeningCollection : Future[JSONCollection] = database.map(_.collection[JSONCollection]("screening"))
   def ticketCollection : Future[JSONCollection] = database.map(_.collection[JSONCollection]("tickets"))
   def bookingCollection : Future[JSONCollection] = database.map(_.collection[JSONCollection]("bookings"))
-  def discussionCollection :Future[JSONCollection] = database.map(_.collection[JSONCollection]("discussion"))
-  val mySuggestions: scala.collection.mutable.Set[Discussion] = scala.collection.mutable.Set.empty[Discussion]
-
-
   var seatList = scala.collection.mutable.ArrayBuffer[Boolean]()
 
-
-
-  val newMovies = new Movies(0)
-  val currentMovies = new Movies(1)
-  val restaurant = new NearMe(0)
-
-//  def getFirstFiveNearBy(): List[Any] ={
-//    val restaurant = new NearMe(0)
-//    val bar = new NearMe(1)
-//    val nightClub = new NearMe(2)
-//    val museum = new NearMe(3)
-//    val shoppingMall = new NearMe(4)
-//  }
-//
-
-
-
-
-  def aroundUs = Action{
-    Ok(views.html.aroundUs(restaurant))
-  }
-
-
-  def index = Action {
-    Ok(views.html.index("Your new application is ready."))
-  }
-
-  def homepage = Action {
-    Ok(views.html.homepage(newMovies))
-
-  }
-
-  def classifications = Action {
-    Ok(views.html.classifications())
-  }
-
-
-  def individualMovie(address:Int) = Action {
-    Ok(views.html.individualMovie(currentMovies, address))
-  }
-
-  def individualNewMovie(address:Int) = Action {
-    Ok(views.html.individualMovie(newMovies, address))
-  }
-
-  def listingsGallery = Action {
-    Ok(views.html.listingsGallery(currentMovies))
-  }
-
-  def newReleasesGallery = Action {
-    Ok(views.html.newReleasesGallery(newMovies))
-  }
-
-  def openingTimes = Action {
-    Ok(views.html.openingTimes())
+  def individualMovie(address:Int,newReleases:Boolean) = Action {
+    Ok(views.html.individualMovie(address, newReleases))
   }
 
   def payment = Action {
       Ok(views.html.payment("Please enter your payment details",Payment.createForm))
   }
-
-
-  def getDiscussions = Action.async {
-
-    val cursor: Future[Cursor[Discussion]] = discussionCollection.map {
-      _.find(Json.obj()).sort(
-        Json.obj("created" -> -1)).cursor[Discussion]
-    }
-    val futureUsersList: Future[List[Discussion]] = cursor.flatMap(_.collect[List]())
-    futureUsersList.map { suggestions =>
-      suggestions.foreach(mySuggestions += _)
-      Ok(views.html.discussion(mySuggestions,Discussion.createForm,newMovies))
-    }
-  }
-
-
-  def discussion = Action {implicit request =>
-      val formValidationResult = Discussion.createForm.bindFromRequest
-      formValidationResult.fold({ formWithErrors => BadRequest(views.html.discussion(mySuggestions, formWithErrors,newMovies)) },
-    { input =>
-      if (!mySuggestions.exists(value => value.desc == input.desc)) {
-        val disc = Discussion(input.name, input.email, input.desc, input.filmName, "%1.1f".format(input.rating).toDouble)
-        val futureResult = discussionCollection.flatMap(_.insert(disc))
-        futureResult.map(_ => Ok("Success"))
-        mySuggestions += disc
-      }
-      Ok(views.html.discussion(mySuggestions, Discussion.createForm,newMovies))
-    })}
-
 
   def processPaymentForm = Action { implicit request =>
     val formValidationResult = Payment.createForm.bindFromRequest()
@@ -157,10 +54,6 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
           Ok(views.html.payment("Basket Emptied", Payment.createForm))
       }
     }
-  }
-
-  def screens = Action {
-    Ok(views.html.screens())
   }
 
   def getBooking(userID:Int):Future[List[Booking]]  = {
@@ -185,11 +78,6 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
     futureTickets
   }
 
-  def gettingTherePage = Action {
-    Ok(views.html.gettingThere())
-  }
-
-
   def getScreeningInfo(screeningID:Int): Future[List[Screening]] = {
 
     val cursor: Future[Cursor[Screening]] = screeningCollection.map{
@@ -206,10 +94,8 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
     val ticketResult = bookingResult.map{br => Await.result(getTicketInfo(br._id),5 second)}
     val screeningResult = bookingResult.map{br=> Await.result(getScreeningInfo(br.screeningID),5 second).head}
 
-    Ok(views.html.ticketBooking(bookingResult,ticketResult,screeningResult, currentMovies))
+    Ok(views.html.ticketBooking(bookingResult,ticketResult,screeningResult))
   }
-
-
 
   def seatSelectionForm(movieTitle: String) = Action{implicit  request =>
     Ok(views.html.seatSelection(movieTitle, SeatSelection.createForm))
@@ -223,7 +109,6 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
       Ok(views.html.payment(form.seat1A.toString,Payment.createForm))
     })
   }
-
 
   def ticketSelectionForm(movieTitle: String) = Action {implicit request =>
     Ok(views.html.ticketSelection(movieTitle,TicketBooking.createForm))
