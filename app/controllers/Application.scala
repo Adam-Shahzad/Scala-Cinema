@@ -203,14 +203,10 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
 
   def loadBookingPage(userID:Int) = Action {
     val bookingResult = Await.result(getBooking(userID), 5 second)
-    val ticketResult = Await.result(getTicketInfo(bookingResult.head._id),5 second)
-    val screeningResult = Await.result(getScreeningInfo(bookingResult.head.screeningID),5 second)
+    val ticketResult = bookingResult.map{br => Await.result(getTicketInfo(br._id),5 second)}
+    val screeningResult = bookingResult.map{br=> Await.result(getScreeningInfo(br.screeningID),5 second).head}
 
-    println(bookingResult.toString())
-    println(ticketResult.toString())
-    println(screeningResult.toString())
-
-    Ok(views.html.ticketBooking(bookingResult.head,ticketResult,screeningResult.head, currentMovies))
+    Ok(views.html.ticketBooking(bookingResult,ticketResult,screeningResult, currentMovies))
   }
 
 
