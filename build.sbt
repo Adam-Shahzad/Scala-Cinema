@@ -14,4 +14,3 @@ libraryDependencies += "org.reactivemongo" %% "play2-reactivemongo" % "0.12.6-pl
 
 unmanagedResourceDirectories in Test <+=  baseDirectory ( _ /"target/web/public/test" )
 
-//libraryDependencies += "org.scalawebtest" %% "scalawebtest-core" % "2.0.0" % "it"

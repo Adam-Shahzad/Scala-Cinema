@@ -1,5 +1,4 @@
-
-@(suggestions: scala.collection.mutable.Set[Discussion],disccusionForm: Form[Discussion],movies: Movies)(implicit messages: Messages)
+@(suggestions: scala.collection.mutable.Set[Discussion],disccusionForm: Form[Discussion])(implicit messages: Messages)
 @main("Opening Times") {
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +14,6 @@
 
     <!-- Bootstrap core CSS -->
     <link href="@routes.Assets.at("templates/Bare/vendor/bootstrap/css/bootstrap.min.css")" rel="stylesheet">
-    <link href="@routes.Assets.at("stylesheets/animation.css")" rel="stylesheet">
 
 
     <!-- Custom styles for this template -->
@@ -48,7 +46,7 @@
           <div style="text-align: left; padding-left: 5rem; margin-bottom: 3rem; background-color: rgba(0,0,0,0.5);
             width: 50%; padding: 3rem; align-content: center;">
 
-          @helper.form(routes.Application.discussion) {
+          @helper.form(routes.DiscussionController.discussion) {
             @helper.inputText(disccusionForm("name"), '_label -> "Name", '_showConstraints -> false)
             @helper.inputText(disccusionForm("email"), '_label -> "Email", '_showConstraints -> false)
             @helper.inputText(disccusionForm("filmName"), '_label -> "Film Name", '_showConstraints -> false)
@@ -93,7 +91,6 @@
     <!-- Bootstrap core JavaScript -->
     <script src="@routes.Assets.at("templates/Bare/vendor/jquery/jquery.min.js")"></script>
     <script src="@routes.Assets.at("templates/Bare/vendor/bootstrap/js/bootstrap.bundle.min.js")"></script>
-    <script src="@routes.Assets.at("javascripts/animation.js")"></script>
 
   </body>
 
