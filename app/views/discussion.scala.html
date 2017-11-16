@@ -1,5 +1,5 @@
 
-@(suggestions: scala.collection.mutable.Set[Discussion],disccusionForm: Form[Discussion] )(implicit messages: Messages)
+@(suggestions: scala.collection.mutable.Set[Discussion],disccusionForm: Form[Discussion],movies: Movies)(implicit messages: Messages)
 @main("Opening Times") {
 <!DOCTYPE html>
 <html lang="en">
@@ -11,10 +11,12 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Opening Times</title>
+    <title>Discussion Board</title>
 
     <!-- Bootstrap core CSS -->
     <link href="@routes.Assets.at("templates/Bare/vendor/bootstrap/css/bootstrap.min.css")" rel="stylesheet">
+    <link href="@routes.Assets.at("stylesheets/animation.css")" rel="stylesheet">
+
 
     <!-- Custom styles for this template -->
     <style>
@@ -35,10 +37,55 @@
   </head>
 
   <body>
-
     <!-- Navigation -->
 
     <!-- Page Content -->
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h1 class="mt-5" style="padding: 2rem;">Discussion Board</h1>
+          <div id = "makeComment" class = "row">
+          <div style="text-align: left; padding-left: 5rem; margin-bottom: 3rem; background-color: rgba(0,0,0,0.5);
+            width: 50%; padding: 3rem; align-content: center;">
+
+          @helper.form(routes.Application.discussion) {
+            @helper.inputText(disccusionForm("name"), '_label -> "Name", '_showConstraints -> false)
+            @helper.inputText(disccusionForm("email"), '_label -> "Email", '_showConstraints -> false)
+            @helper.inputText(disccusionForm("filmName"), '_label -> "Film Name", '_showConstraints -> false)
+            @helper.inputText(disccusionForm("rating"), '_label -> "Rating", '_showConstraints -> false)
+            @helper.textarea(disccusionForm("desc"), '_label -> "Description", '_showConstraints -> false)
+            <button type="submit">Submit</button>
+          }
+          </div>
+            <div style="margin-left: 2rem; height:400px; width: 40%; background-color: rgba(0,0,0,0.5)">
+              <p style="margin-top: 2rem"><b>Rules</b></p>
+              <ul style="margin-left: 1rem; margin-right: 2rem">
+                <li style="text-align: left; margin-bottom: 1rem"><b>No Spoilers</b> Discuss the movie all you desire but do not ruin the plot for others</li>
+                <li style="text-align: left; margin-bottom: 1rem"><b>No Abuse</b> Everyone is entitled to their own opinion on a movie</li>
+                <li style="text-align: left; margin-bottom: 1rem"><b>No Duplication</b> There's no benefit in repeating a comment more than once</li>
+                <li style="text-align: left; margin-bottom: 1rem"><b>Only Movies</b> Any discussion or complaints regarding your experience at the cinema can be raised with management</li>
+              </ul>
+
+              </div>
+          </div>
+
+          @for(disc <- suggestions) {
+            <div style="background-color: rgba(0,0,0,0.5); padding: 2rem">
+              <div style="align:right;text-align:left">
+                <p><b>Name:</b> @disc.name</p>
+                <p><b>Email:</b> @disc.email</p>
+                <p><b>Film Title:</b> @disc.filmName</p>
+                <p><b>Rating:</b> @disc.rating/5</p>
+                <p><b>Description:</b></p><p>@disc.desc</p>
+
+              </div>
+            </div>
+            <br>
+            }
+          <p class="lead"></p>
+        </div>
+      </div>
+    </div>
 
 
 
@@ -46,6 +93,7 @@
     <!-- Bootstrap core JavaScript -->
     <script src="@routes.Assets.at("templates/Bare/vendor/jquery/jquery.min.js")"></script>
     <script src="@routes.Assets.at("templates/Bare/vendor/bootstrap/js/bootstrap.bundle.min.js")"></script>
+    <script src="@routes.Assets.at("javascripts/animation.js")"></script>
 
   </body>
 

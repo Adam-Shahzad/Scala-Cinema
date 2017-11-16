@@ -2,8 +2,9 @@ package models
 
 import play.api.data._
 import play.api.data.Forms._
+import play.api.data.format.Formats._
 
-case class Discussion (name: String, email:String, desc:String, filmName:String, rating:Int)
+case class Discussion (name: String, email:String, desc:String, filmName:String, rating:Double)
 
 object Discussion{
 
@@ -11,9 +12,9 @@ object Discussion{
     mapping (
       "name" -> nonEmptyText,
       "email" -> email,
-      "desc" -> nonEmptyText(minLength = 50),
+      "desc" -> nonEmptyText(minLength = 50, maxLength = 500),
       "filmName" -> nonEmptyText,
-      "rating" -> number(min = 0, max = 5)
+      "rating" -> of[Double].verifying(value => value > 0.0 && value <= 5.0)
     )(Discussion.apply)(Discussion.unapply)
   )
 }

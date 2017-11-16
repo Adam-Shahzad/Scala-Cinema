@@ -22,17 +22,12 @@
               <h4 class="card-title">@movies.title(i)</h4>
               <p class="card-text" style="height: 60px; line-height: 20px; overflow: hidden; text-overflow: ellipsis">@movies.overview(i)</p>
               <a href="#" class="btn btn-primary" style="position:absolute; right: 0; bottom: 0">Book Movie</a>
-              <a href="#" class="btn btn-primary" style="position:absolute; left: 0; bottom: 0">More Details</a>
+              <a href="@routes.Application.individualNewMovie(i)" class="btn btn-primary" style="position:absolute; left: 0; bottom: 0">More Details</a>
             </div>
           </div>
         }
         </div>
       </div>
-      <footer class="py-5 bg-dark">
-        <div class="container">
-          <p class="m-0 text-center text-white">Copyright &copy; Your Website 2017</p>
-        </div>
-      </footer>
       <script src="@routes.Assets.at("templates/Gallery/vendor/jquery/jquery.min.js")"></script>
       <script src="@routes.Assets.at("templates/Gallery/vendor/bootstrap/js/bootstrap.bundle.min.js")"></script>
     </body>
