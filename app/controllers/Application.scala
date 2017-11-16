@@ -7,7 +7,6 @@ import models.JsonFormats.{BookingFormat, discussionFormat,ticketFormat,screenin
 import models._
 
 
-import models.JsonFormats.{BookingFormat, discussionFormat}
 
 
 import play.api._
