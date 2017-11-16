@@ -1,8 +1,6 @@
 
 @(bookings:List[Booking], tickets:List[List[Tickets]], screening:List[Screening], movies:Movies)
-@import scala.Predef;var adultCount= 0
-@import scala.Predef;var childCount = 0
-@import scala.Predef;var concessionCount = 0
+@import scala.Predef; var adultCount= 0; var childCount = 0; var concessionCount = 0
 
 @main("Ticket Booking"){
 <!DOCTYPE html>
@@ -40,14 +38,18 @@
     <!-- Page Content -->
     <br>
     <div class="container" >
-      <div style = "background-color: rgba(0,0,0,0.5)">
+      <div>
       <div class="row" >
         <div class="col-lg-12 text-center">
           <h1 class="mt-5">Bookings</h1>
           <br>
           <br>
           @for((booking, index) <- bookings.zipWithIndex){
-          <ul class = "col-lg-12 text-left">
+            <div class = "row">
+              <div><img src = "http://image.tmdb.org/t/p/w640/@movies.backdropPath(index)" height = 281px ></div>
+              <div style = "width: 50px"></div>
+              <div>
+          <ul class = "col-lg-12 text-left" style = "background-color: rgba(0,0,0,0.5)">
             <ul>
             <li>Booking no: @booking._id</li>
             <li>Booker name: @booking.userID</li>
@@ -62,13 +64,18 @@
                   @if(ticket.ticketType == "child") @{childCount = childCount+1}
                   @if(ticket.ticketType == "concession") @{concessionCount = concessionCount + 1}
                 } <ul> Tickets
-            <li>@adultCount x Adult (£11.00) = @{adultCount.toInt*11}.00</li>
-            <li>@childCount x Adult (£11.00) = @{childCount.toInt*6}.00</li>
-            <li>@concessionCount x Adult (£11.00) = @{concessionCount.toInt*7}.00</li>
+            <li>@adultCount x Adult (£11.00) = £@{adultCount*11}.00</li>
+            <li>@childCount x Adult (£11.00) = £@{childCount*6}.00</li>
+            <li>@concessionCount x Adult (£11.00) = £@{concessionCount*7}.00</li>
+
+            <li>Total Price = £@{adultCount*11+childCount*6+concessionCount*7}.00</li>
             @{concessionCount = 0;childCount=0;adultCount=0}
-            <li>Total Price = £@{adultCount.toInt*11+childCount.toInt*6+concessionCount.toInt*7}.00</li>
           </ul>
-          </ul>}
+          </ul>
+              </div>
+
+            </div>
+          }
 
         </div>
       </div>
