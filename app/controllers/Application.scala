@@ -58,9 +58,11 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
 
   //var seatList = ArrayBuffer[String]
 
+
   def aroundUs = Action{
     Ok(views.html.aroundUs(restaurant))
   }
+
 
   def index = Action {
     Ok(views.html.index("Your new application is ready."))
@@ -78,6 +80,10 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
 
   def individualMovie(address:Int) = Action {
     Ok(views.html.individualMovie(currentMovies, address))
+  }
+
+  def individualNewMovie(address:Int) = Action {
+    Ok(views.html.individualMovie(newMovies, address))
   }
 
   def listingsGallery = Action {
