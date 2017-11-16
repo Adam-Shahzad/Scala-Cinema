@@ -3,11 +3,11 @@ import scala.util.parsing._
 
 class NearMe(typeOfAttraction:Int) {
 
-  private def attractions: List[Map[String,String]] = {
+  private def attractions: List[Map[String,Any]] = {
     typeOfAttraction match {
       case 0 => {
         val a = scala.util.parsing.json.JSON.parseFull(scala.io.Source.fromURL("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=53.474300,-2.286038&radius=8045&types=restaurant&key=AIzaSyCIcbTDyu2WmBu4kcGApLaXMIxEjhN6aKg").mkString).
-          get.asInstanceOf[Map[String, String]].get("results").get.asInstanceOf[List[Map[String, String]]]
+          get.asInstanceOf[Map[String, Any]].get("results").get.asInstanceOf[List[Map[String, Any]]]
         println(a)
         a
       }
@@ -37,7 +37,10 @@ class NearMe(typeOfAttraction:Int) {
   def rating(value:Int):Any = attractionList(value).getOrElse("rating", "No Value")
   def types(value:Int):Any = attractionList(value).getOrElse("types", "No Value") //returns List
   def geometry(value:Int):Any = attractionList(value).getOrElse("geometry", "No Value") //returns lat and long for gmaps
-  def photos(value:Int):Any = attractionList(value).getOrElse("photos", "No Value")
+  def photos(value:Int):Any = {
+    val photoRef = attractionList(value).getOrElse("photos", "No Value").toString()
+    photoRef.substring(photoRef.indexOf("photo_reference")+19,photoRef.indexOf("width")-2)
+  }
   def icon(value:Int):Any = attractionList(value).getOrElse("icon", "No Value")
 
 
