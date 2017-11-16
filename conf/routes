@@ -16,7 +16,7 @@ GET     /screens                    controllers.Application.screens
 GET     /discussion                 controllers.Application.discussion
 GET     /gettingThere               controllers.Application.gettingTherePage
 GET     /getdiscussions             controllers.Application.getDiscussions
-GET     /nearby                     controllers.Application.aroundUs
+# GET     /nearby                     controllers.Application.aroundUs
 GET     /ticketBooking:userID       controllers.Application.loadBookingPage(userID:Int)
 
 

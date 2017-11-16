@@ -63,9 +63,6 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
 
   //var seatList = ArrayBuffer[String]
 
-  def aroundUs = Action{
-    Ok(views.html.aroundUs(nearBy))
-  }
 
   def index = Action {
     Ok(views.html.index("Your new application is ready."))
