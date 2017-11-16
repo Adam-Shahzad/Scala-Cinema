@@ -94,7 +94,7 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
     val ticketResult = bookingResult.map{br => Await.result(getTicketInfo(br._id),5 second)}
     val screeningResult = bookingResult.map{br=> Await.result(getScreeningInfo(br.screeningID),5 second).head}
 
-    Ok(views.html.ticketBooking(bookingResult,ticketResult,screeningResult, currentMovies))
+    Ok(views.html.ticketBooking(bookingResult,ticketResult,screeningResult))
   }
 
   def seatSelectionForm(movieTitle: String) = Action{implicit  request =>
