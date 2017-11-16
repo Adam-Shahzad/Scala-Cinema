@@ -21,5 +21,6 @@ GET     /seatSelection/:movie          controllers.Application.seatSelectionForm
 POST    /seatSelection/:movie          controllers.Application.getSeatFormAction(movie)
 GET      /ticketSelection/:movie        controllers.Application.ticketSelectionForm(movie)
 POST     /ticketSelection/:movie        controllers.Application.getTicketFormAction(movie)
+GET      /login                         controllers.Application.loginPage
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

@@ -38,8 +38,13 @@
             <br>
             <p>@Movies.overview(index,Movies.newMovies)</p>
             <br>
-            @Movies.releaseData(index,Movies.newMovies)
+            <p>Release date: @Movies.releaseData(index,Movies.newMovies)</p>
             <br>
+            <p>Rating: @Movies.voteAvg(index,Movies.newMovies)/10</p>
+            <br>
+            <p>Popularity:  @Movies.popularity(index,Movies.newMovies)
+            <br>
+            <p>Suitible for children:  @if(Movies.adult(index,Movies.newMovies)==true){false}@if(Movies.adult(index,Movies.newMovies)==false){true}
           </div>
       </div>
       </div>
@@ -57,8 +62,13 @@
           <br>
           <p>@Movies.overview(index,Movies.currentMovies)</p>
           <br>
-          @Movies.releaseData(index,Movies.currentMovies)
+          <p>@Movies.releaseData(index,Movies.currentMovies)</p>
           <br>
+          <p>Rating: @Movies.voteAvg(index,Movies.currentMovies)/10</p>
+          <br>
+          <p>Popularity:  @Movies.popularity(index,Movies.currentMovies)
+          <br>
+          <p>Suitible for children:  @if(Movies.adult(index,Movies.currentMovies)==true){false}@if(Movies.adult(index,Movies.currentMovies)==false){true}
         </div>
       </div>
     </div>
