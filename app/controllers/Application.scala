@@ -53,14 +53,14 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
   val currentMovies = new Movies(1)
   val restaurant = new NearMe(0)
 
-//  def getFirstFiveNearBy(): List[Any] ={
-//    val restaurant = new NearMe(0)
-//    val bar = new NearMe(1)
-//    val nightClub = new NearMe(2)
-//    val museum = new NearMe(3)
-//    val shoppingMall = new NearMe(4)
-//  }
-//
+  def nearByList(): List[NearMe] ={
+    val restaurant = new NearMe(0)
+    val bar = new NearMe(1)
+    val nightClub = new NearMe(2)
+    val museum = new NearMe(3)
+    val shoppingMall = new NearMe(4)
+    List(restaurant,bar,nightClub, museum, shoppingMall)
+  }
 
 
 
