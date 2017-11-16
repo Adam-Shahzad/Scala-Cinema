@@ -1,21 +1,14 @@
-@(nearBy:NearMe)
 @main("Places To Go") {
 <!DOCTYPE html>
 <html lang="en">
 
   <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
     <title>Opening Times</title>
-
-    <!-- Bootstrap core CSS -->
     <link href="@routes.Assets.at("templates/Bare/vendor/bootstrap/css/bootstrap.min.css")" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
     <style>
       body {
         padding-top: 54px;
@@ -23,6 +16,9 @@
           background-size: cover;
           background-repeat: no-repeat;
           background-position: center center;
+      }
+      .hr{
+          color: white;
       }
       media (min-width: 992px) {
         body {
@@ -32,30 +28,39 @@
       table{
           margin: 0 auto;
       }
-
     </style>
-
   </head>
-
   <body>
-
-    <!-- Navigation -
-    <!-- Page Content -->
-    <div class="container" style="background-color: rgba(0,0,0,0.5);width: 100%;
-        padding-right: 15px;
-        padding-left: 15px;
-        padding-top:15px;
-        padding-bottom:15px;
-        margin-right: auto;
-        margin-left: auto;
-        margin-top:50px;
-        margin-bottom:5rem
-        ">
+    <div class="container">
       <div class="row">
-        <div class="col-lg-12 text-center">
-          <h1 class="mt-5" style="margin-top:0px;">Places To Go</h1>
-            <div style="width: 100%;">
 
+          @for(i <- 0 until NearMe.firstFiveResultsEach.length){
+              @if(i == NearMe.firstFiveResultsEach.length - 1){
+                  <div class="card" style="width: 47.5%; margin-left:26.25%; margin-right:26.25%;margin-top: 2rem; background-color: rgba(0,0,0,0.5)">
+                      <h3 style="text-align: center">@NearMe.names(i)</h3>
+                      @for(p <- 0 until NearMe.firstFiveResultsEach(i).length){
+                          <hr style="background-color: white">
+                          <b style="padding-left:5%">Name</b>
+                          <p style="padding-left:5%">@NearMe.name(p,NearMe.firstFiveResultsEach(i))</p>
+                          <b style="padding-left:5%">Address</b>
+                          <p style="padding-left:5%">@NearMe.vicinity(p,NearMe.firstFiveResultsEach(i))</p>
+                      }
+                      <hr style="background-color: white">
+                  </div>
+              } else {
+              <div class="card" style="width: 47.5%; @if(i % 2 != 0){margin-left: 5%;} margin-top: 2rem; background-color: rgba(0,0,0,0.5)">
+                  <h3 style="text-align: center">@NearMe.names(i)</h3>
+                  @for(p <- 0 until NearMe.firstFiveResultsEach(i).length){
+                      <hr style="background-color: white">
+                      <b style="padding-left:5%">Name</b>
+                      <p style="padding-left:5%">@NearMe.name(p,NearMe.firstFiveResultsEach(i))</p>
+                      <b style="padding-left:5%">Address</b>
+                      <p style="padding-left:5%">@NearMe.vicinity(p,NearMe.firstFiveResultsEach(i))</p>
+                  }
+                  <hr style="background-color: white">
+              </div>
+              }
+          }
                 <div style="width 300px; height: 300px; text-align: left; float:left; background-color: rgba(0,0,0,0.5); padding-right: 20%">
                     <p><b>Food & Drink</b></p>
                     <p></p>
@@ -76,7 +81,6 @@
     <!-- Bootstrap core JavaScript -->
     <script src="@routes.Assets.at("templates/Bare/vendor/jquery/jquery.min.js")"></script>
     <script src="@routes.Assets.at("templates/Bare/vendor/bootstrap/js/bootstrap.bundle.min.js")"></script>
-
   </body>
 
 </html>

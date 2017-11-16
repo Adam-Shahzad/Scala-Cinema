@@ -36,4 +36,8 @@ class NavigationSimple  extends Controller{
     Ok(views.html.screens())
   }
 
+  def aroundUs = Action{
+    Ok(views.html.aroundUs())
+  }
+
 }
