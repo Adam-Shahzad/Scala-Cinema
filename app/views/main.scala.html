@@ -22,17 +22,17 @@ background-position: center center;
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
             <div class="container">
-                <a class="navbar-brand" href=@routes.Application.homepage()><img src="@routes.Assets.at("images/homeSymbol.png")" style="width: 8%; height: 8%">  QA Cinemas</a>
+                <a class="navbar-brand" href=@routes.NavigationSimple.homepage()><img src="@routes.Assets.at("images/homeSymbol.png")" style="width: 8%; height: 8%">  QA Cinemas</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href=@routes.Application.listingsGallery()>Listings Gallery</a>
+                            <a class="nav-link" href=@routes.NavigationSimple.listingsGallery()>Listings Gallery</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href=@routes.Application.newReleasesGallery()>New Releases</a>
+                            <a class="nav-link" href=@routes.NavigationSimple.newReleasesGallery()>New Releases</a>
                     
                       
                         <li class="nav-item">
@@ -40,7 +40,7 @@ background-position: center center;
                         </li>
                   
                         <li class"nav-item">
-                        <a class="nav-link" href=@routes.Application.getDiscussions()>Discussion Board</a>
+                        <a class="nav-link" href=@routes.DiscussionController.getDiscussions()>Discussion Board</a>
                         </li>
 
                     </ul>
@@ -55,16 +55,16 @@ background-position: center center;
             <p class="m-0 text-center text-white">Copyright &copy; QACinemas 2017</p>
             <ul >
                 <li style="display:inline-block;">
-                    <a class="nav-link" href="@routes.Application.gettingTherePage()">Getting There</a>
+                    <a class="nav-link" href="@routes.NavigationSimple.gettingTherePage()">Getting There</a>
                 </li>
                 <li style="display:inline-block;">
-                    <a class="nav-link" href="@routes.Application.classifications()">Classifications</a>
+                    <a class="nav-link" href="@routes.NavigationSimple.classifications()">Classifications</a>
                 </li>
                 <li style="display:inline-block;">
-                    <a class="nav-link" href=@routes.Application.openingTimes()>Opening Times</a>
+                    <a class="nav-link" href=@routes.NavigationSimple.openingTimes()>Opening Times</a>
                 </li>
                 <li style="display:inline-block;">
-                    <a class="nav-link" href=@routes.Application.screens()>Screens</a>
+                    <a class="nav-link" href=@routes.NavigationSimple.screens()>Screens</a>
                 </li>
             </ul>
         </div>
