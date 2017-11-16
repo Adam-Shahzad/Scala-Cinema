@@ -16,7 +16,7 @@ GET     /discussion                 controllers.DiscussionController.discussion
 GET     /gettingThere               controllers.NavigationSimple.gettingTherePage
 GET     /getdiscussions             controllers.DiscussionController.getDiscussions
 GET     /nearby                     controllers.NearMeController.aroundUs
-GET     /ticketBooking:userID       controllers.Application.loadBookingPage(userID:Int)
+GET     /ticketBooking:userID       controllers.TicketBookingController.loadBookingPage(userID:Int)
 GET     /seatSelection/:movie          controllers.Application.seatSelectionForm(movie)
 POST    /seatSelection/:movie          controllers.Application.getSeatFormAction(movie)
 GET      /ticketSelection/:movie        controllers.Application.ticketSelectionForm(movie)

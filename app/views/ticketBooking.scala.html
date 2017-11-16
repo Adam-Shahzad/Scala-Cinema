@@ -46,7 +46,7 @@
           <br>
           @for((booking, index) <- bookings.zipWithIndex){
             <div class = "row">
-              <div><img src = "http://image.tmdb.org/t/p/w640/@Movies.backdropPath(index,Movies.newMovies)" height = 281px ></div>
+              <div><img src = "http://image.tmdb.org/t/p/w640/@Movies.backdropPath(screening(index).movie_ID,Movies.newMovies)" height = 281px ></div>
               <div style = "width: 50px"></div>
               <div>
           <ul class = "col-lg-12 text-left" style = "background-color: rgba(0,0,0,0.5)">
