@@ -4,11 +4,12 @@ import javax.inject.Inject
 
 
 import models.JsonFormats.{BookingFormat, discussionFormat,ticketFormat,screeningFormat}
-import models.{Booking, Movies, Payment,Tickets,Screening}
+import models._
 
 
 import models.JsonFormats.{BookingFormat, discussionFormat}
-import models._
+
+
 import play.api._
 import play.api.libs.json
 import play.api.libs.json._
@@ -35,13 +36,19 @@ import scala.concurrent.duration._
 
 
 class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi: ReactiveMongoApi) extends Controller with I18nSupport with MongoController with ReactiveMongoComponents{
+  
 
   def screeningCollection : Future[JSONCollection] = database.map(_.collection[JSONCollection]("screening"))
   def ticketCollection : Future[JSONCollection] = database.map(_.collection[JSONCollection]("tickets"))
   def bookingCollection : Future[JSONCollection] = database.map(_.collection[JSONCollection]("bookings"))
   def discussionCollection :Future[JSONCollection] = database.map(_.collection[JSONCollection]("discussion"))
   val mySuggestions: scala.collection.mutable.Set[Discussion] = scala.collection.mutable.Set.empty[Discussion]
-  var seatList = ArrayBuffer[String]()
+
+
+  var seatList = scala.collection.mutable.ArrayBuffer[Boolean]()
+
+
+
   val newMovies = new Movies(0)
   val currentMovies = new Movies(1)
   val restaurant = new NearMe(0)
@@ -56,7 +63,6 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
 //
 
 
-  //var seatList = ArrayBuffer[String]
 
 
   def aroundUs = Action{
@@ -209,10 +215,37 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
 
 
 
-//  def seatSelection = Action {
-//    val seatLetters = ('A' to 'F').toList
-//    val rowNumbers = (1 to 10).toList
-//    Ok(views.html.seatSelection(seatLetters, rowNumbers, seatList))
-//  }
+  def seatSelectionForm(movieTitle: String) = Action{implicit  request =>
+    Ok(views.html.seatSelection(movieTitle, SeatSelection.createForm))
+  }
+
+  def getSeatFormAction(movieTitle: String) = Action { implicit request =>
+    val formResult = SeatSelection.createForm.bindFromRequest()
+    formResult.fold({errors =>
+      BadRequest(views.html.seatSelection(movieTitle,errors))
+    },{ form =>
+      Ok(views.html.payment(form.seat1A.toString,Payment.createForm))
+    })
+  }
+
+
+  def ticketSelectionForm(movieTitle: String) = Action {implicit request =>
+    Ok(views.html.ticketSelection(movieTitle,TicketBooking.createForm))
+  }
+
+  def getTicketFormAction(movieTitle: String) = Action { implicit request =>
+      val formResult = TicketBooking.createForm.bindFromRequest()
+      formResult.fold({errors =>
+        BadRequest(views.html.ticketSelection(movieTitle,errors))
+      },{ form =>
+        if(form.selectSeats){
+          Ok(views.html.seatSelection(movieTitle, SeatSelection.createForm))
+        }
+        else{
+          Ok(views.html.payment(movieTitle+form.adultTicket,Payment.createForm))
+        }
+    })
+  }
+
 
 }
