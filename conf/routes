@@ -3,9 +3,9 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.NavigationSimple.homepage
+GET     /                           controllers.SearchController.search
 GET     /classification             controllers.NavigationSimple.classifications
-GET     /individualMovie:address    controllers.Application.individualMovie(address:Int,newReleases:Boolean)
+GET     /individualMovie:address    controllers.Application.individualMovie(address:Int,newReleases:Boolean,searchString:String)
 GET     /listingsGallery            controllers.NavigationSimple.listingsGallery
 GET     /newReleasesGallery         controllers.NavigationSimple.newReleasesGallery
 GET     /openingTimes               controllers.NavigationSimple.openingTimes

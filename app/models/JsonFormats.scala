@@ -6,4 +6,5 @@ object JsonFormats {
   implicit val discussionFormat = Json.format[Discussion]
   implicit val ticketFormat = Json.format[Tickets]
   implicit val screeningFormat = Json.format[Screening]
+  implicit val search = Json.format[Search]
 }

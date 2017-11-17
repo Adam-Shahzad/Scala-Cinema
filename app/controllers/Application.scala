@@ -7,19 +7,17 @@ import play.api.mvc.{Action, Controller}
 import models._
 import play.api.i18n.{I18nSupport, MessagesApi}
 
-
-
-
-
+object MyHelpers {
+  import views.html.helper.FieldConstructor
+  implicit val myFields = FieldConstructor(views.html.myFieldConstructorTemplate.f)
+}
 
 class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi: ReactiveMongoApi) extends Controller with I18nSupport with MongoController with ReactiveMongoComponents{
-  
-
 
   var seatList = scala.collection.mutable.ArrayBuffer[Boolean]()
 
-  def individualMovie(address:Int,newReleases:Boolean) = Action {
-    Ok(views.html.individualMovie(address, newReleases))
+  def individualMovie(address:Int,newReleases:Boolean,searchString:String) = Action {
+    Ok(views.html.individualMovie(address, newReleases, searchString))
   }
 
   def payment = Action {
@@ -47,7 +45,6 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
       }
     }
   }
-
 
   def seatSelectionForm(movieTitle: String) = Action{implicit  request =>
     Ok(views.html.seatSelection(movieTitle, SeatSelection.createForm))
