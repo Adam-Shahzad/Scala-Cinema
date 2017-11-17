@@ -1,20 +1,14 @@
 package controllers
 
-import javax.inject.Inject
-
 import play.modules.reactivemongo.{MongoController, ReactiveMongoApi, ReactiveMongoComponents}
 import play.api.mvc.{Action, Controller}
 import models._
 import play.api.i18n.{I18nSupport, MessagesApi}
+import javax.inject.Inject
+import play.api.libs.mailer._
 
 
-
-
-
-
-class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi: ReactiveMongoApi) extends Controller with I18nSupport with MongoController with ReactiveMongoComponents{
-  
-
+class Application  @Inject()  (val mailerClient:MailerClient)(val messagesApi: MessagesApi)(val reactiveMongoApi: ReactiveMongoApi) extends Controller with I18nSupport with MongoController with ReactiveMongoComponents  {
 
   var seatList = scala.collection.mutable.ArrayBuffer[Boolean]()
 
@@ -80,5 +74,20 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
     })
   }
 
+  def listEmail = Action { implicit request =>
+    Ok(views.html.emailPage(Emails.createForm))
+  }
 
+
+
+  def createEmail = Action { implicit request =>
+    val formValidationResult = Emails.createForm.bindFromRequest
+    formValidationResult.fold({ formWithErrors =>
+      BadRequest(views.html.emailPage(formWithErrors))
+    }, { emaily =>
+      val mailServ = new MailService(mailerClient)
+      mailServ.sendEmail(emaily.email, emaily.subject, emaily.emailBody)
+      Ok(views.html.emailPage(Emails.createForm))
+    })
+  }
 }
