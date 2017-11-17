@@ -14,3 +14,4 @@ libraryDependencies += "org.reactivemongo" %% "play2-reactivemongo" % "0.12.6-pl
 
 unmanagedResourceDirectories in Test <+=  baseDirectory ( _ /"target/web/public/test" )
 
+libraryDependencies += "com.typesafe.play" %% "play-mailer" % "3.0.1"
