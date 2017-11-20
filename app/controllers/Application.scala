@@ -6,6 +6,7 @@ import models.JsonFormats.{BookingFormat, screeningFormat, ticketFormat}
 import play.api.libs.json.{JsPath, Json}
 import play.modules.reactivemongo.{MongoController, ReactiveMongoApi, ReactiveMongoComponents}
 import reactivemongo.api.Cursor
+import scala.util.{Success, Failure}
 import scala.concurrent.{Await, Future}
 import play.api.mvc.{Action, Controller}
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
@@ -13,7 +14,8 @@ import reactivemongo.play.json._
 import collection._
 import models._
 import play.api.i18n.{I18nSupport, MessagesApi}
-
+import reactivemongo.bson.BSONDocument
+import scala.collection.mutable.ArrayBuffer
 import scala.concurrent.duration._
 
 
@@ -49,7 +51,7 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
       action match {
         case "pay" =>
           val thisPayment = new Payment(formValidationResult.value.head.name,formValidationResult.value.head.number,formValidationResult.value.head.expiry, formValidationResult.value.head.csv )
-          Ok(views.html.payment(s"Thanks ${formValidationResult.value.head.name} for you purchase! Your tickets are ready to be collected",Payment.createForm ))
+          Ok(views.html.payment(s"Thanks ${request.session.get("guestName").getOrElse("bomba")} for you purchase! Your tickets are sent to ${request.session.get("guestEmail").getOrElse("bomba")}",Payment.createForm ))
         case "empty" =>
           Ok(views.html.payment("Basket Emptied", Payment.createForm))
       }
@@ -97,36 +99,51 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
     Ok(views.html.ticketBooking(bookingResult,ticketResult,screeningResult))
   }
 
-  def seatSelectionForm(movieTitle: String) = Action{implicit  request =>
-    Ok(views.html.seatSelection(movieTitle, SeatSelection.createForm))
-  }
-
-  def getSeatFormAction(movieTitle: String) = Action { implicit request =>
-    val formResult = SeatSelection.createForm.bindFromRequest()
-    formResult.fold({errors =>
-      BadRequest(views.html.seatSelection(movieTitle,errors))
-    },{ form =>
-      Ok(views.html.payment(form.seat1A.toString,Payment.createForm))
-    })
-  }
 
   def ticketSelectionForm(movieTitle: String) = Action {implicit request =>
-    Ok(views.html.ticketSelection(movieTitle,TicketBooking.createForm))
+    def guestUserId: String = {
+      val id = scala.util.Random
+      "guest"+id.nextInt().toString
+    }
+    var userID = "none"
+    val isGuest = true
+    if(isGuest) userID = guestUserId
+
+    Ok(views.html.ticketSelection(userID,TicketBooking.createForm, isGuest)).withSession("user" -> userID)
   }
 
   def getTicketFormAction(movieTitle: String) = Action { implicit request =>
-      val formResult = TicketBooking.createForm.bindFromRequest()
-      formResult.fold({errors =>
-        BadRequest(views.html.ticketSelection(movieTitle,errors))
-      },{ form =>
-        if(form.selectSeats){
-          Ok(views.html.seatSelection(movieTitle, SeatSelection.createForm))
-        }
-        else{
-          Ok(views.html.payment(movieTitle+form.adultTicket,Payment.createForm))
-        }
+    val formResult = TicketBooking.createForm.bindFromRequest()
+    formResult.fold({errors =>
+      BadRequest(views.html.ticketSelection(movieTitle,errors, true))
+    }, { form =>
+
+
+      val latestID = Await.result(getLatestBookingID, 5 second)
+
+      Ok(views.html.payment(latestID.toString, Payment.createForm)).withSession(request.session + ("guestName" -> form.guestName.getOrElse("bomba")) + ("guestEmail" -> form.guestEmail.getOrElse("bomba")))
+
+
     })
   }
 
+  def getLatestBookingID: Future[Int] = {
+    val cursor: Future[Cursor[Booking]] = bookingCollection.map {
+      _.find(Json.obj()).sort(Json.obj("$natural" -> -1)).cursor[Booking]
+    }
+    val sortedBookings: Future[ArrayBuffer[Booking]] = cursor.flatMap(_.collect[ArrayBuffer]())
+    val latestId = sortedBookings.map { bookings =>
+      bookings.head._id
+    }
+    latestId
+  }
+  //  def insertBookingToDB(currentUserID : String) = {
+  //
+  //    val selector = BSONDocument("_id" -> currentUserID)
+  //    val newItem = Json.obj(
+  //      ""
+  //
+  //
+  //  }
 
 }
