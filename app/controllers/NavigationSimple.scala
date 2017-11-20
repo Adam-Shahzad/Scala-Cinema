@@ -39,4 +39,7 @@ class NavigationSimple @Inject() (val messagesApi: MessagesApi) extends Controll
     Ok(views.html.aroundUs())
   }
 
+  def aboutUs = Action {
+    Ok(views.html.AboutUs())
+  }
 }
