@@ -10,7 +10,7 @@ class MailerService @Inject()(mailerClient: MailerClient) {
     val email = Email(
       subject,
       from,
-      Seq("fahri.ulucay@qa.com"),
+      Seq("scala.qacinemas@gmail.com"),
       // adds attachment
 
       // sends text, HTML or both...

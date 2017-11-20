@@ -6,7 +6,7 @@ import models.JsonFormats.{BookingFormat, screeningFormat, ticketFormat}
 import play.api.libs.json.{JsPath, Json}
 import play.modules.reactivemongo.{MongoController, ReactiveMongoApi, ReactiveMongoComponents}
 import reactivemongo.api.Cursor
-
+import reactivemongo.play.json._
 import scala.util.{Failure, Success}
 import scala.concurrent.{Await, Future}
 import play.api.mvc.{Action, Controller}
@@ -14,7 +14,8 @@ import models._
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.libs.mailer.MailerClient
 import reactivemongo.bson.BSONDocument
-
+import reactivemongo.play.json.collection.JSONCollection
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.collection.mutable.ArrayBuffer
 import scala.concurrent.duration._
 
@@ -100,13 +101,22 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val mailerClient: Ma
     }
     latestId
   }
-  //  def insertBookingToDB(currentUserID : String) = {
-  //
-  //    val selector = BSONDocument("_id" -> currentUserID)
-  //    val newItem = Json.obj(
-  //      ""
-  //
-  //
-  //  }
+
+  def gettingTherePage = Action {
+    Ok(views.html.gettingThere(Emails.createForm, "Email"))
+  }
+  def sendEmail = Action { implicit request =>
+    val formResult = Emails.createForm.bindFromRequest()
+    val mail = new MailerService(mailerClient)
+    formResult.fold({errors =>
+      BadRequest(views.html.gettingThere(errors,"Please fill in carefully"))
+    }, { form =>
+      mail.sendEmail(form.subject,form.email,form.emailBody)
+      Ok(views.html.gettingThere(Emails.createForm, s"Email sent!"))
+
+
+    })
+  }
+
 
 }
