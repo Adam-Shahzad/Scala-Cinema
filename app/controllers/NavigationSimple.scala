@@ -1,8 +1,10 @@
 package controllers
+import javax.inject.Inject
+import play.api.i18n.{I18nSupport, MessagesApi}
 import models.UserForm
 import play.api.mvc.{Action, Controller}
 
-class NavigationSimple  extends Controller{
+class NavigationSimple @Inject() (val messagesApi: MessagesApi) extends Controller with I18nSupport{
 
   def index = Action {
     Ok(views.html.index("Your new application is ready."))
@@ -21,7 +23,6 @@ class NavigationSimple  extends Controller{
   }
 
   def homepage = Action {
-
     Ok(views.html.homepage())
   }
 
@@ -37,5 +38,8 @@ class NavigationSimple  extends Controller{
     Ok(views.html.screens())
   }
 
+  def aroundUs = Action{
+    Ok(views.html.aroundUs())
+  }
 
 }

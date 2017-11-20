@@ -7,4 +7,6 @@ object JsonFormats {
   implicit val ticketFormat = Json.format[Tickets]
   implicit val screeningFormat = Json.format[Screening]
   implicit val usersFormat = Json.format[Users]
+  implicit val emailFormat = Json.format[Emails]
+  implicit val search = Json.format[Search]
 }
