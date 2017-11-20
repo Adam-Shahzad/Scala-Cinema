@@ -1,11 +1,27 @@
 package models
 
+import scala.collection.mutable.ArrayBuffer
+
 object Movies{
   val newMovies = scala.util.parsing.json.JSON.parseFull(scala.io.Source.fromURL("https://api.themoviedb.org/3/movie/upcoming?api_key=0e1152c2ffcd8427363a93caf8553082&language=en-UK&page=1").mkString).
     get.asInstanceOf[Map[String, String]].get("results").get.asInstanceOf[List[Map[String, String]]]
 
   val currentMovies = scala.util.parsing.json.JSON.parseFull(scala.io.Source.fromURL("https://api.themoviedb.org/3/movie/now_playing?api_key=0e1152c2ffcd8427363a93caf8553082&language=en-UK&page=1").mkString).
     get.asInstanceOf[Map[String, String]].get("results").get.asInstanceOf[List[Map[String, String]]]
+
+  def filterList(filter:String):List[Map[String,String]] = {
+    val combinedFilms = newMovies:::currentMovies
+    val allMoviesFiltered:ArrayBuffer[Map[String,String]] = ArrayBuffer.empty[Map[String,String]]
+    for (i <- combinedFilms.indices)
+      {
+        if (combinedFilms(i).getOrElse("title","no value").toLowerCase().contains(filter.toLowerCase()))
+            allMoviesFiltered += combinedFilms(i)
+      }
+    allMoviesFiltered.toSet.toList
+  }
+
+
+
 
   def id(value:Int, movList:List[Map[String,String]]):String = movList(value).getOrElse("id","No Value")
   def voteAvg(value:Int, movList:List[Map[String,String]]):String = movList(value).getOrElse("vote_average","No Value")
