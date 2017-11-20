@@ -1,11 +1,13 @@
 package controllers
-
 import javax.inject.Inject
 
+import models.Emails
 import play.api.i18n.{I18nSupport, MessagesApi}
+import play.api.libs.mailer.MailerClient
+import models.UserForm
 import play.api.mvc.{Action, Controller}
 
-class NavigationSimple @Inject() (val messagesApi: MessagesApi) extends Controller with I18nSupport{
+class NavigationSimple  @Inject() (val messagesApi: MessagesApi)(val mailerClient: MailerClient)extends Controller with I18nSupport{
 
   def index = Action {
     Ok(views.html.index("Your new application is ready."))
@@ -20,8 +22,9 @@ class NavigationSimple @Inject() (val messagesApi: MessagesApi) extends Controll
   }
 
   def gettingTherePage = Action {
-    Ok(views.html.gettingThere())
+    Ok(views.html.gettingThere(Emails.createForm, "Email"))
   }
+
 
   def listingsGallery = Action {
     Ok(views.html.listingsGallery())
