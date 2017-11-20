@@ -49,13 +49,6 @@
                         ">
                         <h1>Email</h1>
                         <div style="text-align:left; width:60%">
-                        @helper.form(routes.Application.createEmail()) {
-                            @helper.inputText(emailForm("email"), '_label -> "Your email: ", '_showConstraints -> false)
-                            @helper.inputText(emailForm("subject"), '_label -> "Subject: " , '_showConstraints -> false)
-                            @helper.textarea(emailForm("emailBody"), '_label -> "" , '_showConstraints -> false)
-                            <button type="submit">Submit</button>
-
-                        }
                         </div>
                     </div>
                 </div>
