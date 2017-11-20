@@ -17,12 +17,8 @@ GET     /gettingThere               controllers.NavigationSimple.gettingTherePag
 GET     /getdiscussions             controllers.DiscussionController.getDiscussions
 GET     /nearby                     controllers.NavigationSimple.aroundUs
 GET     /ticketBooking:userID       controllers.TicketBookingController.loadBookingPage(userID:Int)
-GET     /seatSelection/:movie          controllers.Application.seatSelectionForm(movie)
-POST    /seatSelection/:movie          controllers.Application.getSeatFormAction(movie)
 GET      /ticketSelection/:movie        controllers.Application.ticketSelectionForm(movie)
 POST     /ticketSelection/:movie        controllers.Application.getTicketFormAction(movie)
-GET         /emails                                   controllers.Application.listEmail
-GET         /createEmails                             controllers.Application.createEmail
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 GET         /assets/*file                             controllers.Assets.at(path="/public", file)
