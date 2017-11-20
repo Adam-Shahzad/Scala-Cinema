@@ -60,10 +60,9 @@
 
             </div>
           <!-- Slide Three - Set the background image for this slide in the line below -->
-          <div class="carousel-item" style="background-image: url('https://image.tmdb.org/t/p/w1400_and_h450_bestv2/@Movies.backdropPath(3,Movies.newMovies))'">
+          <div class="carousel-item" style="background-image: url('https://image.tmdb.org/t/p/w1400_and_h450_bestv2/@Movies.backdropPath(3,Movies.newMovies)'">
 
             <div class="carousel-caption d-none d-md-block" style="background-color: rgba(0,0,0,0.5);">
-
               <h3>@Movies.title(3,Movies.newMovies)</h3>
               <p>@Movies.overview(3,Movies.newMovies)</p>
             </div>
@@ -83,15 +82,14 @@
         </a>
       </div>
 
+      <div style="width:75%; margin-right:auto; margin-left:auto; margin-top:50px; margin-bottom:50px;background-color: rgba(0,0,0,0.5);"><h3 style="color:white;padding-left:5px;">Showing Today</h3>
+      <div class="row">
+      <a style="margin-left:20px" class="nav-link" href=@routes.Application.individualMovie(0,false)><h4 style="color:white; padding-left:5px; background-color: rgba(0,0,0,0.5);">@Movies.title(0,Movies.currentMovies)</h4><img  src = "http://image.tmdb.org/t/p/w640/@Movies.posterPath(0,Movies.currentMovies)" style="width:300px ;height:450px"></a>
+      <a style=""class="nav-link" href=@routes.Application.individualMovie(1,false)><h4 style="color:white; padding-left:5px; background-color: rgba(0,0,0,0.5);">@Movies.title(1,Movies.currentMovies)</h4><img  src = "http://image.tmdb.org/t/p/w640/@Movies.posterPath(1,Movies.currentMovies)" style="width:300px ;height:450px"></a>
+      <a class="nav-link" href=@routes.Application.individualMovie(2,false)><h4 style="color:white; background-color:rgba(0,0,0,0.5);padding-left:5px;">@Movies.title(2,Movies.currentMovies)</h4><img  src = "http://image.tmdb.org/t/p/w640/@Movies.posterPath(2,Movies.currentMovies)" style="width:300px ;height:450px"></a>
 
-    <!-- Page Content -->
-    <section class="py-5">
-      <div class="container">
-        <h1></h1>
-          <a></a>
       </div>
-    </section>
-
+      </div>
 
     <!-- Bootstrap core JavaScript -->
     <script src="@routes.Assets.at("templates/Homepage/vendor/jquery/jquery.min.js")"></script>
@@ -101,3 +99,7 @@
 
 </html>
 }
+
+
+
+
