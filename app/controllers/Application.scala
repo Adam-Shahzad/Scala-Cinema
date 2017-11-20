@@ -6,14 +6,18 @@ import models.JsonFormats.{BookingFormat, screeningFormat, ticketFormat}
 import play.api.libs.json.{JsPath, Json}
 import play.modules.reactivemongo.{MongoController, ReactiveMongoApi, ReactiveMongoComponents}
 import reactivemongo.api.Cursor
-
+import reactivemongo.play.json._
 import scala.util.{Failure, Success}
 import scala.concurrent.{Await, Future}
 import play.api.mvc.{Action, Controller}
 import models._
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.libs.mailer.MailerClient
+import play.modules.reactivemongo.json.collection.JSONCollection
 import reactivemongo.bson.BSONDocument
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.collection.mutable.ArrayBuffer
+import scala.concurrent.duration._
 
 object MyHelpers {
   import views.html.helper.FieldConstructor
