@@ -14,6 +14,12 @@ import models._
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.libs.mailer.MailerClient
 import reactivemongo.bson.BSONDocument
+import reactivemongo.play.json._
+import reactivemongo.play.json.collection.JSONCollection
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration._
+import scala.collection.mutable.ArrayBuffer
 
 object MyHelpers {
   import views.html.helper.FieldConstructor

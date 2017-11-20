@@ -45,7 +45,7 @@ class LoginController @Inject() (val messagesApi: MessagesApi)(val reactiveMongo
       if (logging.isEmpty)Ok(views.html.logIn(UserForm.userForm,"incorrect fields"))
       else {
 
-        Ok(views.html.homepage()).withCookies(Cookie("userCookie",logging.head._id.toString))
+        Ok(views.html.homepage).withCookies(Cookie("userCookie",logging.head._id.toString))
 
       }
     })
