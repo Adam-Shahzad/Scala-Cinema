@@ -40,4 +40,7 @@ class NavigationSimple  extends Controller{
     Ok(views.html.aroundUs())
   }
 
+  def aboutUs = Action {
+    Ok(views.html.AboutUs())
+  }
 }
