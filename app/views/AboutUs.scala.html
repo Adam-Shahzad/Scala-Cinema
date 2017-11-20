@@ -1,0 +1,78 @@
+@()(implicit messages:Messages)
+@main("About Us") {
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Round About - Start Bootstrap Template</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="@routes.Assets.at("templates/AboutUsPage/vendor/bootstrap/css/bootstrap.min.css")" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="@routes.Assets.at("templates/AboutUsPage/css/round-about.css")" rel="stylesheet">
+
+  </head>
+  <body>
+    <!-- Page Content -->
+    <div class="container">
+
+      <!-- Introduction Row -->
+      <h1 class="my-4 text-center">About Us</h1>
+      <!-- Team Members Row -->
+      <div class="row" style="color:white">
+        <div class="col-lg-12">
+          <h2 class="my-4" style="color:black">Our Team</h2>
+        </div>
+        <div class="col-lg-4 col-sm-6 text-center mb-4">
+          <img class="rounded-circle img-fluid d-block mx-auto" src="@routes.Assets.at("images/AdamFace.png")" alt="">
+            <div style="background-color:rgba(0,0,0,0.5); margin-top:20px">
+          <h3>Adam Shahzad</h3>
+          <p>Mainly working on the ticket booking and database heavy elements of the website. Creating user accounts and
+          storing information in cookies.</p>
+                <p>email: Adam.Shahzad@@qa.com</p>
+        </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 text-center mb-4">
+          <img class="rounded-circle img-fluid d-block mx-auto" src="@routes.Assets.at("images/DamienFace.png")" alt="">
+            <div style="background-color:rgba(0,0,0,0.5); margin-top:20px">
+          <h3>Damien Butterworth</h3>
+          <p>Implementing large parts of the websites functionality such as embedding data from online movie databases into the website.</p>
+                <p>email: Damien.Butterworth@@qa.com</p>
+        </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 text-center mb-4">
+          <img class="rounded-circle img-fluid d-block mx-auto" src="@routes.Assets.at("images/FahriFace.png")" alt="">
+            <div style="background-color:rgba(0,0,0,0.5); margin-top:20px">
+          <h3>Fahri Ulucay</h3>
+          <p>Working on the listings gallery using an online movie database, generating excellent forms and email correspondence.</p>
+                <p>email: Fahri.Ulucay@@qa.com</p>
+        </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 text-center mb-4" style="margin-right:auto; margin-left:auto;">
+          <img class="rounded-circle img-fluid d-block mx-auto" src="@routes.Assets.at("images/MarianneFace.png")">
+            <div style="background-color:rgba(0,0,0,0.5); margin-top:20px">
+            <h3>Marianne Pearson</h3>
+                <p>Working on the homepage and nav bars to give consistency to the website. Integrating google maps into the
+                    about us page.</p>
+                <p>email: Marianne.Pearson@@qa.com</p>
+            </div>
+        </div>
+      </div>
+      </div>
+      <div style="width:795px; margin-right:auto; margin-left:auto; margin-bottom:50px;"><img src="@routes.Assets.at("images/TeamPhoto.png")"></div>
+    <!-- /.container -->
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="@routes.Assets.at("templates/AboutUsPage/vendor/jquery/jquery.min.js")"></script>
+    <script src="@routes.Assets.at("templates/AboutUsPage/vendor/bootstrap/js/bootstrap.bundle.min.js")"></script>
+
+  </body>
+</html>
+}

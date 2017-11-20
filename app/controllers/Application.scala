@@ -107,13 +107,22 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val mailerClient: Ma
     }
     latestId
   }
-  //  def insertBookingToDB(currentUserID : String) = {
-  //
-  //    val selector = BSONDocument("_id" -> currentUserID)
-  //    val newItem = Json.obj(
-  //      ""
-  //
-  //
-  //  }
+
+  def gettingTherePage = Action {
+    Ok(views.html.gettingThere(Emails.createForm, "Email"))
+  }
+  def sendEmail = Action { implicit request =>
+    val formResult = Emails.createForm.bindFromRequest()
+    val mail = new MailerService(mailerClient)
+    formResult.fold({errors =>
+      BadRequest(views.html.gettingThere(errors,"Please fill in carefully"))
+    }, { form =>
+      mail.sendEmail(form.subject,form.email,form.emailBody)
+      Ok(views.html.gettingThere(Emails.createForm, s"Email sent!"))
+
+
+    })
+  }
+
 
 }

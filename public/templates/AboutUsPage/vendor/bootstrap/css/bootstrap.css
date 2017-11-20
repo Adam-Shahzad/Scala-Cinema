@@ -75,7 +75,7 @@
     page-break-after: avoid;
   }
   .navbar {
-    width:100%;
+    display: none;
   }
   .badge {
     border: 1px solid #000;

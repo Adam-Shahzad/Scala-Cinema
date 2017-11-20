@@ -1,10 +1,9 @@
-@()(implicit messages: Messages)
-
+@(emailForm: Form[Emails], formMessage: String)(implicit messages: Messages)
 @main("Getting There") {
-    <!DOCTYPE html>
-    <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 
-      <head>
+  <head>
 
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -162,7 +161,29 @@
          </a>
          </div>
 
-              </body>
+
+     <div class="row">
+         <div class="col-lg-12 text-center">
+             <h1 class="mt-5" style="padding-top:2rem;"></h1>
+             <div class="container" style="background-color: rgba(0,0,0,0.5);width: 70%;
+                 margin-right: auto;
+                 margin-left: auto;
+                 margin-bottom: 50px;
+                        ">
+                 <h1>@formMessage</h1>
+                 <div style="text-align:left; width:60%">
+                 @helper.form(routes.Application.sendEmail()) {
+                     @helper.inputText(emailForm("email"), '_label -> "Your email: ", '_showConstraints -> false)
+                     @helper.inputText(emailForm("subject"), '_label -> "Subject: " , '_showConstraints -> false)
+                     @helper.textarea(emailForm("emailBody"), '_label -> "" , '_showConstraints -> false)
+                     <button type="submit">Submit</button>
+
+                 }
+                 </div>
+             </div>
+         </div>
+     </div>
+          </body>
 
         <!-- Bootstrap core JavaScript -->
         <script src="@routes.Assets.at("templates/Bare/vendor/jquery/jquery.min.js")"></script>
