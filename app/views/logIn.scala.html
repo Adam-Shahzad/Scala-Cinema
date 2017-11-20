@@ -1,0 +1,76 @@
+@(userform:Form[UserForm], result: String)(implicit messages: Messages)
+@main("Places To Go") {
+<!DOCTYPE html>
+    <html lang="en">
+
+        <head>
+
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+            <meta name="description" content="">
+            <meta name="author" content="">
+
+            <title>Opening Times</title>
+
+                <!-- Bootstrap core CSS -->
+            <link href="@routes.Assets.at("templates/Bare/vendor/bootstrap/css/bootstrap.min.css")" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <style>
+        body {
+          padding-top: 54px;
+          background-image: url('http://www.publicdomainpictures.net/pictures/30000/velka/film-background-1334067869u9d.jpg');
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: center center;
+        }
+        media (min-width: 992px) {
+        body {padding-top: 56px;}}
+      table{
+          margin: 0 auto;
+      }
+        .loginAll input {
+            float: right;
+            width: 60%;
+        }
+        .registerAll input {
+            float: right;
+            width: 50%;
+        }
+
+    </style>
+
+</head>
+<body>
+    <br><br><br>
+    <div class="container">
+        <div class="row " style = "background-color: rgba(0,0,0,0.5)">
+
+                @helper.form(routes.LoginController.processLoginForm()){
+                @helper.inputText(userform("userName"))
+                @helper.inputText(userform("hashedPass"))
+                <input type = "submit" onclick = "Location.href='@routes.LoginController.processLoginForm()'" class="btn btn-primary" style = "color: white; background-color:rgba(0,0,0,0.7)">Log in</input>
+                }
+
+
+            <div style = "width: 300px"></div>
+
+            <div class = "registerAll">
+                <h2 class="section-heading ">Register</h2>
+                <p class="lead ">Username <input type="text " name="R_uName "><br></p>
+                <p class="lead ">Password <input type="password" name="R_pass "></p>
+                <p class="lead ">Confirm Password <input type="password" name="R_pass_conf "></p>
+                <p class="lead ">Email <input type="text" name="R_email "></p>
+                <p class="lead ">Confirm Email <input type="text" name="R_email_conf "></p>
+                <a href="#" class="btn btn-primary"style= "color: white; background-color:rgba(0,0,0,0.7)">Register</a>
+            </div>
+
+        </div>
+    </div>
+@result
+
+
+<br><br><br>
+</body>
+    </html>
+}

@@ -24,14 +24,14 @@ object Movies{
 
 
   def id(value:Int, movList:List[Map[String,String]]):String = movList(value).getOrElse("id","No Value")
-  def voteAvg(value:Int, movList:List[Map[String,String]]):String = movList(value).getOrElse("vote_average","No Value")
+  def voteAvg(value:Int, movList:List[Map[String,String]]):Any = movList(value).getOrElse("vote_average","No Value")
   def title(value:Int, movList:List[Map[String,String]]):String = movList(value).getOrElse("title","No Value")
-  def popularity(value:Int, movList:List[Map[String,String]]):String = movList(value).getOrElse("popularity","No Value")
+  def popularity(value:Int, movList:List[Map[String,String]]):Any = movList(value).getOrElse("popularity","No Value")
   def posterPath(value:Int, movList:List[Map[String,String]]):String = movList(value).getOrElse("poster_path","No Value")
   def originalLanguage(value:Int, movList:List[Map[String,String]]):String = movList(value).getOrElse("original_language","No Value")
-  def genreIDs(value:Int, movList:List[Map[String,String]]):String = movList(value).getOrElse("genre-ids".mkString,"No Value")
+  def genreIDs(value:Int, movList:List[Map[String,String]]):Any = movList(value).getOrElse("genre-ids".mkString,"No Value")
   def backdropPath(value:Int, movList:List[Map[String,String]]):String = movList(value).getOrElse("backdrop_path","No Value")
-  def adult(value:Int, movList:List[Map[String,String]]):String = movList(value).getOrElse("adult","No Value")
+  def adult(value:Int, movList:List[Map[String,String]]):Any = movList(value).getOrElse("adult","No Value")
   def overview(value:Int,movList:List[Map[String,String]]):String = movList(value).getOrElse("overview", "No Value")
   def releaseData(value:Int,movList:List[Map[String,String]]):String = movList(value).getOrElse("release_date", "No Value")
   def length(movList:List[Map[String,String]]):Int = movList.length

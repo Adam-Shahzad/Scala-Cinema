@@ -1,5 +1,5 @@
-@(bookings:List[Booking], tickets:List[List[Tickets]], screening:List[Screening])(implicit messages: Messages)
 
+@(bookings:List[Booking], tickets:List[List[Tickets]], screening:List[Screening], userInfo: List[Users])
 @import scala.Predef; var adultCount= 0; var childCount = 0; var concessionCount = 0
 
 @main("Ticket Booking"){
@@ -46,15 +46,17 @@
           <br>
           @for((booking, index) <- bookings.zipWithIndex){
             <div class = "row">
-              <div><img src = "http://image.tmdb.org/t/p/w640/@Movies.backdropPath(screening(index).movie_ID,Movies.newMovies)" height = 281px ></div>
+              <div><img src = "http://image.tmdb.org/t/p/w640/@Movies.backdropPath(screening(index).movie_ID,Movies.currentMovies)" height = 281px ></div>
               <div style = "width: 50px"></div>
               <div>
           <ul class = "col-lg-12 text-left" style = "background-color: rgba(0,0,0,0.5)">
             <ul>
             <li>Booking no: @booking._id</li>
-            <li>Booker name: @booking.userID</li>
-            <br>
-            <li>Movie title: @Movies.title(screening(index).movie_ID,Movies.newMovies)</li>
+            <li>Booker name: @userInfo(index).firstName @userInfo(index).lastName</li>
+              <br>
+              <li>Booker email: @userInfo(index).email </li>
+              <br>
+            <li>Movie title: @Movies.title(screening(index).movie_ID,Movies.currentMovies)</li>
             <li>Screen no: @screening(index).screenLocation</li>
             <li>Movie time:@screening(index).time</li>
             </ul>
