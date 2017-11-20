@@ -1,0 +1,6 @@
+@(myForm:Form[Search])(implicit messages: Messages)
+
+@helper.form(routes.SearchController.search) {
+    @helper.inputText(myForm("value"), '_label -> "", '_showConstraints -> false)
+    <button type="submit">Submit</button>
+}
