@@ -15,5 +15,4 @@ class MailService @Inject() (mailerClient:MailerClient) {
     )
     mailerClient.send(email)
   }
-
 }
