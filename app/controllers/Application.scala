@@ -13,24 +13,30 @@ import play.api.mvc.{Action, Controller}
 import models._
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.libs.mailer.MailerClient
+import play.modules.reactivemongo.json.collection.JSONCollection
 import reactivemongo.bson.BSONDocument
-import reactivemongo.play.json.collection.JSONCollection
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.collection.mutable.ArrayBuffer
 import scala.concurrent.duration._
 
 
 
+
+object MyHelpers {
+  import views.html.helper.FieldConstructor
+  implicit val myFields = FieldConstructor(views.html.myFieldConstructorTemplate.f)
+}
+
 class Application  @Inject() (val messagesApi: MessagesApi)(val mailerClient: MailerClient)(val reactiveMongoApi: ReactiveMongoApi) extends Controller with I18nSupport with MongoController with ReactiveMongoComponents{
-  
+
 
   def screeningCollection : Future[JSONCollection] = database.map(_.collection[JSONCollection]("screening"))
   def ticketCollection : Future[JSONCollection] = database.map(_.collection[JSONCollection]("tickets"))
   def bookingCollection : Future[JSONCollection] = database.map(_.collection[JSONCollection]("bookings"))
   var seatList = scala.collection.mutable.ArrayBuffer[Boolean]()
 
-  def individualMovie(address:Int,newReleases:Boolean) = Action {
-    Ok(views.html.individualMovie(address, newReleases))
+  def individualMovie(address:Int,newReleases:Boolean,searchString:String) = Action {
+    Ok(views.html.individualMovie(address, newReleases, searchString))
   }
 
   def payment = Action {

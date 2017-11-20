@@ -1,42 +1,56 @@
-@main("Places To Go") {
-<!DOCTYPE html>
-<html lang="en">
+@()(implicit messages: Messages)
 
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>Opening Times</title>
-    <link href="@routes.Assets.at("templates/Bare/vendor/bootstrap/css/bootstrap.min.css")" rel="stylesheet">
-    <style>
-      body {
-        padding-top: 54px;
-          background-image: url('http://www.publicdomainpictures.net/pictures/30000/velka/film-background-1334067869u9d.jpg');
-          background-size: cover;
-          background-repeat: no-repeat;
-          background-position: center center;
-      }
-      .hr{
-          color: white;
-      }
-      media (min-width: 992px) {
-        body {
-          padding-top: 56px;
-        }
-      }
-      table{
-          margin: 0 auto;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <div class="row">
+@main("Places To Go"){
+    <!DOCTYPE html>
+    <html lang="en">
 
-          @for(i <- 0 until NearMe.firstFiveResultsEach.length){
-              @if(i == NearMe.firstFiveResultsEach.length - 1){
-                  <div class="card" style="width: 47.5%; margin-left:26.25%; margin-right:26.25%;margin-top: 2rem; background-color: rgba(0,0,0,0.5)">
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Opening Times</title>
+        <link href="@routes.Assets.at("templates/Bare/vendor/bootstrap/css/bootstrap.min.css")" rel="stylesheet">
+        <style>
+          body {
+            padding-top: 54px;
+              background-image: url('http://www.publicdomainpictures.net/pictures/30000/velka/film-background-1334067869u9d.jpg');
+              background-size: cover;
+              background-repeat: no-repeat;
+              background-position: center center;
+          }
+          .hr{
+              color: white;
+          }
+          media (min-width: 992px) {
+            body {
+              padding-top: 56px;
+            }
+          }
+          table{
+              margin: 0 auto;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="row">
+
+              @for(i <- 0 until NearMe.firstFiveResultsEach.length){
+                  @if(i == NearMe.firstFiveResultsEach.length - 1){
+                      <div class="card" style="width: 47.5%; margin-left:26.25%; margin-right:26.25%;margin-top: 2rem; background-color: rgba(0,0,0,0.5)">
+                          <h3 style="text-align: center">@NearMe.names(i)</h3>
+                          @for(p <- 0 until NearMe.firstFiveResultsEach(i).length){
+                              <hr style="background-color: white">
+                              <b style="padding-left:5%">Name</b>
+                              <p style="padding-left:5%">@NearMe.name(p,NearMe.firstFiveResultsEach(i))</p>
+                              <b style="padding-left:5%">Address</b>
+                              <p style="padding-left:5%">@NearMe.vicinity(p,NearMe.firstFiveResultsEach(i))</p>
+                          }
+                          <hr style="background-color: white">
+                      </div>
+                  } else {
+                  <div class="card" style="width: 47.5%; @if(i % 2 != 0){margin-left: 5%;} margin-top: 2rem; background-color: rgba(0,0,0,0.5)">
                       <h3 style="text-align: center">@NearMe.names(i)</h3>
                       @for(p <- 0 until NearMe.firstFiveResultsEach(i).length){
                           <hr style="background-color: white">
@@ -47,37 +61,15 @@
                       }
                       <hr style="background-color: white">
                   </div>
-              } else {
-              <div class="card" style="width: 47.5%; @if(i % 2 != 0){margin-left: 5%;} margin-top: 2rem; background-color: rgba(0,0,0,0.5)">
-                  <h3 style="text-align: center">@NearMe.names(i)</h3>
-                  @for(p <- 0 until NearMe.firstFiveResultsEach(i).length){
-                      <hr style="background-color: white">
-                      <b style="padding-left:5%">Name</b>
-                      <p style="padding-left:5%">@NearMe.name(p,NearMe.firstFiveResultsEach(i))</p>
-                      <b style="padding-left:5%">Address</b>
-                      <p style="padding-left:5%">@NearMe.vicinity(p,NearMe.firstFiveResultsEach(i))</p>
                   }
-                  <hr style="background-color: white">
-              </div>
               }
-          }
-                <div style="width 300px; height: 300px; text-align: left; float:left; background-color: rgba(0,0,0,0.5); padding-right: 20%">
-                    <p><b>Food & Drink</b></p>
-                    <p></p>
-                    <p><b>Leisure</b></p>
-                    <p><b>Other</b></p>
-                    </div>
-                <div style="width 300px; height: 300px; float:right; background-color: rgba(0,0,0,1)">text</div>
-
-            </div>
+          </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Bootstrap core JavaScript -->
-    <script src="@routes.Assets.at("templates/Bare/vendor/jquery/jquery.min.js")"></script>
-    <script src="@routes.Assets.at("templates/Bare/vendor/bootstrap/js/bootstrap.bundle.min.js")"></script>
-  </body>
+        <!-- Bootstrap core JavaScript -->
+        <script src="@routes.Assets.at("templates/Bare/vendor/jquery/jquery.min.js")"></script>
+        <script src="@routes.Assets.at("templates/Bare/vendor/bootstrap/js/bootstrap.bundle.min.js")"></script>
+      </body>
 
-</html>
+    </html>
 }

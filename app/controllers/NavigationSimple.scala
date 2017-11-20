@@ -26,10 +26,6 @@ class NavigationSimple  @Inject() (val messagesApi: MessagesApi)(val mailerClien
 
 
 
-  def homepage = Action {
-    Ok(views.html.homepage())
-  }
-
   def listingsGallery = Action {
     Ok(views.html.listingsGallery())
   }
@@ -46,4 +42,7 @@ class NavigationSimple  @Inject() (val messagesApi: MessagesApi)(val mailerClien
     Ok(views.html.aroundUs())
   }
 
+  def aboutUs = Action {
+    Ok(views.html.AboutUs())
+  }
 }
