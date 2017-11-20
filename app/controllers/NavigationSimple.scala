@@ -1,5 +1,5 @@
 package controllers
-
+import models.UserForm
 import play.api.mvc.{Action, Controller}
 
 class NavigationSimple  extends Controller{
@@ -21,6 +21,7 @@ class NavigationSimple  extends Controller{
   }
 
   def homepage = Action {
+
     Ok(views.html.homepage())
   }
 
@@ -35,5 +36,6 @@ class NavigationSimple  extends Controller{
   def screens = Action {
     Ok(views.html.screens())
   }
+
 
 }

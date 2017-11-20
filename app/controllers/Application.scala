@@ -80,8 +80,5 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
     })
   }
 
-  def loginPage = Action{
-    Ok(views.html.logIn())
-  }
 
 }
