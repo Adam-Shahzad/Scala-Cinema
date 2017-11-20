@@ -20,3 +20,6 @@ libraryDependencies += "org.mockito" % "mockito-all" % "1.10.19" % "test"
 
 libraryDependencies += "com.typesafe.play" %% "play-mailer" % "6.0.1"
 libraryDependencies += "com.typesafe.play" %% "play-mailer-guice" % "6.0.1"
+
+libraryDependencies += "com.typesafe.play" %% "play-mailer" % "6.0.1"
+libraryDependencies += "com.typesafe.play" %% "play-mailer-guice" % "6.0.1"

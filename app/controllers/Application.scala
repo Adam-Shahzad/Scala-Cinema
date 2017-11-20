@@ -6,7 +6,8 @@ import models.JsonFormats.{BookingFormat, screeningFormat, ticketFormat}
 import play.api.libs.json.{JsPath, Json}
 import play.modules.reactivemongo.{MongoController, ReactiveMongoApi, ReactiveMongoComponents}
 import reactivemongo.api.Cursor
-import scala.util.{Success, Failure}
+
+import scala.util.{Failure, Success}
 import scala.concurrent.{Await, Future}
 import play.api.mvc.{Action, Controller}
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
@@ -14,13 +15,15 @@ import reactivemongo.play.json._
 import collection._
 import models._
 import play.api.i18n.{I18nSupport, MessagesApi}
+import play.api.libs.mailer.MailerClient
 import reactivemongo.bson.BSONDocument
+
 import scala.collection.mutable.ArrayBuffer
 import scala.concurrent.duration._
 
 
 
-class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi: ReactiveMongoApi) extends Controller with I18nSupport with MongoController with ReactiveMongoComponents{
+class Application  @Inject() (val messagesApi: MessagesApi)(val mailerClient: MailerClient)(val reactiveMongoApi: ReactiveMongoApi) extends Controller with I18nSupport with MongoController with ReactiveMongoComponents{
   
 
   def screeningCollection : Future[JSONCollection] = database.map(_.collection[JSONCollection]("screening"))
@@ -33,12 +36,15 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
   }
 
   def payment = Action {
+
       Ok(views.html.payment("Please enter your payment details",Payment.createForm))
   }
 
   def processPaymentForm = Action { implicit request =>
     val formValidationResult = Payment.createForm.bindFromRequest()
     val action = request.body.asFormUrlEncoded.get("action").head
+    val mail = new MailerService(mailerClient)
+
 
     if (formValidationResult.hasErrors) {
       if (action == "empty") {
@@ -51,6 +57,7 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val reactiveMongoApi
       action match {
         case "pay" =>
           val thisPayment = new Payment(formValidationResult.value.head.name,formValidationResult.value.head.number,formValidationResult.value.head.expiry, formValidationResult.value.head.csv )
+          mail.sendEmail(thisPayment.name, request.session.get("guestEmail").getOrElse("none"), s"Your Tickets booked with ${thisPayment.csv}")
           Ok(views.html.payment(s"Thanks ${request.session.get("guestName").getOrElse("bomba")} for you purchase! Your tickets are sent to ${request.session.get("guestEmail").getOrElse("bomba")}",Payment.createForm ))
         case "empty" =>
           Ok(views.html.payment("Basket Emptied", Payment.createForm))
