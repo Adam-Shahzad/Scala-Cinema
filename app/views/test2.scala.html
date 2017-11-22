@@ -1,0 +1,26 @@
+@(index:Int)
+<div class="container">
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="text-align: left">@Movies.title(Movies.currentMovieSelected,Movies.newMovies)</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div style="width: 40%; margin-left: 2rem">
+                            <img src="http://image.tmdb.org/t/p/w640/@Movies.posterPath(Movies.currentMovieSelected,Movies.newMovies)" width="100%">
+                        </div>
+                        <div style="width: 40%; margin-left: 2rem">
+                            <p>@Movies.overview(Movies.currentMovieSelected,Movies.newMovies)</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Book</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

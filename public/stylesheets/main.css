@@ -4,6 +4,30 @@
     resize: none;
 }
 
+#guestName{
+    width: 100%;
+}
+
+#guestEmail{
+    width: 100%
+}
+
+#adultTicket{
+    text-align: center;
+}
+
+#childTicket{
+    text-align: center;
+}
+
+#studentTicket{
+    text-align: center;
+}
+
+#concessionTicket{
+    text-align: center;
+}
+
 #rating{
     width: 100%;
 }

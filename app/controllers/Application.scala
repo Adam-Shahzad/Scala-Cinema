@@ -39,6 +39,10 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val mailerClient: Ma
     Ok(views.html.individualMovie(address, newReleases, searchString))
   }
 
+  def test = Action{
+    Ok(views.html.test())
+  }
+
   def payment = Action {
       Ok(views.html.payment("Please enter your payment details",Payment.createForm))
   }
