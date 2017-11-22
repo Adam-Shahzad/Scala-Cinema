@@ -41,6 +41,14 @@ hr{
     color: lightgray;
 }
 
+.homenav{
+    color:grey;
+}
+
+.homenav:hover{
+    color: lightgray;
+}
+
 .titleFormatting {
     color:#2e352c;
     font-size: 35pt;
