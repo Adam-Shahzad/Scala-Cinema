@@ -3,6 +3,12 @@
 <!DOCTYPE html>
 <html lang="en">
 
+  <style>
+    body {
+      padding-top:0px;
+    }
+  </style>
+
   <head>
 
     <meta charset="utf-8">
@@ -53,9 +59,6 @@
             </div>
           </div>
         </div>
-
-              <!-- Slide Four -->
-
       </div>
         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -67,17 +70,17 @@
         </a>
     </div>
 
-      <div style="width:75%; margin-right:auto; margin-left:auto; margin-top:50px; margin-bottom:50px;background-color: rgba(0,0,0,0.5);"><h3 style="color:white;padding-left:5px;">Showing Today</h3>
+      <div class="greyBoxes" style="width:75%; margin-right:auto; margin-left:auto;"><h3 style="color:white;padding-left:5px;">Showing Today</h3>
   <div class="row">
-    <a style="margin-left:20px" class="nav-link" href=@routes.Application.individualMovie(0,false,"")><h4 style="color:white; padding-left:5px; background-color: rgba(0,0,0,0.5);">@Movies.title(0,Movies.currentMovies)</h4><img  src = "http://image.tmdb.org/t/p/w640/@Movies.posterPath(0,Movies.currentMovies)" style="width:300px ;height:450px"></a>
-    <a style=""class="nav-link" href=@routes.Application.individualMovie(1,false,"")><h4 style="color:white; padding-left:5px; background-color: rgba(0,0,0,0.5);">@Movies.title(1,Movies.currentMovies)</h4><img  src = "http://image.tmdb.org/t/p/w640/@Movies.posterPath(1,Movies.currentMovies)" style="width:300px ;height:450px"></a>
-    <a class="nav-link" href=@routes.Application.individualMovie(2,false,"")><h4 style="color:white; background-color:rgba(0,0,0,0.5);padding-left:5px;">@Movies.title(2,Movies.currentMovies)</h4><img  src = "http://image.tmdb.org/t/p/w640/@Movies.posterPath(2,Movies.currentMovies)" style="width:300px ;height:450px"></a>
-    <a class="nav-link" href=@routes.Application.individualMovie(2,false,"")><h4 style="color:white; background-color:rgba(0,0,0,0.5);padding-left:5px;">@Movies.title(2,Movies.currentMovies)</h4><img  src = "http://image.tmdb.org/t/p/w640/@Movies.posterPath(2,Movies.currentMovies)" style="width:300px ;height:450px"></a>
+    <a style="margin-left:20px" class="nav-link" href=@routes.Application.individualMovie(0,false,"")><h4 style="color:white; padding-left:5px; background-color: rgba(0,0,0,0.5);">@Movies.title(0,Movies.currentMovies)</h4><img class="showingTodayPics" src="http://image.tmdb.org/t/p/w640/@Movies.posterPath(0,Movies.currentMovies)"></a>
+    <a style=""class="nav-link" href=@routes.Application.individualMovie(1,false,"")><h4 style="color:white; padding-left:5px; background-color: rgba(0,0,0,0.5);">@Movies.title(1,Movies.currentMovies)</h4><img class="showingTodayPics" src="http://image.tmdb.org/t/p/w640/@Movies.posterPath(1,Movies.currentMovies)"></a>
+    <a class="nav-link" href=@routes.Application.individualMovie(2,false,"")><h4 style="color:white; background-color:rgba(0,0,0,0.5);padding-left:5px;">@Movies.title(2,Movies.currentMovies)</h4><img class="showingTodayPics" src="http://image.tmdb.org/t/p/w640/@Movies.posterPath(2,Movies.currentMovies)"></a>
+    <a class="nav-link" href=@routes.Application.individualMovie(2,false,"")><h4 style="color:white; background-color:rgba(0,0,0,0.5);padding-left:5px;">@Movies.title(2,Movies.currentMovies)</h4><img class="showingTodayPics" src="http://image.tmdb.org/t/p/w640/@Movies.posterPath(2,Movies.currentMovies)"></a>
 
   </div>
 </div>
 
-  <div style="width:75%; margin-right:auto; margin-left:auto; margin-top:50px; margin-bottom:50px;background-color: rgba(0,0,0,0.5);"><h3 style="color:white;padding-left:5%; padding-top: 10px; padding-bottom: 10px">Great Offers </h3>
+  <div class="greyBoxes" style="width:75%; margin-right:auto; margin-left:auto;"><h3 style="color:white;padding-left:5%; padding-top: 10px; padding-bottom: 10px">Great Offers </h3>
     <div class="row">
       <img src="@routes.Assets.at("images/offer.jpg")" style="width: 25%; height:25%; margin-right: 5%; margin-left: 5%; padding-bottom: 20px">
       <div style="width: 60%; color: white">
