@@ -6,6 +6,7 @@
 GET     /                           controllers.SearchController.search
 GET     /classification             controllers.NavigationSimple.classifications
 GET     /individualMovie:address    controllers.Application.individualMovie(address:Int,newReleases:Boolean,searchString:String)
+POST    /individualMovie:address    controllers.Application.getButtonSelect(address:String,newReleases:String,searchString:String)
 GET     /listingsGallery            controllers.NavigationSimple.listingsGallery
 GET     /newReleasesGallery         controllers.NavigationSimple.newReleasesGallery
 GET     /openingTimes               controllers.NavigationSimple.openingTimes
@@ -14,11 +15,15 @@ POST    /payment                    controllers.Application.processPaymentForm
 GET     /screens                    controllers.NavigationSimple.screens
 GET     /discussion                 controllers.DiscussionController.discussion
 GET     /gettingThere               controllers.NavigationSimple.gettingTherePage
+POST    /gettingThere               controllers.Application.sendEmail
 GET     /getdiscussions             controllers.DiscussionController.getDiscussions
 GET     /nearby                     controllers.NavigationSimple.aroundUs
 GET     /ticketBooking:userID       controllers.TicketBookingController.loadBookingPage(userID:Int)
-GET      /ticketSelection/:movie        controllers.Application.ticketSelectionForm(movie)
-POST     /ticketSelection/:movie        controllers.Application.getTicketFormAction(movie)
+GET     /ticketSelection/:movie     controllers.Application.ticketSelectionForm(movie)
+POST    /ticketSelection/:movie     controllers.Application.getTicketFormAction(movie)
+GET     /login                      controllers.LoginController.loginPage()
+POST    /login                      controllers.LoginController.processLoginForm()
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 GET         /assets/*file                             controllers.Assets.at(path="/public", file)

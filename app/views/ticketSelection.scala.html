@@ -1,4 +1,4 @@
-@(movieTitle: String, form: Form[TicketBooking], isGuest:Boolean, timeOptions: List[(String,String)] = List("18:00" -> "18:00", "21:00" ->"21:00","22:00" -> "22:00"))(implicit messages: Messages)
+@(movieTitle: String, form: Form[TicketBooking], isGuest:Boolean, timeOptions: scala.collection.mutable.MutableList[(String,String)])(implicit messages: Messages)
 
 @main("Payment") {
 
@@ -48,11 +48,11 @@
             <div id= "ticketForm" style="text-align: left; padding-left: 5rem; margin-bottom: 3rem; background-color: rgba(0,0,0,0.5);
               width: 40%; padding: 3rem; align-content: center;">
             <h1>@movieTitle</h1>
+
             @helper.form(routes.Application.getTicketFormAction(movieTitle)) {
-              @if(isGuest) {
-                @helper.inputText(form("guestName"), '_label -> "Booker's Full Name")
-                @helper.inputText(form("guestEmail"), '_label -> "Your Email")
-              }
+              @* can add if is not guest dont show bookername and bookerEmail  OR/AND prefill Form*@
+                @helper.inputText(form("bookerName"), '_label -> "Booker's Full Name")
+                @helper.inputText(form("bookerEmail"), '_label -> "Your Email")
                 @helper.select(form("movieTime"), options = timeOptions, '_label -> "Screening Time", '_showConstraints -> false)
                 @helper.inputText(form("adultTicket"),'_label -> "No. of Adult Tickets", 'placeholder -> "0", '_showConstraints -> false)
                 @helper.inputText(form("childTicket"),'_label -> "No. of Child Tickets",'placeholder -> "0", '_showConstraints -> false)

@@ -4,7 +4,7 @@ import javax.inject.Inject
 
 import play.api.mvc.Cookie
 import play.api.mvc.DiscardingCookie
-import models.{Booking, Screening, Tickets, Users}
+import models._
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.libs.json.Json
 import play.api.mvc.{Action, Controller}
@@ -73,7 +73,7 @@ class TicketBookingController @Inject() (val messagesApi: MessagesApi)(val react
   }
 
   def loadBookingPage(userID:Int) = Action {implicit request =>
-    if (request.cookies.get("userCookie").isEmpty){Ok(views.html.homepage())}
+    if (request.cookies.get("userCookie").isEmpty){Ok(views.html.homepage(Search.createForm))}
     else {
 
 

@@ -1,3 +1,4 @@
+@(emailForm: Form[Emails], formMessage: String)(implicit messages: Messages)
 @main("Getting There") {
 <!DOCTYPE html>
 <html lang="en">
@@ -169,7 +170,7 @@
                  margin-left: auto;
                  margin-bottom: 50px;
                         ">
-                 <h1>@emailTitle</h1>
+                 <h1>@formMessage</h1>
                  <div style="text-align:left; width:60%">
                  @helper.form(routes.Application.sendEmail()) {
                      @helper.inputText(emailForm("email"), '_label -> "Your email: ", '_showConstraints -> false)

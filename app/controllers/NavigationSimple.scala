@@ -1,10 +1,9 @@
 package controllers
 import javax.inject.Inject
 
-import models.Emails
+import models.{Emails, Search, UserForm}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.libs.mailer.MailerClient
-import models.UserForm
 import play.api.mvc.{Action, Controller}
 
 class NavigationSimple  @Inject() (val messagesApi: MessagesApi)(val mailerClient: MailerClient)extends Controller with I18nSupport{
@@ -28,7 +27,7 @@ class NavigationSimple  @Inject() (val messagesApi: MessagesApi)(val mailerClien
 
 
   def homepage = Action {
-    Ok(views.html.homepage())
+    Ok(views.html.homepage(Search.createForm))
   }
 
   def listingsGallery = Action {

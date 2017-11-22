@@ -2,7 +2,7 @@ package controllers
 
 import javax.inject.Inject
 
-import models.{UserForm, Users}
+import models.{Search, UserForm, Users}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.libs.json.Json
 import play.api.mvc.{Action, Controller, Cookie, DiscardingCookie}
@@ -45,7 +45,7 @@ class LoginController @Inject() (val messagesApi: MessagesApi)(val reactiveMongo
       if (logging.isEmpty)Ok(views.html.logIn(UserForm.userForm,"incorrect fields"))
       else {
 
-        Ok(views.html.homepage).withCookies(Cookie("userCookie",logging.head._id.toString))
+        Ok(views.html.homepage(Search.createForm)).withCookies(Cookie("userCookie",logging.head._id.toString))
 
       }
     })
