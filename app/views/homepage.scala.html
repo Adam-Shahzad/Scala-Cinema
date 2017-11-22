@@ -20,7 +20,7 @@
 
   </head>
 
-  <body>
+    <div>
       <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
           <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -29,24 +29,20 @@
             <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
             <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
         </ol>
-        <div class="carousel-inner" role="listbox">
-          <!-- Slide One - Set the background image for this slide in the line below -->
-          <div class="carousel-item active" style="background-image: url('https://image.tmdb.org/t/p/w1400_and_h450_bestv2/@Movies.backdropPath(5,Movies.newMovies)'">
-            <div class="carousel-caption d-none d-md-block" style="background-color: rgba(0,0,0,0.5);">
-              <h3>@Movies.title(5,Movies.newMovies)</h3>
-              <p>@Movies.overview(5,Movies.newMovies)</p>
-            </div>
-          </div>
-
-            <div class="carousel-item" style="background-image: url('http://s3.amazonaws.com/digitaltrends-uploads-prod/2017/03/samsung-cinema-screen-1.jpg')">
-
-            </div>
+          <div class="carousel-inner" role="listbox">
+            <!-- Slide One - Set the background image for this slide in the line below -->
+              <div class="carousel-item active" style="background-image: url('https://image.tmdb.org/t/p/w1400_and_h450_bestv2/@Movies.backdropPath(5,Movies.newMovies)'">
+                <div class="carousel-caption d-none d-md-block" style="background-color: rgba(0,0,0,0.5);">
+                  <h3>@Movies.title(5,Movies.newMovies)</h3>
+                    <p>@Movies.overview(5,Movies.newMovies)</p>
+                </div>
+              </div>
+              <div class="carousel-item" style="background-image: url('http://s3.amazonaws.com/digitaltrends-uploads-prod/2017/03/samsung-cinema-screen-1.jpg')">
+              </div>
 
           <!-- Slide Two - Set the background image for this slide in the line below -->
           <div class="carousel-item" style="background-image: url('https://image.tmdb.org/t/p/w1400_and_h450_bestv2/@Movies.backdropPath(10,Movies.newMovies)'">
-
             <div class="carousel-caption d-none d-md-block" style="background-color: rgba(0,0,0,0.5);">
-
               <h3>@Movies.title(10,Movies.newMovies)</h3>
               <p>@Movies.overview(10,Movies.newMovies)</p>
             </div>
@@ -77,16 +73,34 @@
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
           <span class="sr-only">Next</span>
         </a>
-      </div>
+    </div>
 
       <div style="width:75%; margin-right:auto; margin-left:auto; margin-top:50px; margin-bottom:50px;background-color: rgba(0,0,0,0.5);"><h3 style="color:white;padding-left:5px;">Showing Today</h3>
-      <div class="row">
-      <a style="margin-left:20px" class="nav-link" href=@routes.Application.individualMovie(0,false,"")><h4 style="color:white; padding-left:5px; background-color: rgba(0,0,0,0.5);">@Movies.title(0,Movies.currentMovies)</h4><img  src = "http://image.tmdb.org/t/p/w640/@Movies.posterPath(0,Movies.currentMovies)" style="width:300px ;height:450px"></a>
-      <a style=""class="nav-link" href=@routes.Application.individualMovie(1,false,"")><h4 style="color:white; padding-left:5px; background-color: rgba(0,0,0,0.5);">@Movies.title(1,Movies.currentMovies)</h4><img  src = "http://image.tmdb.org/t/p/w640/@Movies.posterPath(1,Movies.currentMovies)" style="width:300px ;height:450px"></a>
-      <a class="nav-link" href=@routes.Application.individualMovie(2,false,"")><h4 style="color:white; background-color:rgba(0,0,0,0.5);padding-left:5px;">@Movies.title(2,Movies.currentMovies)</h4><img  src = "http://image.tmdb.org/t/p/w640/@Movies.posterPath(2,Movies.currentMovies)" style="width:300px ;height:450px"></a>
+  <div class="row">
+    <a style="margin-left:20px" class="nav-link" href=@routes.Application.individualMovie(0,false,"")><h4 style="color:white; padding-left:5px; background-color: rgba(0,0,0,0.5);">@Movies.title(0,Movies.currentMovies)</h4><img  src = "http://image.tmdb.org/t/p/w640/@Movies.posterPath(0,Movies.currentMovies)" style="width:300px ;height:450px"></a>
+    <a style=""class="nav-link" href=@routes.Application.individualMovie(1,false,"")><h4 style="color:white; padding-left:5px; background-color: rgba(0,0,0,0.5);">@Movies.title(1,Movies.currentMovies)</h4><img  src = "http://image.tmdb.org/t/p/w640/@Movies.posterPath(1,Movies.currentMovies)" style="width:300px ;height:450px"></a>
+    <a class="nav-link" href=@routes.Application.individualMovie(2,false,"")><h4 style="color:white; background-color:rgba(0,0,0,0.5);padding-left:5px;">@Movies.title(2,Movies.currentMovies)</h4><img  src = "http://image.tmdb.org/t/p/w640/@Movies.posterPath(2,Movies.currentMovies)" style="width:300px ;height:450px"></a>
+    <a class="nav-link" href=@routes.Application.individualMovie(2,false,"")><h4 style="color:white; background-color:rgba(0,0,0,0.5);padding-left:5px;">@Movies.title(2,Movies.currentMovies)</h4><img  src = "http://image.tmdb.org/t/p/w640/@Movies.posterPath(2,Movies.currentMovies)" style="width:300px ;height:450px"></a>
 
+  </div>
+</div>
+
+  <div style="width:75%; margin-right:auto; margin-left:auto; margin-top:50px; margin-bottom:50px;background-color: rgba(0,0,0,0.5);"><h3 style="color:white;padding-left:5%; padding-top: 10px; padding-bottom: 10px">Great Offers </h3>
+    <div class="row">
+      <img src="@routes.Assets.at("images/offer.jpg")" style="width: 25%; height:25%; margin-right: 5%; margin-left: 5%; padding-bottom: 20px">
+      <div style="width: 60%; color: white">
+        <ul>
+          <p>4 Tickets for the price of 2 on Saturday's for families</p>
+          <b> Back in Time</b><p>Old showings for the ages on a Sunday afternoon</p>
+          <b>Botomless Popcorn:</b><p>Unlimited popcorn for £6.99 for you and your friends to share</p>
+
+
+        </ul>
       </div>
-      </div>
+    </div>
+  </div>
+
+
 
     <!-- Bootstrap core JavaScript -->
     <script src="@routes.Assets.at("templates/Homepage/vendor/jquery/jquery.min.js")"></script>

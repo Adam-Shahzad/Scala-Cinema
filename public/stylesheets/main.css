@@ -40,3 +40,11 @@ hr{
 .logotext:hover {
     color: lightgray;
 }
+
+.homenav{
+    color:grey;
+}
+
+.homenav:hover{
+    color: lightgray;
+}
