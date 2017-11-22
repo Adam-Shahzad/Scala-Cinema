@@ -53,7 +53,7 @@ class LoginController @Inject() (val messagesApi: MessagesApi)(val reactiveMongo
   }
 
   def createUser(fName:String,lName:String, userName:String,email:String, hashedPass:String): Int ={
-    val newUserID = Await.result(generateID,5 second)
+    val newUserID = Await.result(generateID,5 second)+1
     val newUser = new Users(newUserID,fName,lName,userName,email,hashedPass)
     usersCollection.flatMap(_.insert(newUser))
     newUserID
@@ -77,7 +77,7 @@ class LoginController @Inject() (val messagesApi: MessagesApi)(val reactiveMongo
       BadRequest(views.html.logIn(UserForm.userForm,errors,errors.toString))
       },{form =>
         val newUserID = createUser(form.firstName,form.lastName,form.userName,form.email,form.hashedPass)
-        Ok(views.html.homepage(Search.createForm)).withCookies(Cookie("userCookie",newUserID.toString))
+        Ok(views.html.homepage(Search.createForm)).withCookies(Cookie("userCookie",newUserID+1.toString))
 
     })
   }
