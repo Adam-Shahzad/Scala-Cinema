@@ -32,3 +32,11 @@
 hr{
     color: white;
 }
+
+.logotext{
+    color: grey;
+}
+
+.logotext:hover {
+    color: lightgray;
+}

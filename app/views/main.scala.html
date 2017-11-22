@@ -23,12 +23,12 @@ background-position: center center;
 
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-            <div class="container">
-                <a class="navbar-brand" style="width: 10%" href=@routes.SearchController.search()><img src="@routes.Assets.at("images/homeSymbol.png")" style="width: 5%; height: 1%">  QA Cinemas</a>
+            <div class="container-fluid" style="margin-left: 0; margin-right: 0; width: 100%; float: left">
+                <a class="navbar-brand" style="width: 10%" href=@routes.SearchController.search()><img src="@routes.Assets.at("images/Logo.png")" style="width: 50%; height: 1%; margin-right: 10%;"> <b class="logotext">QA Cinemas</b> </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarResponsive">
+                <div class="collapse navbar-collapse" id="navbarResponsive" style="float: right; width: 80%">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
                             <a class="nav-link" href=@routes.NavigationSimple.listingsGallery()>Listings Gallery</a>
@@ -75,9 +75,6 @@ background-position: center center;
                 </li>
                 <li style="display:inline-block;">
                     <a class="nav-link" href=@routes.NavigationSimple.screens()>Screens</a>
-                </li>
-                <li style="display:inline-block;">
-                    <a class="nav-link" href=@routes.NavigationSimple.aboutUs()>About Us</a>
                 </li>
             </ul>
         </div>

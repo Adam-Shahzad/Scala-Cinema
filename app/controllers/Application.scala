@@ -158,8 +158,6 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val mailerClient: Ma
     }, { form =>
       mail.sendEmail(form.subject,form.email,form.emailBody)
       Ok(views.html.gettingThere(Emails.createForm, s"Email sent!"))
-
-
     })
   }
 
