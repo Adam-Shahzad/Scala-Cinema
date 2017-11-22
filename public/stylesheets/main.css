@@ -48,3 +48,33 @@ hr{
 .homenav:hover{
     color: lightgray;
 }
+
+.titleFormatting {
+    color:#2e352c;
+    font-size: 35pt;
+    padding-top:3%;
+    padding-bottom:3%;
+    font-weight:bold;
+    text-align:center;
+}
+
+.greyBoxes {
+    background-color: rgba(0,0,0,0.5);
+}
+
+.ellipsesEnd {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.galleryButtons {
+    position:absolute;
+    right: 0;
+    bottom: 0;
+    color: white;
+    background-color:rgba(0,0,0,0.7)
+}
