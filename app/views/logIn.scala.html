@@ -1,4 +1,4 @@
-@(userform:Form[UserForm], result: String)(implicit messages: Messages)
+@(userform:Form[UserForm],regform:Form[RegForm], result: String)(implicit messages: Messages)
 @main("Places To Go") {
 <!DOCTYPE html>
     <html lang="en">
@@ -30,12 +30,14 @@
           margin: 0 auto;
       }
         .loginAll input {
-            float: right;
-            width: 60%;
+            text-align: left;
+            float:right;
+            margin-left:5px;
         }
         .registerAll input {
-            float: right;
-            width: 60%;
+            text-align: left;
+            float:right;
+            margin-left:5px;
         }
 
     </style>
@@ -43,26 +45,36 @@
 </head>
 <body>
     <br><br><br>
-    <div class="container">
-        <div class="row " style = "background-color: rgba(0,0,0,0.5)">
+    <div class="container" style = "background-color: rgba(0,0,0,0.5)">
+        @result
 
+        <div class="row " >
+            <div style = "width: 50px"></div>
+
+            <div>
+                <h2 class="section-heading ">Login</h2>
                 @helper.form(routes.LoginController.processLoginForm()){
-                @helper.inputText(userform("userName"))
-                @helper.inputText(userform("hashedPass"))
-                <input type = "submit" onclick = "Location.href='@routes.LoginController.processLoginForm()'" class="btn btn-primary" style = "color: white; background-color:rgba(0,0,0,0.7)">Log in</input>
+                <p class = "lead">@helper.inputText(userform("userName"), '_label -> "username: ", '_showConstraints -> false)</P>
+                <p class = "lead">@helper.inputPassword(userform("hashedPass"), '_label -> "password: ", '_showConstraints -> false)</p>
+                    <br><br>
+                <input type = "submit" onclick = "Location.href='@routes.LoginController.processLoginForm()'" class="btn btn-primary" style = "color: white; background-color:rgba(0,0,0,0.7)"></input>
                 }
+            </div>
 
 
             <div style = "width: 300px"></div>
 
-            <div class = "registerAll">
+            <div>
                 <h2 class="section-heading ">Register</h2>
-                <p class="lead ">Username <input type="text" name="R_uName "><br></p>
-                <p class="lead ">Password <input type="password" name="R_pass "></p>
-                <p class="lead ">First Name <input type="text" name="R_pass_conf "></p>
-                <p class="lead ">Last Name <input type="text" name="R_email "></p>
-                <p class="lead ">Email <input type="text" name="R_email_conf "></p>
-                <a href="#" class="btn btn-primary"style= "color: white; background-color:rgba(0,0,0,0.7)">Register</a>
+            @helper.form(routes.LoginController.processRegisterForm()){
+                <p class = "lead">@helper.inputText(regform("firstName"), '_label -> "first name: ", '_showConstraints -> false)</P>
+                <p class = "lead">@helper.inputText(regform("lastName"), '_label -> "last name: ", '_showConstraints -> false)</p>
+                <p class = "lead">@helper.inputText(regform("userName"), '_label -> "username: ", '_showConstraints -> false)</P>
+                <p class = "lead">@helper.inputPassword(regform("hashedPass"), '_label -> "password: ", '_showConstraints -> false)</p>
+                <p class = "lead">@helper.inputText(regform("email"), '_label -> "email: ", '_showConstraints -> false)</p>
+                <br><br>
+                <input type = "submit" onclick = "Location.href='@routes.LoginController.processRegisterForm()'" class="btn btn-primary" style = "color: white; background-color:rgba(0,0,0,0.7)"></input>
+            }
             </div>
 
         </div>

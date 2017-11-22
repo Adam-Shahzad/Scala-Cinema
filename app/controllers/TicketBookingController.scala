@@ -73,7 +73,7 @@ class TicketBookingController @Inject() (val messagesApi: MessagesApi)(val react
   }
 
   def loadBookingPage(userID:Int) = Action {implicit request =>
-    if (request.cookies.get("userCookie").isEmpty){Ok(views.html.homepage((Search.createForm)))}
+    if (request.cookies.get("userCookie").isEmpty){Ok(views.html.logIn(UserForm.userForm,RegForm.regForm,""))}
     else {
 
 
