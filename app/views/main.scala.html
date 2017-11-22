@@ -25,9 +25,11 @@ background-position: center center;
     </head>
 
     <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-            <div class="container-fluid" style="margin-left: 0; margin-right: 0; width: 100%; float: left">
-                <a class="navbar-brand" style="width: 10%" href=@routes.SearchController.search()><img src="@routes.Assets.at("images/Logo.png")" style="width: 50%; height: 1%; margin-right: 10%;"> <b style="color: grey">QA Cinemas</b> </a>
+
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" >
+            <div class="container-fluid" style="margin-left: 0; margin-right: 0; width: 100%; float: left;">
+                <a class="navbar-brand" style="width: 10%" href=@routes.SearchController.search()><img src="@routes.Assets.at("images/Logo.png")" style="width: 50%; height: 1%; margin-right: 10%;"> <b class="logotext">QA Cinemas</b> </a>
+
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -42,7 +44,7 @@ background-position: center center;
                         <li class="nav-item">
                             <a class="nav-link" href=@routes.TicketBookingController.loadBookingPage(1)>Ticket Bookings</a>
                         </li>
-                        <li class"nav-item">
+                        <li class="nav-item">
                         <a class="nav-link" href=@routes.DiscussionController.getDiscussions()>Discussion Board</a>
                         </li>
                         <li style="padding-top: 1%">
@@ -64,22 +66,25 @@ background-position: center center;
     </body>
 
     <footer class="py-5 bg-dark">
-        <div class="container">
-            <p class="m-0 text-center text-white">Copyright &copy; QACinemas 2017</p>
-            <ul >
-                <li style="display:inline-block;">
-                    <a class="nav-link" href="@routes.NavigationSimple.gettingTherePage()">Getting There</a>
+        <div class="container-fluid">
+            <ul style="text-align: center; padding-left: 0; width: 100%">
+                <li style="display:inline-block;margin-left: 2%; margin-right: 2%">
+                    <a class="homenav" href="@routes.NavigationSimple.gettingTherePage()">Getting There</a>
                 </li>
-                <li style="display:inline-block;">
-                    <a class="nav-link" href="@routes.NavigationSimple.classifications()">Classifications</a>
+                <li style="display:inline-block; margin-left: 2%; margin-right: 2%">
+                    <a class="homenav" href="@routes.NavigationSimple.classifications()">Classifications</a>
                 </li>
-                <li style="display:inline-block;">
-                    <a class="nav-link" href=@routes.NavigationSimple.openingTimes()>Opening Times</a>
+                <li style="display:inline-block; margin-left: 2%; margin-right: 2%">
+                    <a class="homenav" href=@routes.NavigationSimple.openingTimes()>Opening Times</a>
                 </li>
-                <li style="display:inline-block;">
-                    <a class="nav-link" href=@routes.NavigationSimple.screens()>Screens</a>
+                <li style="display:inline-block; margin-left: 2%; margin-right: 2%">
+                    <a class="homenav" href=@routes.NavigationSimple.screens()>Screens</a>
+                </li>
+                <li style="display:inline-block; margin-left: 2%; margin-right: 2%">
+                    <a class="homenav" href=@routes.NavigationSimple.aboutUs()>About Us</a>
                 </li>
             </ul>
+            <p class="m-0 text-center" style="color: darkgray">Copyright &copy; QACinemas 2017</p>
         </div>
     </footer>
 </html>
