@@ -20,22 +20,9 @@
 
         <!-- Custom styles for this template -->
         <style>
-          body {
-            padding-top: 54px;
-              background-image: url('http://www.publicdomainpictures.net/pictures/30000/velka/film-background-1334067869u9d.jpg');
-              background-size: cover;
-              background-repeat: no-repeat;
-              background-position: center center;
-          }
-          media (min-width: 992px) {
-            body {
-              padding-top: 56px;
-            }
-          }
           table{
               margin: 0 auto;
           }
-
         </style>
 
       </head>
@@ -48,14 +35,14 @@
         <div class="container">
           <div class="row">
             <div class="col-lg-12 text-center">
-              <h1 class="mt-5" style="padding: 2rem;">Getting There</h1>
+              <h1 class="mt-5 titleFormatting">Getting There</h1>
               <p class="lead"></p>
 
             </div>
           </div>
         </div>
 
-         <div style="width:90%;background-color: rgba(0,0,0,0.5); margin-left:auto; margin-right:auto; margin-top:1rem; padding-top:2rem; padding-bottom:2rem;">
+         <div class="greyBoxes" style="width:90%;margin-left:auto;margin-right:auto;padding-top:2rem; padding-bottom:2rem;">
 
           <div class="container">
               <div class="row">
@@ -132,7 +119,7 @@
                   </div>
          </div>
     </div>
-         <div style="width:80%; height:10%; margin-right:auto; margin-left:auto; margin-bottom:50px;">
+         <div style="width:90%; height:13%; margin-right:auto; margin-left:auto; margin-bottom:0px;">
 
          <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
              <ol class="carousel-indicators">
@@ -148,36 +135,29 @@
                  <div class="carousel-item" style="background-image: url('http://www.vhe.co.uk/admin/resources/2renaissance-house-pr-car-park-1.jpg'); height:10%;">
                  </div>
              </div>
-
-                 <!-- Slide Four -->
          </div>
-         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev" style="margin-top:1120px; margin-left:60px">
+         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev" style="margin-top:1120px; margin-left:1%">
              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
              <span class="sr-only">Previous</span>
          </a>
-         <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next" style="margin-top:1120px; margin-right:60px;">
+         <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next" style="margin-top:1120px; margin-right:1%;">
              <span class="carousel-control-next-icon" aria-hidden="true"></span>
              <span class="sr-only">Next</span>
          </a>
          </div>
-
-
      <div class="row">
          <div class="col-lg-12 text-center">
-             <h1 class="mt-5" style="padding-top:2rem;"></h1>
-             <div class="container" style="background-color: rgba(0,0,0,0.5);width: 70%;
-                 margin-right: auto;
-                 margin-left: auto;
-                 margin-bottom: 50px;
-                        ">
+             <h1 class="mt-5" style="padding-top:1rem;"></h1>
+             <div class="container greyBoxes" style="width: 60%; margin-bottom:20px; padding-bottom:20px; margin-left:auto; margin-right:auto; margin-top:20px">
                  <h1>@formMessage</h1>
-                 <div style="text-align:left; width:60%">
+                 <p style="font-size:14pt">Send an email to the site owner to tell us what you think. We are contantly trying to improve and your feedback is
+                 invaluable to us.</p>
+                 <div style="text-align:left;">
                  @helper.form(routes.Application.sendEmail()) {
                      @helper.inputText(emailForm("email"), '_label -> "Your email: ", '_showConstraints -> false)
                      @helper.inputText(emailForm("subject"), '_label -> "Subject: " , '_showConstraints -> false)
                      @helper.textarea(emailForm("emailBody"), '_label -> "" , '_showConstraints -> false)
-                     <button type="submit">Submit</button>
-
+                     <button type="submit" class="btn btn-primary" style="color: white; background-color: rgba(0,0,0,0.7);">Submit</button>
                  }
                  </div>
              </div>

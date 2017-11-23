@@ -2,7 +2,7 @@ package controllers
 
 import javax.inject.Inject
 
-import models.{Search,UserForm, Users,RegForm}
+import models.{Search, UserForm, RegForm,Users}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.libs.json.Json
 import play.api.mvc.{Action, Controller, Cookie, DiscardingCookie}
@@ -34,7 +34,7 @@ class LoginController @Inject() (val messagesApi: MessagesApi)(val reactiveMongo
     futureUser
   }
 
-  def loginPage()=Action{implicit request=>
+  def loginPage()=Action{ implicit request =>
     Ok(views.html.logIn(UserForm.userForm,RegForm.regForm, ""))
   }
 
@@ -51,7 +51,6 @@ class LoginController @Inject() (val messagesApi: MessagesApi)(val reactiveMongo
       }
     })
   }
-
 
   def createUser(fName:String,lName:String, userName:String,email:String, hashedPass:String): Int ={
     val newUserID = Await.result(generateID,5 second) +1

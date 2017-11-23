@@ -6,72 +6,40 @@
 <html lang="en">
 
   <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
     <title>Bare - Start Bootstrap Template</title>
-
-    <!-- Bootstrap core CSS -->
     <link href="@routes.Assets.at("templates/Bare/vendor/bootstrap/css/bootstrap.min.css")" rel="stylesheet">
     <link href="@routes.Assets.at("stylesheets/ticketSelection.css")" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <style>
-      body {
-        padding-top: 54px;
-      }
-      media (min-width: 992px) {
-        body {
-          padding-top: 56px;
-        }
-
-      }
-
-    </style>
-
   </head>
 
   <body>
-
-    <!-- Navigation -->
-
-
-    <!-- Page Content -->
     <div class="container">
       <div class="row">
-        <div class="col-lg-12 text-center">
-          <h1 class="mt-5">Select Your Tickets</h1>
-
-            <div id= "ticketForm" style="text-align: left; padding-left: 5rem; margin-bottom: 3rem; background-color: rgba(0,0,0,0.5);
-              width: 40%; padding: 3rem; align-content: center;">
-            <h1>@movieTitle</h1>
-
-            @helper.form(routes.Application.getTicketFormAction(movieID, fromIndividualPage)) {
-                @helper.inputText(form("bookerName"), '_label -> "Booker's Full Name")
-                @helper.inputText(form("bookerEmail"), '_label -> "Your Email")
-              @if(!fromIndividualPage) {
-                @helper.select(form("movieTime"), options = timeOptions, '_label -> "Screening Time", '_showConstraints -> false)
-              }
-                @helper.inputText(form("adultTicket"),'_label -> "No. of Adult Tickets (£11.00)", 'placeholder -> "0", '_showConstraints -> false)
-                @helper.inputText(form("childTicket"),'_label -> "No. of Child Tickets (£6.00)",'placeholder -> "0", '_showConstraints -> false)
-                @helper.inputText(form("studentTicket"),'_label -> "No. of Student Tickets (£8.00)",'placeholder -> "0", '_showConstraints -> false)
-                @helper.inputText(form("concessionTicket"),'_label -> "No. of Concession Tickets (£7.00)",'placeholder -> "0", '_showConstraints -> false)
-
-
-                <input type="submit" onclick="location.href='@controllers.routes.Application.getTicketFormAction(movieID, fromIndividualPage)'" value="Select" />
+        <div class="col-lg-12 text-center" style="align-content: center">
+          <h1 class="titleFormatting">About Us</h1>
+            <div id= "ticketForm" style="text-align: left; padding-left: 5rem; margin:auto; margin-bottom: 5rem; background-color: rgba(0,0,0,0.5); width: 70%; padding: 3rem; align-content: center;">
+              <h1>@movieTitle</h1>
+              @helper.form(routes.Application.getTicketFormAction(movieTitle, fromIndividualPage)) {
+                  @helper.inputText(form("guestName"), '_label -> "Booker's Full Name")
+                  @helper.inputText(form("guestEmail"), '_label -> "Your Email")
+                  @if(!fromIndividualPage) {
+                      @helper.select(form("movieTime"), options = timeOptions, '_label -> "Screening Time", '_showConstraints -> false)
+                  }
+                  @helper.inputText(form("adultTicket"),'_label -> "No. of Adult Tickets", 'placeholder -> "0", '_showConstraints -> false)
+                  @helper.inputText(form("childTicket"),'_label -> "No. of Child Tickets",'placeholder -> "0", '_showConstraints -> false)
+                  @helper.inputText(form("studentTicket"),'_label -> "No. of Student Tickets",'placeholder -> "0", '_showConstraints -> false)
+                  @helper.inputText(form("concessionTicket"),'_label -> "No. of Concession Tickets",'placeholder -> "0", '_showConstraints -> false)
+                  <input type="submit" onclick="location.href='@controllers.routes.Application.getTicketFormAction(movieTitle, fromIndividualPage)'" value="Select" />
             }
             </div>
         </div>
       </div>
     </div>
-    <!-- Bootstrap core JavaScript -->
     <script src="@routes.Assets.at("templates/Bare/vendor/jquery/jquery.min.js")"></script>
     <script src="@routes.Assets.at("templates/Bare/vendor/bootstrap/js/bootstrap.bundle.min.js")"></script>
-
   </body>
-
 </html>
 }

@@ -1,5 +1,5 @@
 @(userform:Form[UserForm],regform:Form[RegForm], result: String)(implicit messages: Messages, request: Request[AnyContent])
-@main("Places To Go") {
+@main("Log In") {
 <!DOCTYPE html>
     <html lang="en">
 
@@ -10,22 +10,13 @@
             <meta name="description" content="">
             <meta name="author" content="">
 
-            <title>Opening Times</title>
+            <title>LogIn</title>
 
                 <!-- Bootstrap core CSS -->
             <link href="@routes.Assets.at("templates/Bare/vendor/bootstrap/css/bootstrap.min.css")" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <style>
-        body {
-          padding-top: 54px;
-          background-image: url('http://www.publicdomainpictures.net/pictures/30000/velka/film-background-1334067869u9d.jpg');
-          background-size: cover;
-          background-repeat: no-repeat;
-          background-position: center center;
-        }
-        media (min-width: 992px) {
-        body {padding-top: 56px;}}
       table{
           margin: 0 auto;
       }
@@ -41,44 +32,39 @@
         }
 
     </style>
+            <p class="titleFormatting">Logging In</p>
 
 </head>
+
+
 <body>
-    <br><br><br>
-    <div class="container" style = "background-color: rgba(0,0,0,0.5)">
+    <div class="container greyBoxes" style="width:60%; height:570px; padding-top:20px;">
         @result
-
-        <div class="row " >
-            <div style = "width: 50px"></div>
-
-            <div>
-                <h2 class="section-heading ">Login</h2>
+            <div style="float:left; margin-left:2rem;">
+                <h2 class="section-heading ">Been here before?</h2>
+                <h2>Login</h2>
                 @helper.form(routes.LoginController.processLoginForm()){
-                <p class = "lead">@helper.inputText(userform("userName"), '_label -> "username: ", '_showConstraints -> false)</P>
-                <p class = "lead">@helper.inputPassword(userform("hashedPass"), '_label -> "password: ", '_showConstraints -> false)</p>
-                    <br><br>
-                <input type = "submit" onclick = "Location.href='@routes.LoginController.processLoginForm()'" class="btn btn-primary" style = "color: white; background-color:rgba(0,0,0,0.7)"></input>
+                <p class = "lead">@helper.inputText(userform("userName"), '_label -> "Username: ", '_showConstraints -> false)</P>
+                <p class = "lead">@helper.inputPassword(userform("hashedPass"), '_label -> "Password: ", '_showConstraints -> false)</p>
+                <button type = "submit" onclick = "Location.href='@routes.LoginController.processLoginForm()'" class="btn btn-primary" style = "color: white; background-color:rgba(0,0,0,0.7)">Login</button>
                 }
             </div>
 
-
-            <div style = "width: 300px"></div>
-
-            <div>
-                <h2 class="section-heading ">Register</h2>
+            <div style="float:right; margin-right:2rem;">
+                <h2 class="section-heading ">New to QA Cinemas?</h2>
+                <h2>Create an account</h2>
             @helper.form(routes.LoginController.processRegisterForm()){
-                <p class = "lead">@helper.inputText(regform("firstName"), '_label -> "first name: ", '_showConstraints -> false)</P>
-                <p class = "lead">@helper.inputText(regform("lastName"), '_label -> "last name: ", '_showConstraints -> false)</p>
-                <p class = "lead">@helper.inputText(regform("userName"), '_label -> "username: ", '_showConstraints -> false)</P>
-                <p class = "lead">@helper.inputPassword(regform("hashedPass"), '_label -> "password: ", '_showConstraints -> false)</p>
+                <p class = "lead">@helper.inputText(regform("firstName"), '_label -> "First Name: ", '_showConstraints -> false)</P>
+                <p class = "lead">@helper.inputText(regform("lastName"), '_label -> "Last Name: ", '_showConstraints -> false)</p>
+                <p class = "lead">@helper.inputText(regform("userName"), '_label -> "Username: ", '_showConstraints -> false)</P>
+                <p class = "lead">@helper.inputPassword(regform("hashedPass"), '_label -> "Password: ", '_showConstraints -> false)</p>
                 <p class = "lead">@helper.inputText(regform("email"), '_label -> "email: ", '_showConstraints -> false)</p>
-                <br><br>
-                <input type = "submit" onclick = "Location.href='@routes.LoginController.processRegisterForm()'" class="btn btn-primary" style = "color: white; background-color:rgba(0,0,0,0.7)"></input>
+                <button type = "submit" onclick = "Location.href='@routes.LoginController.processRegisterForm()'" class="btn btn-primary" style = "color: white; background-color:rgba(0,0,0,0.7)">Create Account</button>
             }
             </div>
 
         </div>
-    </div>
+
 
 
 

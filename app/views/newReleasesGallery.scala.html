@@ -14,16 +14,16 @@
     </head>
     <body>
       <div class="container">
-        <h1 class="my-4">New Releases</h1>
+        <h1 class="my-4 titleFormatting">New Releases</h1>
         <div class="row">
         @for(i <- 0 until Movies.length(Movies.newMovies)){
           <div class="card" style="width: 15rem; margin-left: 2rem; margin-top: 2rem; background-color: rgba(0,0,0,0.5)">
             <img class="card-img-top" src="http://image.tmdb.org/t/p/w640/@Movies.posterPath(i, Movies.newMovies)" style="width: 240px; height: 360px">
             <div class="card-block" style="height: 200px">
               <h4 class="card-title" style="color: white">@Movies.title(i,Movies.newMovies)</h4>
-              <p class="card-text" style="height: 60px; line-height: 20px; overflow: hidden; text-overflow: ellipsis; color: white">@Movies.overview(i,Movies.newMovies)</p>
-              <a href="#" class="btn btn-primary"style="position:absolute; right: 0; bottom: 0; color: white; background-color:rgba(0,0,0,0.7)">Book Movie</a>
-              <a href="@routes.Application.individualMovie(i,true,"")" class="btn btn-primary" style="position:absolute; left: 0; bottom: 0; color: white; background-color: rgba(0,0,0,0.7)">More Details</a>
+              <p class="card-text ellipsesEnd" style="height: 60px; line-height: 20px;color: white">@Movies.overview(i,Movies.newMovies)</p>
+              <a href="@routes.Application.ticketSelectionForm(Movies.title(i, Movies.newMovies))" class="btn btn-primary" style="position:absolute;right:0;bottom:0;color:white;background-color:rgba(0,0,0,0.7)">Book Movie</a>
+              <a href="@routes.Application.individualMovie(i,true,"")" class="btn btn-primary" style="position:absolute;left:0;bottom:0;color:white;background-color:rgba(0,0,0,0.7)">More Details</a>
             </div>
           </div>
         }
