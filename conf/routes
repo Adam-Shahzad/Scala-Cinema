@@ -24,8 +24,6 @@ GET     /login                      controllers.LoginController.loginPage()
 POST    /login                      controllers.LoginController.processLoginForm()
 POST    /login2                     controllers.LoginController.processRegisterForm()
 
-GET     /test                       controllers.Application.test
-
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 GET         /assets/*file                             controllers.Assets.at(path="/public", file)
