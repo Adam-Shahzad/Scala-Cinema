@@ -13,8 +13,9 @@
     <link href="@routes.Assets.at("templates/Gallery/css/1-col-portfolio.css")" rel="stylesheet">
   </head>
   <body>
+    @if(movieList.nonEmpty){
     <div class="container">
-      <h1 class="my-4">Currently Showing </h1>
+      <h1 class="my-4">Currently Showing @Movies.title(0, movieList) </h1>
       <div class="row">
       @for(i <- 0 until movieList.length){
       <div class="card" style="width: 15rem; margin-left: 2rem; margin-top: 2rem; background-color: rgba(0,0,0,0.5)">
@@ -22,14 +23,21 @@
         <div class="card-block" style="height: 200px">
           <h4 class="card-title" style="color: white">@Movies.title(i, movieList)</h4>
           <p class="card-text" style="height: 60px; line-height: 20px; overflow: hidden; text-overflow: ellipsis; color: white">@Movies.overview(i,movieList)</p>
-
-
             <a href="@routes.Application.individualMovie(i,false, Movies.title(i, movieList))" class="btn btn-primary" style="position:absolute; left: 0; bottom: 0; color: white; background-color: rgba(0,0,0,0.7)">More Details</a>
         </div>
       </div>
       }
       </div>
     </div>
+    } else {
+      <div class="container">
+        <h1 class="my-4">No Results Found</h1>
+      <div style="height: 500px"></div>
+      </div>
+
+    }
+
+
     <script src="@routes.Assets.at("templates/Gallery/vendor/jquery/jquery.min.js")"></script>
     <script src="@routes.Assets.at("templates/Gallery/vendor/bootstrap/js/bootstrap.bundle.min.js")"></script>
   </body>
