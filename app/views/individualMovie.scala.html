@@ -38,8 +38,11 @@
                 <br>
                 <p>@Movies.overview(index,Movies.newMovies)</p>
                 <br>
-                @Movies.releaseData(index,Movies.newMovies)
+                <p>Release date: @Movies.releaseData(index,Movies.newMovies)</p>
                 <br>
+                <p>Rating: @Movies.voteAvg(index,Movies.newMovies)/10</p>
+                <br>
+                <p>Popularity: @Movies.popularity(index,Movies.newMovies)</p>
               </div>
           </div>
           </div>
@@ -53,12 +56,16 @@
             </div>
             <div style="width: 50px"></div>
             <div style="width: 350px">
+              <br>
               <h1>@Movies.title(index,Movies.currentMovies)</h1>
               <br>
               <p>@Movies.overview(index,Movies.currentMovies)</p>
               <br>
-              @Movies.releaseData(index,Movies.currentMovies)
-              <br>
+              <p>Release date: @Movies.releaseData(index,Movies.currentMovies)</p>
+              <br><br>
+              <p>Rating: @Movies.voteAvg(index,Movies.currentMovies)/10</p>
+              <br><br>
+              <p>Popularity: @Movies.popularity(index,Movies.currentMovies)</p>
             </div>
           </div>
         </div>
