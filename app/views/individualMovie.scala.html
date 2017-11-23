@@ -1,4 +1,4 @@
-@(index:Int, newReleases:Boolean, searchString:String, form: Form[ScreeningTimes], timeOptions: scala.collection.mutable.MutableList[(String,String)], message: String)(implicit messages: Messages)
+@(index:Int, newReleases:Boolean, searchString:String, form: Form[ScreeningTimes], timeOptions: scala.collection.mutable.MutableList[(String,String)], message: String)(implicit messages: Messages, request: Request[AnyContent])
 
 @main("Individual Movie"){
 <!DOCTYPE html>
@@ -41,16 +41,6 @@
                 @Movies.releaseData(index,Movies.newMovies)
                 <br>
 
-                <h1>@message</h1>
-                @helper.form(routes.Application.getButtonSelect(index.toString, newReleases.toString, searchString)) {
-                    @helper.inputRadioGroup(
-                        form("time"),
-                        options = timeOptions,
-                        '_label -> "Screening Times"
-
-                    )
-                    <button type="submit">Select</button>
-                }
 
               </div>
           </div>

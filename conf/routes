@@ -18,12 +18,13 @@ GET     /gettingThere               controllers.NavigationSimple.gettingTherePag
 POST    /gettingThere               controllers.Application.sendEmail
 GET     /getdiscussions             controllers.DiscussionController.getDiscussions
 GET     /nearby                     controllers.NavigationSimple.aroundUs
-GET     /ticketBooking:userID       controllers.TicketBookingController.loadBookingPage(userID:Int)
-GET     /ticketSelection/:movie     controllers.Application.ticketSelectionForm(movie)
-POST    /ticketSelection/:movie     controllers.Application.getTicketFormAction(movie)
+GET     /ticketBooking:userID       controllers.TicketBookingController.loadBookingPage(userID:String)
+GET     /ticketSelection/:id        controllers.Application.ticketSelectionForm(id:Int, fromIndividualPage : Boolean)
+POST    /ticketSelection/:id        controllers.Application.getTicketFormAction(id:Int, fromIndividualPage : Boolean)
 GET     /login                      controllers.LoginController.loginPage()
 POST    /login                      controllers.LoginController.processLoginForm()
-POST    /login2                      controllers.LoginController.processRegisterForm()
+POST    /login2                     controllers.LoginController.processRegisterForm()
+GET     /loogedOut                  controllers.LoginController.logOut()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

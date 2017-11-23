@@ -8,45 +8,41 @@ import play.api.mvc.{Action, Controller}
 
 class NavigationSimple  @Inject() (val messagesApi: MessagesApi)(val mailerClient: MailerClient)extends Controller with I18nSupport{
 
-  def index = Action {
-    Ok(views.html.index("Your new application is ready."))
-  }
 
-  def classifications = Action {
+  def classifications = Action {implicit request=>
     Ok(views.html.classifications())
   }
 
-  def openingTimes = Action {
+  def openingTimes = Action {implicit request=>
     Ok(views.html.openingTimes())
   }
 
-  def gettingTherePage = Action {
+  def gettingTherePage = Action {implicit request=>
     Ok(views.html.gettingThere(Emails.createForm, "Email"))
   }
 
 
-
-  def homepage = Action {
+  def homepage = Action {implicit request=>
     Ok(views.html.homepage(Search.createForm))
   }
 
-  def listingsGallery = Action {
+  def listingsGallery = Action {implicit request=>
     Ok(views.html.listingsGallery())
   }
 
-  def newReleasesGallery = Action {
+  def newReleasesGallery = Action {implicit request=>
     Ok(views.html.newReleasesGallery())
   }
 
-  def screens = Action {
+  def screens = Action {implicit request=>
     Ok(views.html.screens())
   }
 
-  def aroundUs = Action{
+  def aroundUs = Action{implicit request=>
     Ok(views.html.aroundUs())
   }
 
-  def aboutUs = Action {
+  def aboutUs = Action {implicit request=>
     Ok(views.html.AboutUs())
   }
 }

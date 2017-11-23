@@ -1,4 +1,4 @@
-@(movieTitle: String, form: Form[TicketBooking], isGuest:Boolean, timeOptions: scala.collection.mutable.MutableList[(String,String)])(implicit messages: Messages)
+@(movieTitle: String, movieID: Int, form: Form[TicketBooking], timeOptions: scala.collection.mutable.MutableList[(String,String)], fromIndividualPage: Boolean)(implicit messages: Messages, request: Request[AnyContent])
 
 @main("Payment") {
 
@@ -49,18 +49,19 @@
               width: 40%; padding: 3rem; align-content: center;">
             <h1>@movieTitle</h1>
 
-            @helper.form(routes.Application.getTicketFormAction(movieTitle)) {
-              @* can add if is not guest dont show bookername and bookerEmail  OR/AND prefill Form*@
+            @helper.form(routes.Application.getTicketFormAction(movieID, fromIndividualPage)) {
                 @helper.inputText(form("bookerName"), '_label -> "Booker's Full Name")
                 @helper.inputText(form("bookerEmail"), '_label -> "Your Email")
+              @if(!fromIndividualPage) {
                 @helper.select(form("movieTime"), options = timeOptions, '_label -> "Screening Time", '_showConstraints -> false)
-                @helper.inputText(form("adultTicket"),'_label -> "No. of Adult Tickets", 'placeholder -> "0", '_showConstraints -> false)
-                @helper.inputText(form("childTicket"),'_label -> "No. of Child Tickets",'placeholder -> "0", '_showConstraints -> false)
-                @helper.inputText(form("studentTicket"),'_label -> "No. of Student Tickets",'placeholder -> "0", '_showConstraints -> false)
-                @helper.inputText(form("concessionTicket"),'_label -> "No. of Concession Tickets",'placeholder -> "0", '_showConstraints -> false)
+              }
+                @helper.inputText(form("adultTicket"),'_label -> "No. of Adult Tickets (£11.00)", 'placeholder -> "0", '_showConstraints -> false)
+                @helper.inputText(form("childTicket"),'_label -> "No. of Child Tickets (£6.00)",'placeholder -> "0", '_showConstraints -> false)
+                @helper.inputText(form("studentTicket"),'_label -> "No. of Student Tickets (£8.00)",'placeholder -> "0", '_showConstraints -> false)
+                @helper.inputText(form("concessionTicket"),'_label -> "No. of Concession Tickets (£7.00)",'placeholder -> "0", '_showConstraints -> false)
 
 
-                <input type="submit" onclick="location.href='@controllers.routes.Application.getTicketFormAction(movieTitle)'" value="Select" />
+                <input type="submit" onclick="location.href='@controllers.routes.Application.getTicketFormAction(movieID, fromIndividualPage)'" value="Select" />
             }
             </div>
         </div>
