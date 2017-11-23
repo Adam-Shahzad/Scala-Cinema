@@ -38,25 +38,25 @@
       @if(searchString.equals("")){
           @if(newReleases){
           <br>
-          <div class="col-lg-12 text-left" style="background-color: rgba(255,255,255,0.7); margin-bottom:20px;">
+          <div class="col-lg-12 text-left" style="background-color: rgba(0,0,0,0.6); margin-bottom:20px; color:white;">
             <div class = "row">
-              <div>
-                <img src = "http://image.tmdb.org/t/p/w640/@Movies.posterPath(index,Movies.newMovies)" width="350px" height="525px">
-              </div>
-              <div style="width: 50px"></div>
-              <div style="width: 60%">
+                <div style="width:350px">
+                <img style="margin-left:2%; margin-top:auto;margin-bottom:auto; padding-top:2%; padding-bottom:2%;" src = "http://image.tmdb.org/t/p/w640/@Movies.posterPath(index,Movies.newMovies)" width="350px" height="525px">
+                <button class="btn btn-primary" style="width:80%;margin-left:12%;margin-right:8%;color: white; background-color: rgba(0,0,0,0.7);margin-top:20px;">Book Now</button>
+                </div>
+                <div style="width: 61%; margin-left:50px;">
                 <h1>@Movies.title(index,Movies.newMovies)</h1>
                 <br>
                 <p style="font-size:14pt">@Movies.overview(index,Movies.newMovies)</p>
                 <p style="font-size:14pt">Release Date: @Movies.releaseData(index,Movies.newMovies)</p>
-                <p style="font-size:14pt">Rating: @Movies.voteAvg(index,Movies.newMovies)</p>
+                <p style="font-size:14pt">Rating: @Movies.voteAvg(index,Movies.newMovies) / 10</p>
                 <p style="font-size:14pt">Language: @Movies.originalLanguage(index, Movies.newMovies)</p>
-                <p style="font-size:14pt">Similar Movies: </p>
+                <p style="font-size:14pt">You might also enjoy: </p>
                   @for(i <- 0 to Movies.length(Movies.newMovies) - 1) {
                       @if(Movies.genreIDs(i, Movies.newMovies).toString().replace(",", "").replace("List(","").split(" ").
                               exists(Movies.genreIDs(index, Movies.newMovies).toString().replace(",", "").replace("List(","").split(" ").contains)) {
                           @if(Movies.title(i,Movies.newMovies) != Movies.title(index,Movies.newMovies)) {
-                              <a style="width:100px; margin-right:1%; margin-left:1%; margin-bottom:50px" href=@routes.Application.individualMovie(i,true,"")><img src = "http://image.tmdb.org/t/p/w640/@Movies.posterPath(i, Movies.newMovies)" width="100px" height="150px"></a>
+                              <a style="width:100px; margin-right:0.5%; margin-left:0.5%" href=@routes.Application.individualMovie(i,true,"")><img style="margin-bottom:20px" src = "http://image.tmdb.org/t/p/w640/@Movies.posterPath(i, Movies.newMovies)" width="100px" height="150px"></a>
                           }
                       }
                   }
