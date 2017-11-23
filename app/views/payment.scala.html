@@ -1,4 +1,4 @@
-@(message: String, paymentForm: Form[Payment] )(implicit messages: Messages, request: Request[AnyContent])
+@(message: String, paymentForm: Form[Payment], totalPrice: Int)(implicit messages: Messages, request: Request[AnyContent])
 
 @main("Payment") {
 
@@ -46,7 +46,7 @@
             <div style="text-align: left; padding-left: 5rem; margin-bottom: 3rem; background-color: rgba(0,0,0,0.5);
                 width: 50%; padding: 3rem; align-content: center;">
             <h2>@message</h2>
-            @helper.form(routes.Application.processPaymentForm()) {
+            @helper.form(routes.Application.processPaymentForm(totalPrice)) {
                 @helper.inputText(paymentForm("name"), '_label -> "Full Card Holder Name", '_showConstraints -> false)
                 @helper.inputText(paymentForm("number"), '_label -> "Card Number", '_showConstraints -> false)
                 @helper.inputText(paymentForm("expiry"), '_label -> "Expiry (MM/YY)", '_showConstraints -> false)
@@ -57,8 +57,33 @@
                     <button class="btn btn-primary" style="width:80%;margin-left:12%;margin-right:8%;color: white; background-color: rgba(0,0,0,0.7);margin-top:20px; margin-bottom:20px" type="submit" name="action" value="empty">Empty Basket</button>
                 </p>
             }
-            </div>
-        </div>
+
+
+              @if(totalPrice!=0) {
+                  <table>
+                      <thead>
+                          <tr><th>Order Summary</th></tr>
+                      </thead>
+                      <tbody>
+                          <tr><td>Movie Time</td>
+                              <td>@request.session.get("time").getOrElse("none")</td></tr>
+                          @if(!(request.session.get("adult").getOrElse(0) == "0")) {
+                              <tr><td>Adult Tickets </td>
+                                  <td>@request.session.get("adult").getOrElse("none") x £11.00 </td></tr>
+                          }
+                          @if(!(request.session.get("child").getOrElse("none") == "0")) {
+                              <tr><td>Child Tickets </td>
+                                  <td>@request.session.get("child").getOrElse(0) x £6.00</td></tr>
+                          }
+                          @if(!(request.session.get("concession").getOrElse(0) == "0")) {
+                              <tr><td>Concession Tickets </td>
+                                  <td>@request.session.get("concession").getOrElse(0) x £7.00</td></tr>
+                          }
+                      </tbody>
+                  </table>
+              }
+              <li>Total Price: £@totalPrice.00</li>
+          </div>
       </div>
     </div>
     <!-- Bootstrap core JavaScript -->
