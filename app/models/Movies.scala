@@ -20,8 +20,7 @@ object Movies{
     allMoviesFiltered.toSet.toList
   }
 
-
-
+  var currentMovieSelected = 0
 
   def id(value:Int, movList:List[Map[String,String]]):String = movList(value).getOrElse("id","No Value")
   def voteAvg(value:Int, movList:List[Map[String,String]]):Any = movList(value).getOrElse("vote_average","No Value")
