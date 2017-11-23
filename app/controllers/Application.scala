@@ -106,14 +106,29 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val mailerClient: Ma
     }, { form =>
       val totalPrice = form.adultTicket.getOrElse(0)*11 + form.childTicket.getOrElse(0)*6 + form.concessionTicket.getOrElse(0)*7
       if(fromIndividualPage){
-        Redirect(routes.Application.payment(Movies.title(movieID,Movies.currentMovies),totalPrice)).withSession(request.session + ("bookerName" -> form.bookerName) + ("bookerEmail" -> form.bookerEmail)
-          + ("adult" -> form.adultTicket.getOrElse(0).toString) + ("child" -> form.childTicket.getOrElse(0).toString) + ("movieID" -> movieID.toString)
-          + ("concession" -> form.concessionTicket.getOrElse(0).toString))
+        if(newRelease){
+          Redirect(routes.Application.payment(Movies.title(movieID,Movies.newMovies),totalPrice)).withSession(request.session + ("bookerName" -> form.bookerName) + ("bookerEmail" -> form.bookerEmail)
+            + ("adult" -> form.adultTicket.getOrElse(0).toString) + ("child" -> form.childTicket.getOrElse(0).toString) + ("movieID" -> movieID.toString)
+            + ("concession" -> form.concessionTicket.getOrElse(0).toString))
+        }
+        else {
+          Redirect(routes.Application.payment(Movies.title(movieID,Movies.currentMovies),totalPrice)).withSession(request.session + ("bookerName" -> form.bookerName) + ("bookerEmail" -> form.bookerEmail)
+            + ("adult" -> form.adultTicket.getOrElse(0).toString) + ("child" -> form.childTicket.getOrElse(0).toString) + ("movieID" -> movieID.toString)
+            + ("concession" -> form.concessionTicket.getOrElse(0).toString))
+        }
 
-      }else {
-        Redirect(routes.Application.payment(Movies.title(movieID,Movies.currentMovies),totalPrice)).withSession(request.session + ("bookerName" -> form.bookerName) + ("bookerEmail" -> form.bookerEmail)
-          + ("time" -> form.movieTime.getOrElse("none")) + ("adult" -> form.adultTicket.getOrElse(0).toString) + ("child" -> form.childTicket.getOrElse(0).toString) +  ("movieID" -> movieID.toString)
-          + ("concession" -> form.concessionTicket.getOrElse(0).toString))
+      }
+      else {
+        if(newRelease){
+          Redirect(routes.Application.payment(Movies.title(movieID,Movies.newMovies),totalPrice)).withSession(request.session + ("bookerName" -> form.bookerName) + ("bookerEmail" -> form.bookerEmail)
+            + ("time" -> form.movieTime.getOrElse("none")) + ("adult" -> form.adultTicket.getOrElse(0).toString) + ("child" -> form.childTicket.getOrElse(0).toString) +  ("movieID" -> movieID.toString)
+            + ("concession" -> form.concessionTicket.getOrElse(0).toString))
+        }
+        else {
+          Redirect(routes.Application.payment(Movies.title(movieID,Movies.currentMovies),totalPrice)).withSession(request.session + ("bookerName" -> form.bookerName) + ("bookerEmail" -> form.bookerEmail)
+            + ("time" -> form.movieTime.getOrElse("TBD")) + ("adult" -> form.adultTicket.getOrElse(0).toString) + ("child" -> form.childTicket.getOrElse(0).toString) +  ("movieID" -> movieID.toString)
+            + ("concession" -> form.concessionTicket.getOrElse(0).toString))
+        }
       }
     })
   }
@@ -186,11 +201,16 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val mailerClient: Ma
 
   def insertBookingToDB(userID: Int,movieID: Int,movieTime: String) = {
     val newBookingID = Await.result(getLatestBookingID(), 5 second) +1
-    val thisScreeningID = getScreeningID(movieID,movieTime)
-
-    val newBooking = Booking(newBookingID,userID,thisScreeningID)
-    bookingCollection.flatMap(_.insert(newBooking))
-    println(s"booking inserted $newBookingID")
+    if(movieTime == "none"){
+      val thisScreeningID = -1
+      val newBooking = Booking(newBookingID,userID,thisScreeningID)
+      bookingCollection.flatMap(_.insert(newBooking))
+    }
+    else {
+      val thisScreeningID = getScreeningID(movieID,movieTime)
+      val newBooking = Booking(newBookingID,userID,thisScreeningID)
+      bookingCollection.flatMap(_.insert(newBooking))
+    }
     Thread.sleep(500)
 
   }
