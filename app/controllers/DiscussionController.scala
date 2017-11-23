@@ -31,7 +31,7 @@ class DiscussionController @Inject() (val messagesApi: MessagesApi)(val reactive
         Ok(views.html.discussion(mySuggestions, Discussion.createForm))
       })}
 
-  def getDiscussions = Action.async {
+  def getDiscussions = Action.async {implicit request=>
 
     val cursor: Future[Cursor[Discussion]] = discussionCollection.map {
       _.find(Json.obj()).sort(

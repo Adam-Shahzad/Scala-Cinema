@@ -34,7 +34,7 @@ class LoginController @Inject() (val messagesApi: MessagesApi)(val reactiveMongo
     futureUser
   }
 
-  def loginPage()=Action{
+  def loginPage()=Action{ implicit request =>
     Ok(views.html.logIn(UserForm.userForm,RegForm.regForm, ""))
   }
 
@@ -46,14 +46,14 @@ class LoginController @Inject() (val messagesApi: MessagesApi)(val reactiveMongo
       val logging = Await.result(checkUsernameExist(form.userName,form.hashedPass),5 second)
       if (logging.isEmpty)Ok(views.html.logIn(UserForm.userForm,RegForm.regForm,"incorrect fields"))
       else {
-        Ok(views.html.homepage(Search.createForm)).withCookies(Cookie("userCookie",logging.head._id.toString))
-
+        //Ok(views.html.homepage(Search.createForm)).withSession("user" -> logging.head._id.toString)
+        Redirect(routes.SearchController.search()).withSession("user" -> logging.head._id.toString)
       }
     })
   }
 
   def createUser(fName:String,lName:String, userName:String,email:String, hashedPass:String): Int ={
-    val newUserID = Await.result(generateID,5 second)+1
+    val newUserID = Await.result(generateID,5 second) +1
     val newUser = new Users(newUserID,fName,lName,userName,email,hashedPass)
     usersCollection.flatMap(_.insert(newUser))
     newUserID
@@ -75,14 +75,17 @@ class LoginController @Inject() (val messagesApi: MessagesApi)(val reactiveMongo
     val formResult = RegForm.regForm.bindFromRequest()
     formResult.fold({errors=>
       BadRequest(views.html.logIn(UserForm.userForm,errors,errors.toString))
-      },{form =>
-        val newUserID = createUser(form.firstName,form.lastName,form.userName,form.email,form.hashedPass)
-        Ok(views.html.homepage(Search.createForm)).withCookies(Cookie("userCookie",newUserID+1.toString))
+      }, { form =>
+      val newUserID = createUser(form.firstName, form.lastName, form.userName, form.email, form.hashedPass)
+      Ok(views.html.homepage(Search.createForm)).withSession("user" -> newUserID.toString)
+
 
     })
   }
 
-
-
+  def logOut = Action { implicit request =>
+    //Ok(views.html.homepage(Search.createForm)).withSession("user" -> "")
+    Redirect(routes.SearchController.search()).withNewSession
+  }
 
 }

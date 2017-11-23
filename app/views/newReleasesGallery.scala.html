@@ -1,4 +1,4 @@
-@()(implicit messages: Messages)
+@()(implicit messages: Messages, request: Request[AnyContent])
 
 @main("New Releases"){
 <!DOCTYPE html>
@@ -22,7 +22,7 @@
             <div class="card-block" style="height: 200px">
               <h4 class="card-title" style="color: white">@Movies.title(i,Movies.newMovies)</h4>
               <p class="card-text ellipsesEnd" style="height: 60px; line-height: 20px;color: white">@Movies.overview(i,Movies.newMovies)</p>
-              <a href="@routes.Application.ticketSelectionForm(Movies.title(i, Movies.newMovies))" class="btn btn-primary" style="position:absolute;right:0;bottom:0;color:white;background-color:rgba(0,0,0,0.7)">Book Movie</a>
+              <a href="@routes.Application.ticketSelectionForm(i,false,true )" class="btn btn-primary" style="position:absolute;right:0;bottom:0;color:white;background-color:rgba(0,0,0,0.7)">Book Movie</a>
               <a href="@routes.Application.individualMovie(i,true,"")" class="btn btn-primary" style="position:absolute;left:0;bottom:0;color:white;background-color:rgba(0,0,0,0.7)">More Details</a>
             </div>
           </div>
