@@ -23,7 +23,7 @@ class MailerService @Inject()(mailerClient: MailerClient) {
   }
 
   def sendBookingConfirmation(booker: String, to: String , message: String) = {
-    var messageFormatter = ArrayBuffer("<br />Movie Time","<br />Adult Ticket(s):","<br />Child Ticket(s):","<br />Student Ticket(s):","<br />Concession Ticket(s):" )
+    var messageFormatter = ArrayBuffer("<br />Movie Time","<br />Adult Ticket(s):","<br />Child Ticket(s):","<br />Concession Ticket(s):" )
     val messageSplitted = message.split(",")
     for (i <- 0 until messageSplitted.size){
       if(messageSplitted(i)!="0"){

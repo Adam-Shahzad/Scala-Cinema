@@ -72,7 +72,7 @@ class TicketBookingController @Inject() (val messagesApi: MessagesApi)(val react
     futureUser
   }
 
-  def loadBookingPage(userID:String) = Action {implicit request =>
+  def loadBookingPage = Action {implicit request =>
     if (request.session.get("user").isEmpty | (request.session.get("user").getOrElse("none") contains "guest") ){
       Ok(views.html.logIn(UserForm.userForm,RegForm.regForm,""))
     }
