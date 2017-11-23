@@ -10,23 +10,24 @@ POST    /individualMovie:address    controllers.Application.getButtonSelect(addr
 GET     /listingsGallery            controllers.NavigationSimple.listingsGallery
 GET     /newReleasesGallery         controllers.NavigationSimple.newReleasesGallery
 GET     /openingTimes               controllers.NavigationSimple.openingTimes
-GET     /payment                    controllers.Application.payment
-POST    /payment                    controllers.Application.processPaymentForm
+GET     /payment                    controllers.Application.payment(movieTitle: String, totalPrice: Int)
+POST    /payment                    controllers.Application.processPaymentForm(totalPrice: Int)
 GET     /screens                    controllers.NavigationSimple.screens
 GET     /discussion                 controllers.DiscussionController.discussion
 GET     /gettingThere               controllers.NavigationSimple.gettingTherePage
 POST    /gettingThere               controllers.Application.sendEmail
 GET     /getdiscussions             controllers.DiscussionController.getDiscussions
 GET     /nearby                     controllers.NavigationSimple.aroundUs
-GET     /ticketBooking       controllers.TicketBookingController.loadBookingPage
+GET     /ticketBooking              controllers.TicketBookingController.loadBookingPage
 GET     /ticketSelection/:id        controllers.Application.ticketSelectionForm(id:Int, fromIndividualPage : Boolean, newRelease: Boolean)
 POST    /ticketSelection/:id        controllers.Application.getTicketFormAction(id:Int, fromIndividualPage : Boolean, newRelease: Boolean)
 GET     /login                      controllers.LoginController.loginPage()
 POST    /login                      controllers.LoginController.processLoginForm()
 POST    /login2                     controllers.LoginController.processRegisterForm()
 GET     /loogedOut                  controllers.LoginController.logOut()
+GET     /aboutUs                    controllers.NavigationSimple.aboutUs
+GET     /confirmation               controllers.Application.bookingConfirmationPage
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
-GET         /assets/*file                             controllers.Assets.at(path="/public", file)
-GET         /aboutUs                                  controllers.NavigationSimple.aboutUs
+

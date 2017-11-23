@@ -12,6 +12,7 @@ import scala.util.{Failure, Success}
 import scala.concurrent.{Await, Future}
 import play.api.mvc.{Action, Controller}
 import models._
+import play.api.data.Form
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.libs.mailer.MailerClient
 import play.modules.reactivemongo.json.collection.JSONCollection
@@ -50,7 +51,7 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val mailerClient: Ma
   def getButtonSelect(address:String, newReleases:String,searchString:String) = Action { implicit request =>
     val formResult = ScreeningTimes.createForm.bindFromRequest()
     formResult.fold({errors =>
-      BadRequest(views.html.individualMovie(address.toInt, newReleases.toBoolean, searchString, errors, screenTimesToOptions(address.toInt), "error"))
+      BadRequest(views.html.individualMovie(address.toInt, newReleases.toBoolean, searchString, errors, screenTimesToOptions(address.toInt), "Please Select a Screening Time"))
     }, {form =>
       val isGuest = request.session.get("user").isEmpty | (request.session.get("user").getOrElse("none") contains "guest")
       if(isGuest){
@@ -88,13 +89,15 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val mailerClient: Ma
     formResult.fold({errors =>
       BadRequest(views.html.ticketSelection(Movies.title(movieID,Movies.currentMovies),movieID,errors, screenTimesToOptions(movieID), fromIndividualPage, newRelease))
     }, { form =>
+      val totalPrice = form.adultTicket.getOrElse(0)*11 + form.childTicket.getOrElse(0)*6 + form.concessionTicket.getOrElse(0)*7
       if(fromIndividualPage){
-        Ok(views.html.payment(Movies.title(movieID,Movies.currentMovies), Payment.createForm)).withSession(request.session + ("bookerName" -> form.bookerName) + ("bookerEmail" -> form.bookerEmail)
+        Redirect(routes.Application.payment(Movies.title(movieID,Movies.currentMovies),totalPrice)).withSession(request.session + ("bookerName" -> form.bookerName) + ("bookerEmail" -> form.bookerEmail)
           + ("adult" -> form.adultTicket.getOrElse(0).toString) + ("child" -> form.childTicket.getOrElse(0).toString) + ("movieID" -> movieID.toString)
           + ("concession" -> form.concessionTicket.getOrElse(0).toString))
+
       }else {
-        Ok(views.html.payment(Movies.title(movieID,Movies.currentMovies), Payment.createForm)).withSession(request.session + ("bookerName" -> form.bookerName) + ("bookerEmail" -> form.bookerEmail) + ("time" -> form.movieTime.getOrElse("none"))
-          + ("adult" -> form.adultTicket.getOrElse(0).toString) + ("child" -> form.childTicket.getOrElse(0).toString) +  ("movieID" -> movieID.toString)
+        Redirect(routes.Application.payment(Movies.title(movieID,Movies.currentMovies),totalPrice)).withSession(request.session + ("bookerName" -> form.bookerName) + ("bookerEmail" -> form.bookerEmail)
+          + ("time" -> form.movieTime.getOrElse("none")) + ("adult" -> form.adultTicket.getOrElse(0).toString) + ("child" -> form.childTicket.getOrElse(0).toString) +  ("movieID" -> movieID.toString)
           + ("concession" -> form.concessionTicket.getOrElse(0).toString))
       }
     })
@@ -114,12 +117,12 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val mailerClient: Ma
 
 
   ///////////////////////////////////3
-  def payment = Action { implicit request =>
+  def payment(movieTitle: String, totalPrice: Int) = Action { implicit request =>
 
-    Ok(views.html.payment("Payment for",Payment.createForm))
+    Ok(views.html.payment(s"Payment for $movieTitle",Payment.createForm, totalPrice))
   }
 
-  def processPaymentForm = Action { implicit request =>
+  def processPaymentForm(totalPrice: Int) = Action { implicit request =>
     val formValidationResult = Payment.createForm.bindFromRequest()
     val action = request.body.asFormUrlEncoded.get("action").head
     val mail = new MailerService(mailerClient)
@@ -128,9 +131,9 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val mailerClient: Ma
     if (formValidationResult.hasErrors) {
       if (action == "empty") {
 
-        Ok(views.html.payment("Basket Emptied", Payment.createForm))
+        Ok(views.html.payment("Basket Emptied", Payment.createForm, 0))
       }
-      else BadRequest(views.html.payment("Please Enter values Correctly", Payment.createForm ))
+      else BadRequest(views.html.payment("Please Enter values Correctly", Payment.createForm, totalPrice ))
     }
     else {
       action match {
@@ -150,11 +153,14 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val mailerClient: Ma
 
           processTickets(userID,request.session.get("movieID").getOrElse("-1"),request.session.get("time").getOrElse("none"),bookedTickets)
 
-          Ok(views.html.payment(s"Thanks ${request.session.get("bookerName").getOrElse("none")} for you purchase! Your tickets are sent to ${request.session.get("bookerEmail").getOrElse("none")}",Payment.createForm ))
+          Redirect(routes.Application.bookingConfirmationPage)
         case "empty" =>
-          Ok(views.html.payment("Basket Emptied", Payment.createForm))
+          Ok(views.html.payment("Basket Emptied", Payment.createForm, 0))
       }
     }
+  }
+  def bookingConfirmationPage= Action {implicit request=>
+    Ok(views.html.bookingConfirmation(s"Thanks ${request.session.get("bookerName").getOrElse("none")} for you purchase! Your tickets are sent to ${request.session.get("bookerEmail").getOrElse("none")}" ))
   }
 
   ///////////////////////////////////////4   Adapt to  overall database design
