@@ -1,5 +1,5 @@
 
-@(bookings:List[Booking], tickets:List[List[Tickets]], screening:List[Screening], userInfo: List[Users])(implicit messages:Messages)
+@(bookings:List[Booking], tickets:List[List[Tickets]], screening:List[Screening], userInfo: List[Users])(implicit messages: Messages, request: Request[AnyContent])
 @import scala.Predef; var adultCount= 0; var childCount = 0; var concessionCount = 0
 
 @main("Ticket Booking"){
