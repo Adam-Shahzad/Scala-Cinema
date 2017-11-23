@@ -62,14 +62,25 @@
               </div>
           </div>
           </div>
-        </div>
+
         } else {
         <br>
         <div class="col-lg-12 text-left" style="background-color: rgba(0,0,0,0.6); margin-bottom:20px; color:white;">
           <div class = "row">
             <div style="width:350px">
               <img style="margin-left:2%; margin-top:auto;margin-bottom:auto; padding-top:2%; padding-bottom:2%;" src = "http://image.tmdb.org/t/p/w640/@Movies.posterPath(index,Movies.currentMovies)" width="350px" height="525px">
-                <a href="@routes.Application.ticketSelectionForm(index,true, false)" class="btn btn-primary" style="width:80%;margin-left:12%;margin-right:8%;color: white; background-color: rgba(0,0,0,0.7);margin-top:20px; margin-bottom:20px">Book Now</a>
+                <div style="text-align:center">
+                <h4>@message</h4>
+                @helper.form(routes.Application.getButtonSelect(index.toString, newReleases.toString, searchString)) {
+                    @helper.inputRadioGroup(
+                        form("time"),
+                        options = timeOptions,
+                        '_label -> "Screening Times"
+
+                    )
+                    <button type="submit" class="btn btn-primary" style="width:80%;margin-left:12%;margin-right:8%;color: white; background-color: rgba(0,0,0,0.7);margin-top:20px; margin-bottom:20px">Select</button>
+                }
+                </div>
             </div>
             <div style="width: 61%; margin-left:50px;">
               <h1>@Movies.title(index,Movies.currentMovies)</h1>
@@ -89,27 +100,14 @@
                   }
                 </div>
                 <br>
-                <h1>@message</h1>
-                @helper.form(routes.Application.getButtonSelect(index.toString, newReleases.toString, searchString)) {
-                    @helper.inputRadioGroup(
-                        form("time"),
-                        options = timeOptions,
-                        '_label -> "Screening Times"
 
-                    )
-                    <button type="submit">Select</button>
                 }
+      }
 
             </div>
           </div>
         </div>
-      }
-    }
-    else{
-
-      }
-
-
+    </div>
 
 
     <!-- Bootstrap core JavaScript -->
