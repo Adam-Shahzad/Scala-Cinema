@@ -1,40 +1,36 @@
 @()(implicit messages: Messages)
 
-@main("Listings Gallery"){
-<!DOCTYPE html>
-<html lang="en">
-
-  <head>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>Listings Gallery</title>
-    <link href="@routes.Assets.at("templates/Gallery/vendor/bootstrap/css/bootstrap.min.css")" rel="stylesheet">
-    <link href="@routes.Assets.at("templates/Gallery/css/1-col-portfolio.css")" rel="stylesheet">
-
-  </head>
-
-  <body>
-    <div class="container">
-      <h1 class="my-4 titleFormatting">Currently Showing</h1>
-      <div class="row">
-        @for(i <- 0 until Movies.length(Movies.currentMovies)){
-          <div class="card" style="width: 15rem; margin-left: 2rem; margin-top: 2rem; background-color: rgba(0,0,0,0.5)">
-            <img class="card-img-top" src="http://image.tmdb.org/t/p/w640/@Movies.posterPath(i,Movies.currentMovies)" style="width: 240px; height: 360px; background-color: rgba(0,0,0,0.7)">
-            <div class="card-block" style="height: 200px">
-              <h4 class="card-title" style="color: white">@Movies.title(i, Movies.currentMovies)</h4>
-              <p class="card-text ellipsesEnd" style="height: 60px; line-height: 20px; color: white">@Movies.overview(i,Movies.currentMovies)</p>
-              <a href="@routes.Application.ticketSelectionForm(Movies.title(i, Movies.currentMovies))" class="btn btn-primary" style="position:absolute; right: 0; bottom: 0; color: white; background-color:rgba(0,0,0,0.7)">Book Movie</a>
-              <a href="@routes.Application.individualMovie(i,false,"")" class="btn btn-primary" style="position:absolute;color: white; background-color: rgba(0,0,0,0.7)">More Details</a>
+  @main("New Releases"){
+  <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>1 Col Portfolio - Start Bootstrap Template</title>
+        <link href="@routes.Assets.at("templates/Gallery/vendor/bootstrap/css/bootstrap.min.css")" rel="stylesheet">
+        <link href="@routes.Assets.at("templates/Gallery/css/1-col-portfolio.css")" rel="stylesheet">
+      </head>
+      <body>
+        <div class="container">
+          <h1 class="my-4 titleFormatting">New Releases</h1>
+          <div class="row">
+          @for(i <- 0 until Movies.length(Movies.currentMovies)){
+            <div class="card" style="width: 15rem; margin-left: 2rem; margin-top: 2rem; background-color: rgba(0,0,0,0.5)">
+              <img class="card-img-top" src="http://image.tmdb.org/t/p/w640/@Movies.posterPath(i, Movies.currentMovies)" style="width: 240px; height: 360px">
+              <div class="card-block" style="height: 200px">
+                <h4 class="card-title" style="color: white">@Movies.title(i,Movies.currentMovies)</h4>
+                <p class="card-text ellipsesEnd" style="height: 60px; line-height: 20px;color: white">@Movies.overview(i,Movies.currentMovies)</p>
+                <a href="@routes.Application.ticketSelectionForm(Movies.title(i, Movies.currentMovies))" class="btn btn-primary" style="position:absolute;right:0;bottom:0;color:white;background-color:rgba(0,0,0,0.7)">Book Movie</a>
+                <a href="@routes.Application.individualMovie(i,false,"")" class="btn btn-primary" style="position:absolute;left:0;bottom:0;color:white;background-color:rgba(0,0,0,0.7)">More Details</a>
+              </div>
             </div>
+          }
           </div>
-        }
-      </div>
-    </div>
-    <script src="@routes.Assets.at("templates/Gallery/vendor/jquery/jquery.min.js")"></script>
-    <script src="@routes.Assets.at("templates/Gallery/vendor/bootstrap/js/bootstrap.bundle.min.js")"></script>
-  </body>
-</html>
-}
+        </div>
+        <script src="@routes.Assets.at("templates/Gallery/vendor/jquery/jquery.min.js")"></script>
+        <script src="@routes.Assets.at("templates/Gallery/vendor/bootstrap/js/bootstrap.bundle.min.js")"></script>
+      </body>
+    </html>
+  }
