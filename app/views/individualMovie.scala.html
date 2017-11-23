@@ -42,7 +42,7 @@
             <div class = "row">
                 <div style="width:350px">
                 <img style="margin-left:2%; margin-top:auto;margin-bottom:auto; padding-top:2%; padding-bottom:2%;" src = "http://image.tmdb.org/t/p/w640/@Movies.posterPath(index,Movies.newMovies)" width="350px" height="525px">
-                <a href="@routes.Application.ticketSelectionForm(Movies.title(index, Movies.newMovies),true)" class="btn btn-primary" style="width:80%;margin-left:12%;margin-right:8%;color: white; background-color: rgba(0,0,0,0.7);margin-top:20px; margin-bottom:20px">Book Now</a>
+                @*<a href="@routes.Application.ticketSelectionForm(Movies.title(index, Movies.newMovies))" class="btn btn-primary" style="width:80%;margin-left:12%;margin-right:8%;color: white; background-color: rgba(0,0,0,0.7);margin-top:20px; margin-bottom:20px">Book Now</a>*@
                 </div>
                 <div style="width: 61%; margin-left:50px;">
                 <h1>@Movies.title(index,Movies.newMovies)</h1>
@@ -60,8 +60,6 @@
                           }
                       }
                   }
-
-
               </div>
           </div>
           </div>
@@ -72,7 +70,7 @@
           <div class = "row">
             <div style="width:350px">
               <img style="margin-left:2%; margin-top:auto;margin-bottom:auto; padding-top:2%; padding-bottom:2%;" src = "http://image.tmdb.org/t/p/w640/@Movies.posterPath(index,Movies.currentMovies)" width="350px" height="525px">
-                <a href="@routes.Application.ticketSelectionForm(Movies.title(index, Movies.currentMovies),true)" class="btn btn-primary" style="width:80%;margin-left:12%;margin-right:8%;color: white; background-color: rgba(0,0,0,0.7);margin-top:20px; margin-bottom:20px">Book Now</a>
+                @*<a href="@routes.Application.ticketSelectionForm(Movies.title(index, Movies.currentMovies),0,true)" class="btn btn-primary" style="width:80%;margin-left:12%;margin-right:8%;color: white; background-color: rgba(0,0,0,0.7);margin-top:20px; margin-bottom:20px">Book Now</a>*@
             </div>
             <div style="width: 61%; margin-left:50px;">
               <h1>@Movies.title(index,Movies.currentMovies)</h1>
