@@ -72,14 +72,29 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val mailerClient: Ma
     val isGuest = request.session.get("user").isEmpty | (request.session.get("user").getOrElse("none") contains "guest")
     if(isGuest) {
       val userID = "guest" + guestUserId
-      Ok(views.html.ticketSelection(Movies.title(movieID,Movies.currentMovies),movieID,TicketBooking.createForm, screenTimesToOptions(movieID), fromIndividualPage, newRelease)).withSession("user" -> userID)
+      if (newRelease)
+        {
+          Ok(views.html.ticketSelection(Movies.title(movieID,Movies.newMovies),movieID,TicketBooking.createForm, screenTimesToOptions(movieID), fromIndividualPage, newRelease)).withSession("user" -> userID)
+        }
+      else{
+        Ok(views.html.ticketSelection(Movies.title(movieID,Movies.currentMovies),movieID,TicketBooking.createForm, screenTimesToOptions(movieID), fromIndividualPage, newRelease)).withSession("user" -> userID)
+      }
+
+
     }
 
     else {
       val userID = request.session.get("user").getOrElse("none")
       val thisUser = Await.result(getUserInfoFromDB(userID.toInt), 5 second)
       val filledForm = TicketBooking.createForm.fill(new TicketBooking(s"${thisUser.firstName} ${thisUser.lastName}", s"${thisUser.email}"))
-      Ok(views.html.ticketSelection(Movies.title(movieID,Movies.currentMovies),movieID,filledForm, screenTimesToOptions(movieID),fromIndividualPage, newRelease)).withSession(request.session)
+      if (newRelease)
+        {
+          Ok(views.html.ticketSelection(Movies.title(movieID,Movies.newMovies),movieID,filledForm, screenTimesToOptions(movieID),fromIndividualPage, newRelease)).withSession(request.session)
+        }
+      else
+        {
+          Ok(views.html.ticketSelection(Movies.title(movieID,Movies.currentMovies),movieID,filledForm, screenTimesToOptions(movieID),fromIndividualPage, newRelease)).withSession(request.session)
+        }
     }
 
   }
