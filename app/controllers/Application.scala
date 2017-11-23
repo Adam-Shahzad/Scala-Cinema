@@ -54,12 +54,12 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val mailerClient: Ma
     }, {form =>
       val isGuest = request.session.get("user").isEmpty | (request.session.get("user").getOrElse("none") contains "guest")
       if(isGuest){
-        Ok(views.html.ticketSelection(Movies.title(address.toInt,Movies.currentMovies),address.toInt ,TicketBooking.createForm, screenTimesToOptions(address.toInt), true)).withSession(request.session + ("time" -> form.time))
+        Ok(views.html.ticketSelection(Movies.title(address.toInt,Movies.currentMovies),address.toInt ,TicketBooking.createForm, screenTimesToOptions(address.toInt), true, false)).withSession(request.session + ("time" -> form.time))
       } else {
         val userID = request.session.get("user").getOrElse("none")
         val thisUser = Await.result(getUserInfoFromDB(userID.toInt), 5 second)
         val filledForm = TicketBooking.createForm.fill(new TicketBooking(s"${thisUser.firstName} ${thisUser.lastName}", s"${thisUser.email}"))
-        Ok(views.html.ticketSelection(Movies.title(address.toInt,Movies.currentMovies),address.toInt,filledForm, screenTimesToOptions(address.toInt),true)).withSession(request.session)
+        Ok(views.html.ticketSelection(Movies.title(address.toInt,Movies.currentMovies),address.toInt,filledForm, screenTimesToOptions(address.toInt),true, false)).withSession(request.session)
       }
     })
   }
@@ -67,34 +67,34 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val mailerClient: Ma
 
   ///////////////////////////2
   // from 1 session."user" will be set according to login or guest
-  def ticketSelectionForm(movieID: Int, fromIndividualPage : Boolean) = Action {implicit request =>
+  def ticketSelectionForm(movieID: Int, fromIndividualPage : Boolean, newRelease: Boolean) = Action {implicit request =>
     val isGuest = request.session.get("user").isEmpty | (request.session.get("user").getOrElse("none") contains "guest")
     if(isGuest) {
       val userID = "guest" + guestUserId
-      Ok(views.html.ticketSelection(Movies.title(movieID,Movies.currentMovies),movieID,TicketBooking.createForm, screenTimesToOptions(movieID), fromIndividualPage)).withSession("user" -> userID)
+      Ok(views.html.ticketSelection(Movies.title(movieID,Movies.currentMovies),movieID,TicketBooking.createForm, screenTimesToOptions(movieID), fromIndividualPage, newRelease)).withSession("user" -> userID)
     }
 
     else {
       val userID = request.session.get("user").getOrElse("none")
       val thisUser = Await.result(getUserInfoFromDB(userID.toInt), 5 second)
       val filledForm = TicketBooking.createForm.fill(new TicketBooking(s"${thisUser.firstName} ${thisUser.lastName}", s"${thisUser.email}"))
-      Ok(views.html.ticketSelection(Movies.title(movieID,Movies.currentMovies),movieID,filledForm, screenTimesToOptions(movieID),fromIndividualPage)).withSession(request.session)
+      Ok(views.html.ticketSelection(Movies.title(movieID,Movies.currentMovies),movieID,filledForm, screenTimesToOptions(movieID),fromIndividualPage, newRelease)).withSession(request.session)
     }
 
   }
 
-  def getTicketFormAction( movieID: Int, fromIndividualPage: Boolean) = Action { implicit request =>
+  def getTicketFormAction( movieID: Int, fromIndividualPage: Boolean, newRelease: Boolean) = Action { implicit request =>
     val formResult = TicketBooking.createForm.bindFromRequest()
     formResult.fold({errors =>
-      BadRequest(views.html.ticketSelection(Movies.title(movieID,Movies.currentMovies),movieID,errors, screenTimesToOptions(movieID), fromIndividualPage))
+      BadRequest(views.html.ticketSelection(Movies.title(movieID,Movies.currentMovies),movieID,errors, screenTimesToOptions(movieID), fromIndividualPage, newRelease))
     }, { form =>
       if(fromIndividualPage){
         Ok(views.html.payment(Movies.title(movieID,Movies.currentMovies), Payment.createForm)).withSession(request.session + ("bookerName" -> form.bookerName) + ("bookerEmail" -> form.bookerEmail)
-          + ("adult" -> form.adultTicket.getOrElse(0).toString) + ("child" -> form.childTicket.getOrElse(0).toString) + ("student" -> form.studentTicket.getOrElse(0).toString) + ("movieID" -> movieID.toString)
+          + ("adult" -> form.adultTicket.getOrElse(0).toString) + ("child" -> form.childTicket.getOrElse(0).toString) + ("movieID" -> movieID.toString)
           + ("concession" -> form.concessionTicket.getOrElse(0).toString))
       }else {
         Ok(views.html.payment(Movies.title(movieID,Movies.currentMovies), Payment.createForm)).withSession(request.session + ("bookerName" -> form.bookerName) + ("bookerEmail" -> form.bookerEmail) + ("time" -> form.movieTime.getOrElse("none"))
-          + ("adult" -> form.adultTicket.getOrElse(0).toString) + ("child" -> form.childTicket.getOrElse(0).toString) + ("student" -> form.studentTicket.getOrElse(0).toString) + ("movieID" -> movieID.toString)
+          + ("adult" -> form.adultTicket.getOrElse(0).toString) + ("child" -> form.childTicket.getOrElse(0).toString) +  ("movieID" -> movieID.toString)
           + ("concession" -> form.concessionTicket.getOrElse(0).toString))
       }
     })
@@ -136,11 +136,11 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val mailerClient: Ma
       action match {
         case "pay" =>
           val thisBooking = (request.session.get("time").getOrElse("none") + "," + request.session.get("adult").getOrElse("none") + ","
-          + request.session.get("child").getOrElse("none") + "," + request.session.get("student").getOrElse("none") + "," + request.session.get("concession").getOrElse("none"))
+          + request.session.get("child").getOrElse("none") + ","  + request.session.get("concession").getOrElse("none"))
 
           mail.sendBookingConfirmation(formValidationResult.value.head.name, request.session.get("bookerEmail").getOrElse("none"), thisBooking)
           val bookedTickets= Map("adult" -> request.session.get("adult").getOrElse("0").toInt, "child" -> request.session.get("child").getOrElse("0").toInt,
-            "student" -> request.session.get("student").getOrElse("0").toInt, "concession" -> request.session.get("concession").getOrElse("0").toInt)
+            "concession" -> request.session.get("concession").getOrElse("0").toInt)
 
           var userID = -1
 

@@ -22,8 +22,8 @@
         <div class="card-block" style="height: 200px">
           <h4 class="card-title" style="color: white">@Movies.title(i, movieList)</h4>
           <p class="card-text" style="height: 60px; line-height: 20px; overflow: hidden; text-overflow: ellipsis; color: white">@Movies.overview(i,movieList)</p>
-          <a href="#" class="btn btn-primary" style="position:absolute; right: 0; bottom: 0; color: white; background-color:rgba(0,0,0,0.7)">Book Movie</a>
-            <a href="@routes.Application.ticketSelectionForm(Movies.id(i, Movies.currentMovies).toInt, false)" class="btn btn-primary" style="position:absolute; right: 0; bottom: 0; color: white; background-color:rgba(0,0,0,0.7)">Book Movie</a>
+
+
             <a href="@routes.Application.individualMovie(i,false, Movies.title(i, movieList))" class="btn btn-primary" style="position:absolute; left: 0; bottom: 0; color: white; background-color: rgba(0,0,0,0.7)">More Details</a>
         </div>
       </div>
