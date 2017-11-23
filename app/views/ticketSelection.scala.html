@@ -1,4 +1,4 @@
-@(movieTitle: String, form: Form[TicketBooking], isGuest:Boolean, timeOptions: List[(String,String)] = List("18:00" -> "18:00", "21:00" ->"21:00","22:00" -> "22:00"))(implicit messages: Messages)
+@(movieTitle: String, movieID: Int, form: Form[TicketBooking], timeOptions: scala.collection.mutable.MutableList[(String,String)], fromIndividualPage: Boolean)(implicit messages: Messages, request: Request[AnyContent])
 
 @main("Payment") {
 
@@ -22,17 +22,17 @@
           <h1 class="titleFormatting">About Us</h1>
             <div id= "ticketForm" style="text-align: left; padding-left: 5rem; margin:auto; margin-bottom: 5rem; background-color: rgba(0,0,0,0.5); width: 70%; padding: 3rem; align-content: center;">
               <h1>@movieTitle</h1>
-              @helper.form(routes.Application.getTicketFormAction(movieTitle)) {
-                @if(isGuest) {
+              @helper.form(routes.Application.getTicketFormAction(movieTitle, fromIndividualPage)) {
                   @helper.inputText(form("guestName"), '_label -> "Booker's Full Name")
                   @helper.inputText(form("guestEmail"), '_label -> "Your Email")
-                }
-                  @helper.select(form("movieTime"), options = timeOptions, '_label -> "Screening Time", '_showConstraints -> false)
+                  @if(!fromIndividualPage) {
+                      @helper.select(form("movieTime"), options = timeOptions, '_label -> "Screening Time", '_showConstraints -> false)
+                  }
                   @helper.inputText(form("adultTicket"),'_label -> "No. of Adult Tickets", 'placeholder -> "0", '_showConstraints -> false)
                   @helper.inputText(form("childTicket"),'_label -> "No. of Child Tickets",'placeholder -> "0", '_showConstraints -> false)
                   @helper.inputText(form("studentTicket"),'_label -> "No. of Student Tickets",'placeholder -> "0", '_showConstraints -> false)
                   @helper.inputText(form("concessionTicket"),'_label -> "No. of Concession Tickets",'placeholder -> "0", '_showConstraints -> false)
-                  <input type="submit" onclick="location.href='@controllers.routes.Application.getTicketFormAction(movieTitle)'" value="Select" />
+                  <input type="submit" onclick="location.href='@controllers.routes.Application.getTicketFormAction(movieTitle, fromIndividualPage)'" value="Select" />
             }
             </div>
         </div>

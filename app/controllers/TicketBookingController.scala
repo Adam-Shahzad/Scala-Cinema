@@ -72,15 +72,20 @@ class TicketBookingController @Inject() (val messagesApi: MessagesApi)(val react
     futureUser
   }
 
-  def loadBookingPage(userID:Int) = Action {implicit request =>
-    if (request.cookies.get("userCookie").isEmpty){Ok(views.html.logIn(UserForm.userForm,RegForm.regForm,""))}
+  def loadBookingPage(userID:String) = Action {implicit request =>
+    if (request.session.get("user").isEmpty | (request.session.get("user").getOrElse("none") contains "guest") ){
+      Ok(views.html.logIn(UserForm.userForm,RegForm.regForm,""))
+    }
     else {
-      val bookingResult = Await.result(getBooking(request.cookies.get("userCookie").get.value.toInt), 5 second)
+
+
+      val bookingResult = Await.result(getBooking(request.session.get("user").getOrElse("0").toInt), 5 second)
       val ticketResult = bookingResult.map { br => Await.result(getTicketInfo(br._id), 5 second) }
       val screeningResult = bookingResult.map { br => Await.result(getScreeningInfo(br.screeningID), 5 second).head }
       val userResult = bookingResult.map { br => Await.result(getUserInfo(br.userID), 5 second).head }
 
       Ok(views.html.ticketBooking(bookingResult, ticketResult, screeningResult, userResult))
+
     }
 
   }
