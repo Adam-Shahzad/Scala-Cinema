@@ -18,9 +18,9 @@ GET     /gettingThere               controllers.NavigationSimple.gettingTherePag
 POST    /gettingThere               controllers.Application.sendEmail
 GET     /getdiscussions             controllers.DiscussionController.getDiscussions
 GET     /nearby                     controllers.NavigationSimple.aroundUs
-GET     /ticketBooking:userID       controllers.TicketBookingController.loadBookingPage(userID:String)
-GET     /ticketSelection/:id        controllers.Application.ticketSelectionForm(id:Int, fromIndividualPage : Boolean)
-POST    /ticketSelection/:id        controllers.Application.getTicketFormAction(id:Int, fromIndividualPage : Boolean)
+GET     /ticketBooking       controllers.TicketBookingController.loadBookingPage
+GET     /ticketSelection/:id        controllers.Application.ticketSelectionForm(id:Int, fromIndividualPage : Boolean, newRelease: Boolean)
+POST    /ticketSelection/:id        controllers.Application.getTicketFormAction(id:Int, fromIndividualPage : Boolean, newRelease: Boolean)
 GET     /login                      controllers.LoginController.loginPage()
 POST    /login                      controllers.LoginController.processLoginForm()
 POST    /login2                     controllers.LoginController.processRegisterForm()
