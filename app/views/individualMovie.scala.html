@@ -13,17 +13,6 @@
 
     <title>Individual Movie</title>
 
-      <style>
-          body{
-              @if(newReleases == true){
-              background-image: url('https://image.tmdb.org/t/p/w1400_and_h450_bestv2/@Movies.backdropPath(index, Movies.newMovies)');
-          }
-              @if(newReleases==false){
-              background-image: url('https://image.tmdb.org/t/p/w1400_and_h450_bestv2/@Movies.backdropPath(index, Movies.currentMovies)');
-          }
-          }
-      </style>
-
     <!-- Bootstrap core CSS -->
     <link href="@routes.Assets.at("templates/Movie%20Page/vendor/bootstrap/css/bootstrap.min.css")" rel="stylesheet">
 
@@ -35,6 +24,19 @@
   <body>
     <div class="container">
       @if(searchString.equals("")){
+
+          <style>
+                  body{
+                  @if(newReleases == true){
+                      background-image: url('https://image.tmdb.org/t/p/w1400_and_h450_bestv2/@Movies.backdropPath(index,Movies.newMovies)');
+                  }
+                  @if(newReleases==false){
+                      background-image: url('https://image.tmdb.org/t/p/w1400_and_h450_bestv2/@Movies.backdropPath(index,Movies.currentMovies)');
+                  }
+
+                  }
+          </style>
+
           @if(newReleases){
           <br>
           <div class="col-lg-12 text-left" style="background-color: rgba(0,0,0,0.6); margin-bottom:20px; color:white;">
@@ -62,25 +64,14 @@
               </div>
           </div>
           </div>
-
+        </div>
         } else {
         <br>
         <div class="col-lg-12 text-left" style="background-color: rgba(0,0,0,0.6); margin-bottom:20px; color:white;">
           <div class = "row">
             <div style="width:350px">
               <img style="margin-left:2%; margin-top:auto;margin-bottom:auto; padding-top:2%; padding-bottom:2%;" src = "http://image.tmdb.org/t/p/w640/@Movies.posterPath(index,Movies.currentMovies)" width="350px" height="525px">
-                <div style="text-align:center">
-                <h4>@message</h4>
-                @helper.form(routes.Application.getButtonSelect(index.toString, newReleases.toString, searchString)) {
-                    @helper.inputRadioGroup(
-                        form("time"),
-                        options = timeOptions,
-                        '_label -> "Screening Times"
-
-                    )
-                    <button type="submit" class="btn btn-primary" style="width:80%;margin-left:12%;margin-right:8%;color: white; background-color: rgba(0,0,0,0.7);margin-top:20px; margin-bottom:20px">Select</button>
-                }
-                </div>
+                <a href="@routes.Application.ticketSelectionForm(index,true, false)" class="btn btn-primary" style="width:80%;margin-left:12%;margin-right:8%;color: white; background-color: rgba(0,0,0,0.7);margin-top:20px; margin-bottom:20px">Book Now</a>
             </div>
             <div style="width: 61%; margin-left:50px;">
               <h1>@Movies.title(index,Movies.currentMovies)</h1>
@@ -100,14 +91,98 @@
                   }
                 </div>
                 <br>
+                <h1>@message</h1>
+                @helper.form(routes.Application.getButtonSelect(index.toString, newReleases.toString, searchString)) {
+                    @helper.inputRadioGroup(
+                        form("time"),
+                        options = timeOptions,
+                        '_label -> "Screening Times"
 
+                    )
+                    <button type="submit">Select</button>
                 }
-      }
 
             </div>
           </div>
         </div>
-    </div>
+      }
+    } else {
+
+      <style>
+                  body{
+                      @if(Movies.nowShowing(searchString)._1){
+                        background-image: url('https://image.tmdb.org/t/p/w1400_and_h450_bestv2/@Movies.backdropPath(Movies.nowShowing(searchString)._2, Movies.currentMovies)');
+                  } else {
+                        background-image: url('https://image.tmdb.org/t/p/w1400_and_h450_bestv2/@Movies.backdropPath(Movies.upComing(searchString)._2, Movies.newMovies)');
+                  }
+                  }
+      </style>
+
+      <br>
+      <div class="col-lg-12 text-left" style="background-color: rgba(0,0,0,0.6); margin-bottom:20px; color:white;">
+          <div class = "row">
+              <div style="width:350px">
+                  <img style="margin-left:2%; margin-top:auto;margin-bottom:auto; padding-top:2%; padding-bottom:2%;" src = "http://image.tmdb.org/t/p/w640/@Movies.posterPath(0,Movies.filterList(searchString))" width="350px" height="525px">
+                  @if(Movies.nowShowing(searchString)._1){
+                      <a href="@routes.Application.ticketSelectionForm(Movies.nowShowing(searchString)._2,true,false)" class="btn btn-primary" style="width:80%;margin-left:12%;margin-right:8%;color: white; background-color: rgba(0,0,0,0.7);margin-top:20px; margin-bottom:20px">Book Now</a>
+                      } else {
+                      <a href="@routes.Application.ticketSelectionForm(Movies.upComing(searchString)._2,false,true)" class="btn btn-primary" style="width:80%;margin-left:12%;margin-right:8%;color: white; background-color: rgba(0,0,0,0.7);margin-top:20px; margin-bottom:20px">Book Now</a>
+                  }
+              </div>
+              <div style="width: 61%; margin-left:50px;">
+
+
+                  <h1>@Movies.title(0,Movies.filterList(searchString))</h1>
+                  <br>
+                  <p style="font-size:14pt">@Movies.overview(0,Movies.filterList(searchString))</p>
+                  <p style="font-size:14pt">Release Date: @Movies.releaseData(0,Movies.filterList(searchString))</p>
+                  <p style="font-size:14pt">Rating: @Movies.voteAvg(0,Movies.filterList(searchString)) / 10</p>
+                  <p style="font-size:14pt">Language: @Movies.originalLanguage(0,Movies.filterList(searchString))</p>
+                  <p style="font-size:14pt">You might also enjoy: </p>
+
+                  @if(Movies.upComing(searchString)._1){
+                  @for(i <- 0 to Movies.length(Movies.newMovies) - 1) {
+                      @if(Movies.genreIDs(i, Movies.newMovies).toString().replace(",", "").replace("List(","").split(" ").
+                              exists(Movies.genreIDs(Movies.upComing(searchString)._2, Movies.newMovies).toString().replace(",", "").replace("List(","").split(" ").contains)) {
+                          @if(Movies.title(i,Movies.newMovies) != Movies.title(Movies.upComing(searchString)._2,Movies.newMovies)) {
+                              <a style="width:100px; margin-right:0.5%; margin-left:0.5%" href=@routes.Application.individualMovie(i,true,"")><img style="margin-bottom:20px" src = "http://image.tmdb.org/t/p/w640/@Movies.posterPath(i, Movies.newMovies)" width="100px" height="150px"></a>
+                          }
+                      }
+                  }
+                  } else {
+                      @for(i <- 0 to Movies.length(Movies.newMovies) - 1) {
+                          @if(Movies.genreIDs(i, Movies.newMovies).toString().replace(",", "").replace("List(","").split(" ").
+                                  exists(Movies.genreIDs(Movies.nowShowing(searchString)._2, Movies.currentMovies).toString().replace(",", "").replace("List(","").split(" ").contains)) {
+                              @if(Movies.title(i,Movies.newMovies) != Movies.title(Movies.nowShowing(searchString)._2,Movies.newMovies)) {
+                                  <a style="width:100px; margin-right:0.5%; margin-left:0.5%" href=@routes.Application.individualMovie(i,true,"")><img style="margin-bottom:20px" src = "http://image.tmdb.org/t/p/w640/@Movies.posterPath(i, Movies.newMovies)" width="100px" height="150px"></a>
+                              }
+                          }
+                      }
+                  }
+
+
+                  @if(Movies.nowShowing(searchString)._1){
+                  <br>
+                  <h1>@message</h1>
+                  @helper.form(routes.Application.getButtonSelect(index.toString, newReleases.toString, searchString)) {
+                      @helper.inputRadioGroup(
+                          form("time"),
+                          options = timeOptions,
+                          '_label -> "Screening Times"
+
+                      )
+                      <button type="submit">Select</button>
+                  }
+                  }
+
+
+              </div>
+          </div>
+      </div>
+      </div>
+      }
+
+
 
 
     <!-- Bootstrap core JavaScript -->
