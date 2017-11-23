@@ -31,7 +31,7 @@
                   @helper.inputText(form("adultTicket"),'_label -> "No. of Adult Tickets (£11.00) ", 'placeholder -> "0", '_showConstraints -> false)
                   @helper.inputText(form("childTicket"),'_label -> "No. of Child Tickets (£6.00)",'placeholder -> "0", '_showConstraints -> false)
                   @helper.inputText(form("concessionTicket"),'_label -> "No. of Concession Tickets (£8.00)",'placeholder -> "0", '_showConstraints -> false)
-                  <input type="submit" onclick="location.href='@controllers.routes.Application.getTicketFormAction(movieID, fromIndividualPage, newRelease)'" value="Select" />
+                  <input class="btn btn-primary" style="width:80%;margin-left:12%;margin-right:8%;color: white; background-color: rgba(0,0,0,0.7);margin-top:20px; margin-bottom:20px" type="submit" onclick="location.href='@controllers.routes.Application.getTicketFormAction(movieID, fromIndividualPage, newRelease)'" value="Select" />
             }
             </div>
         </div>

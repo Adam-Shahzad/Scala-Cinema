@@ -36,13 +36,13 @@
             <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
         </ol>
         <div class="carousel-inner" role="listbox">
-          <div class="carousel-item active" style="background-image: url('https://image.tmdb.org/t/p/w1400_and_h450_bestv2/@Movies.backdropPath(5,Movies.newMovies)'">
-            <div class="carousel-caption d-none d-md-block" style="background-color: rgba(0,0,0,0.5);">
-              <h3>@Movies.title(5,Movies.newMovies)</h3>
-              <p>@Movies.overview(5,Movies.newMovies)</p>
-            </div>
+          <div class="carousel-item active" style="background-image: url('https://www.kcet.org/sites/kl/files/styles/kl_image_hero/public/thumbnails/image/istock_000032312038_large.jpg?itok=3BbQnWSM')">
           </div>
-            <div class="carousel-item" style="background-image: url('http://s3.amazonaws.com/digitaltrends-uploads-prod/2017/03/samsung-cinema-screen-1.jpg')">
+            <div class="carousel-item" style="background-image: url('https://image.tmdb.org/t/p/w1400_and_h450_bestv2/@Movies.backdropPath(6,Movies.newMovies)'">
+                <div class="carousel-caption d-none d-md-block greyBoxes">
+                    <h3>@Movies.title(6,Movies.newMovies)</h3>
+                    <p>@Movies.overview(6,Movies.newMovies)</p>
+                </div>
             </div>
           <div class="carousel-item" style="background-image: url('https://image.tmdb.org/t/p/w1400_and_h450_bestv2/@Movies.backdropPath(10,Movies.newMovies)'">
             <div class="carousel-caption d-none d-md-block greyBoxes">
@@ -50,7 +50,11 @@
               <p>@Movies.overview(10,Movies.newMovies)</p>
             </div>
           </div>
-            <div class="carousel-item" style="background-image: url('https://www.kcet.org/sites/kl/files/styles/kl_image_hero/public/thumbnails/image/istock_000032312038_large.jpg?itok=3BbQnWSM')">
+            <div class="carousel-item" style="background-image: url('https://image.tmdb.org/t/p/w1400_and_h450_bestv2/@Movies.backdropPath(2,Movies.newMovies)'">
+                <div class="carousel-caption d-none d-md-block greyBoxes">
+                    <h3>@Movies.title(2,Movies.newMovies)</h3>
+                    <p>@Movies.overview(2,Movies.newMovies)</p>
+                </div>
             </div>
           <div class="carousel-item" style="background-image: url('https://image.tmdb.org/t/p/w1400_and_h450_bestv2/@Movies.backdropPath(3,Movies.newMovies)')">
             <div class="carousel-caption d-none d-md-block greyBoxes">
@@ -69,14 +73,13 @@
           <span class="sr-only">Next</span>
         </a>
     </div>
-    <div style="width:100%; padding-top:2rem; margin-bottom:50px;background-color: rgba(0,0,0,0.5); text-align: center"><h3 style="color:white;">Showing Today</h3>
-      <div class="row" style="width: 100%; padding-left: 5%; padding-bottom: 2rem">
+    <div style="padding-top:2rem; margin-bottom:50px;background-color: rgba(0,0,0,0.5); text-align: center"><h3 style="color:white;">Showing Today</h3>
+      <div class="row" style="width:1150px;padding-bottom: 2rem; margin-left:auto; margin-right:auto">
         <a style="padding: 0.2rem" class="nav-link" href=@routes.Application.individualMovie(0,false,"")><img  src="http://image.tmdb.org/t/p/w640/@Movies.posterPath(0,Movies.currentMovies)" style="width:220px ;height:350px"></a>
         <a style="padding: 0.2rem" class="nav-link" href=@routes.Application.individualMovie(1,false,"")><img  src = "http://image.tmdb.org/t/p/w640/@Movies.posterPath(1,Movies.currentMovies)" style="width:220px ;height:350px"></a>
         <a style="padding: 0.2rem" class="nav-link" href=@routes.Application.individualMovie(2,false,"")><img  src = "http://image.tmdb.org/t/p/w640/@Movies.posterPath(2,Movies.currentMovies)" style="width:220px ;height:350px"></a>
         <a style="padding: 0.2rem" class="nav-link" href=@routes.Application.individualMovie(3,false,"")><img  src = "http://image.tmdb.org/t/p/w640/@Movies.posterPath(3,Movies.currentMovies)" style="width:220px ;height:350px"></a>
         <a style="padding: 0.2rem" class="nav-link" href=@routes.Application.individualMovie(4,false,"")><img  src = "http://image.tmdb.org/t/p/w640/@Movies.posterPath(4,Movies.currentMovies)" style="width:220px ;height:350px"></a>
-        <a style="padding: 0.2rem" class="nav-link" href=@routes.Application.individualMovie(5,false,"")><img  src = "http://image.tmdb.org/t/p/w640/@Movies.posterPath(5,Movies.currentMovies)" style="width:220px ;height:350px"></a>
       </div>
     </div>
 
