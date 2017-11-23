@@ -68,8 +68,6 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val mailerClient: Ma
     }
   }
 
-
-
   def ticketSelectionForm(movieTitle: String) = Action {implicit request =>
     def guestUserId: String = {
       val id = scala.util.Random
@@ -111,6 +109,7 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val mailerClient: Ma
   def gettingTherePage = Action {
     Ok(views.html.gettingThere(Emails.createForm, "Email"))
   }
+
   def sendEmail = Action { implicit request =>
     val formResult = Emails.createForm.bindFromRequest()
     val mail = new MailerService(mailerClient)
