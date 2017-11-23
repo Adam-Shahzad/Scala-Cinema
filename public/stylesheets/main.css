@@ -77,13 +77,15 @@ hr{
     color:#2e352c;
     font-size: 35pt;
     padding-top:3%;
-    padding-bottom:3%;
+    padding-bottom:1%;
     font-weight:bold;
     text-align:center;
 }
 
 .greyBoxes {
     background-color: rgba(0,0,0,0.5);
+    margin-bottom: 20px;
+    margin-top:20px;
 }
 
 .ellipsesEnd {
@@ -101,4 +103,9 @@ hr{
     bottom: 0;
     color: white;
     background-color:rgba(0,0,0,0.7)
+}
+
+.showingTodayPics {
+    height:450px;
+    width:300px;
 }
