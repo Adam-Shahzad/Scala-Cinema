@@ -1,63 +1,36 @@
-@main("Listings Gallery"){
-<!DOCTYPE html>
-<html lang="en">
+@()(implicit messages: Messages, request: Request[AnyContent])
 
-  <head>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>1 Col Portfolio - Start Bootstrap Template</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="@routes.Assets.at("templates/Gallery/vendor/bootstrap/css/bootstrap.min.css")" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="@routes.Assets.at("templates/Gallery/css/1-col-portfolio.css")" rel="stylesheet">
-
-  </head>
-
-  <body>
-
-    <!-- Page Content -->
-    <div class="container">
-
-
-      <!-- Page Heading -->
-      <h1 class="my-4">Currently Showing </h1>
-
-      <!-- Cards with movie info-->
-      <div class="card" style="width: 15rem;">
-
-        <img class="card-img-top" src=@routes.Assets.at("images/download.jpg")  >
-        <div class="card-block">
-          <h4 class="card-title">movie.title</h4>
-          <p class="card-text">movie.description</p>
-          <p class="card-text">movie.genre</p>
-          <a href="#" class="btn btn-primary">Book Movie</a>
-          <a href="#" class="btn btn-primary">More Details</a>
+  @main("Listing Gallery"){
+  <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>1 Col Portfolio - Start Bootstrap Template</title>
+        <link href="@routes.Assets.at("templates/Gallery/vendor/bootstrap/css/bootstrap.min.css")" rel="stylesheet">
+        <link href="@routes.Assets.at("templates/Gallery/css/1-col-portfolio.css")" rel="stylesheet">
+      </head>
+      <body>
+        <div class="container">
+          <h1 class="my-4 titleFormatting">Listing Gallery</h1>
+          <div class="row">
+          @for(i <- 0 until Movies.length(Movies.currentMovies)){
+            <div class="card" style="width: 15rem; margin-left: 2rem; margin-top: 2rem; background-color: rgba(0,0,0,0.5)">
+              <img class="card-img-top" src="http://image.tmdb.org/t/p/w640/@Movies.posterPath(i, Movies.currentMovies)" style="width: 240px; height: 360px">
+              <div class="card-block" style="height: 200px">
+                <h4 class="card-title" style="color: white">@Movies.title(i,Movies.currentMovies)</h4>
+                <p class="card-text ellipsesEnd" style="height: 60px; line-height: 20px;color: white">@Movies.overview(i,Movies.currentMovies)</p>
+                <a href="@routes.Application.ticketSelectionForm(i, false, false)" class="btn btn-primary" style="position:absolute;right:0;bottom:0;color:white;background-color:rgba(0,0,0,0.7)">Book Movie</a>
+                <a href="@routes.Application.individualMovie(i,false,"")" class="btn btn-primary" style="position:absolute;left:0;bottom:0;color:white;background-color:rgba(0,0,0,0.7)">More Details</a>
+              </div>
+            </div>
+          }
+          </div>
         </div>
-
-      </div>
-
-    </div>
-
-
-    <!-- Footer -->
-    <footer class="py-5 bg-dark">
-      <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; Your Website 2017</p>
-      </div>
-      <!-- /.container -->
-    </footer>
-
-    <!-- Bootstrap core JavaScript -->
-    <script src="@routes.Assets.at("templates/Gallery/vendor/jquery/jquery.min.js")"></script>
-    <script src="@routes.Assets.at("templates/Gallery/vendor/bootstrap/js/bootstrap.bundle.min.js")"></script>
-
-  </body>
-
-</html>
-}
+        <script src="@routes.Assets.at("templates/Gallery/vendor/jquery/jquery.min.js")"></script>
+        <script src="@routes.Assets.at("templates/Gallery/vendor/bootstrap/js/bootstrap.bundle.min.js")"></script>
+      </body>
+    </html>
+  }

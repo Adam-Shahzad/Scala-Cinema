@@ -1,15 +1,29 @@
+@(index:Int, newReleases:Boolean, searchString:String, form: Form[ScreeningTimes], timeOptions: scala.collection.mutable.MutableList[(String,String)], message: String)(implicit messages: Messages, request: Request[AnyContent])
+
 @main("Individual Movie"){
 <!DOCTYPE html>
 <html lang="en">
 
   <head>
-
+      <!--(title : String, posterPath:String, overview:String,backdropPath:String,releaseData:String, index:Int)-->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Portfolio Item - Start Bootstrap Template</title>
+    <title>Individual Movie</title>
+
+      <style>
+          body{
+              @if(newReleases == true){
+              background-image: url('https://image.tmdb.org/t/p/w1400_and_h450_bestv2/@Movies.backdropPath(index, Movies.newMovies)');
+          }
+              @if(newReleases==false){
+              background-image: url('https://image.tmdb.org/t/p/w1400_and_h450_bestv2/@Movies.backdropPath(index, Movies.currentMovies)');
+          }
+
+          }
+      </style>
 
     <!-- Bootstrap core CSS -->
     <link href="@routes.Assets.at("templates/Movie%20Page/vendor/bootstrap/css/bootstrap.min.css")" rel="stylesheet">
@@ -20,82 +34,86 @@
   </head>
 
   <body>
-
-    <!-- Navigation -->
-
-
-    <!-- Page Content -->
     <div class="container">
+      @if(searchString.equals("")){
+          @if(newReleases){
+          <br>
+          <div class="col-lg-12 text-left" style="background-color: rgba(0,0,0,0.6); margin-bottom:20px; color:white;">
+            <div class = "row">
+                <div style="width:350px">
+                <img style="margin-left:2%; margin-top:auto;margin-bottom:auto; padding-top:2%; padding-bottom:2%;" src = "http://image.tmdb.org/t/p/w640/@Movies.posterPath(index,Movies.newMovies)" width="350px" height="525px">
+                <a href="@routes.Application.ticketSelectionForm(index,true, true)" class="btn btn-primary" style="width:80%;margin-left:12%;margin-right:8%;color: white; background-color: rgba(0,0,0,0.7);margin-top:20px; margin-bottom:20px">Book Now</a>
+                </div>
+                <div style="width: 61%; margin-left:50px;">
+                <h1>@Movies.title(index,Movies.newMovies)</h1>
+                <br>
+                <p style="font-size:14pt">@Movies.overview(index,Movies.newMovies)</p>
+                <p style="font-size:14pt">Release Date: @Movies.releaseData(index,Movies.newMovies)</p>
+                <p style="font-size:14pt">Rating: @Movies.voteAvg(index,Movies.newMovies) / 10</p>
+                <p style="font-size:14pt">Language: @Movies.originalLanguage(index, Movies.newMovies)</p>
+                <p style="font-size:14pt">You might also enjoy: </p>
+                  @for(i <- 0 to Movies.length(Movies.newMovies) - 1) {
+                      @if(Movies.genreIDs(i, Movies.newMovies).toString().replace(",", "").replace("List(","").split(" ").
+                              exists(Movies.genreIDs(index, Movies.newMovies).toString().replace(",", "").replace("List(","").split(" ").contains)) {
+                          @if(Movies.title(i,Movies.newMovies) != Movies.title(index,Movies.newMovies)) {
+                              <a style="width:100px; margin-right:0.5%; margin-left:0.5%" href=@routes.Application.individualMovie(i,true,"")><img style="margin-bottom:20px" src = "http://image.tmdb.org/t/p/w640/@Movies.posterPath(i, Movies.newMovies)" width="100px" height="150px"></a>
+                          }
+                      }
+                  }
 
-      <!-- Portfolio Item Heading -->
-      <h1 class="my-4">Page Heading
-        <small>Secondary Text</small>
-      </h1>
 
-      <!-- Portfolio Item Row -->
-      <div class="row">
-
-        <div class="col-md-8">
-          <img class="img-fluid" src="http://placehold.it/750x500" alt="">
+              </div>
+          </div>
+          </div>
         </div>
+        } else {
+        <br>
+        <div class="col-lg-12 text-left" style="background-color: rgba(0,0,0,0.6); margin-bottom:20px; color:white;">
+          <div class = "row">
+            <div style="width:350px">
+              <img style="margin-left:2%; margin-top:auto;margin-bottom:auto; padding-top:2%; padding-bottom:2%;" src = "http://image.tmdb.org/t/p/w640/@Movies.posterPath(index,Movies.currentMovies)" width="350px" height="525px">
+                <a href="@routes.Application.ticketSelectionForm(index,true, false)" class="btn btn-primary" style="width:80%;margin-left:12%;margin-right:8%;color: white; background-color: rgba(0,0,0,0.7);margin-top:20px; margin-bottom:20px">Book Now</a>
+            </div>
+            <div style="width: 61%; margin-left:50px;">
+              <h1>@Movies.title(index,Movies.currentMovies)</h1>
+              <p style="font-size:14pt">@Movies.overview(index,Movies.currentMovies)</p>
+              <p style="font-size:14pt">Release Date: @Movies.releaseData(index,Movies.currentMovies)</p>
+              <p style="font-size:14pt">Rating: @Movies.voteAvg(index,Movies.currentMovies) / 10</p>
+              <p style="font-size:14pt">Language: @Movies.originalLanguage(index, Movies.currentMovies)</p>
+              <p style="font-size:14pt">You might also like:  </p>
+                <div>
+                  @for(i <- 0 to Movies.length(Movies.currentMovies) - 1) {
+                      @if(Movies.genreIDs(i, Movies.currentMovies).toString().replace(",", "").replace("List(","").split(" ").
+                              exists(Movies.genreIDs(index, Movies.currentMovies).toString().replace(",", "").replace("List(","").split(" ").contains)) {
+                          @if(Movies.title(i,Movies.currentMovies) != Movies.title(index,Movies.currentMovies)) {
+                              <a style="width:100px; margin-right:0.5%; margin-left:0.5%" href=@routes.Application.individualMovie(i,false,"")><img style="margin-bottom:20px" src = "http://image.tmdb.org/t/p/w640/@Movies.posterPath(i, Movies.currentMovies)" width="87px" height="130px"></a>
+                          }
+                      }
+                  }
+                </div>
+                <br>
+                <h1>@message</h1>
+                @helper.form(routes.Application.getButtonSelect(index.toString, newReleases.toString, searchString)) {
+                    @helper.inputRadioGroup(
+                        form("time"),
+                        options = timeOptions,
+                        '_label -> "Screening Times"
 
-        <div class="col-md-4">
-          <h3 class="my-3">Project Description</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae. Sed dui lorem, adipiscing in adipiscing et, interdum nec metus. Mauris ultricies, justo eu convallis placerat, felis enim.</p>
-          <h3 class="my-3">Project Details</h3>
-          <ul>
-            <li>Lorem Ipsum</li>
-            <li>Dolor Sit Amet</li>
-            <li>Consectetur</li>
-            <li>Adipiscing Elit</li>
-          </ul>
+                    )
+                    <button type="submit">Select</button>
+                }
+
+            </div>
+          </div>
         </div>
+      }
+    }
+    else{
 
-      </div>
-      <!-- /.row -->
+      }
 
-      <!-- Related Projects Row -->
-      <h3 class="my-4">Related Projects</h3>
 
-      <div class="row">
 
-        <div class="col-md-3 col-sm-6 mb-4">
-          <a href="#">
-            <img class="img-fluid" src="http://placehold.it/500x300" alt="">
-          </a>
-        </div>
-
-        <div class="col-md-3 col-sm-6 mb-4">
-          <a href="#">
-            <img class="img-fluid" src="http://placehold.it/500x300" alt="">
-          </a>
-        </div>
-
-        <div class="col-md-3 col-sm-6 mb-4">
-          <a href="#">
-            <img class="img-fluid" src="http://placehold.it/500x300" alt="">
-          </a>
-        </div>
-
-        <div class="col-md-3 col-sm-6 mb-4">
-          <a href="#">
-            <img class="img-fluid" src="http://placehold.it/500x300" alt="">
-          </a>
-        </div>
-
-      </div>
-      <!-- /.row -->
-
-    </div>
-    <!-- /.container -->
-
-    <!-- Footer -->
-    <footer class="py-5 bg-dark">
-      <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; Your Website 2017</p>
-      </div>
-      <!-- /.container -->
-    </footer>
 
     <!-- Bootstrap core JavaScript -->
     <script src="@routes.Assets.at("templates/Movie%20Page/vendor/jquery/jquery.min.js")"></script>

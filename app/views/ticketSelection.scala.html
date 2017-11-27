@@ -1,0 +1,44 @@
+@(movieTitle: String, movieID: Int, form: Form[TicketBooking], timeOptions: scala.collection.mutable.MutableList[(String,String)], fromIndividualPage: Boolean, newRelease: Boolean)(implicit messages: Messages, request: Request[AnyContent])
+
+@main("Payment") {
+
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Bare - Start Bootstrap Template</title>
+    <link href="@routes.Assets.at("templates/Bare/vendor/bootstrap/css/bootstrap.min.css")" rel="stylesheet">
+    <link href="@routes.Assets.at("stylesheets/ticketSelection.css")" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center" style="align-content: center">
+          <h1 class="titleFormatting">About Us</h1>
+            <div id= "ticketForm" style="text-align: left; padding-left: 5rem; margin:auto; margin-bottom: 5rem; background-color: rgba(0,0,0,0.5); width: 70%; padding: 3rem; align-content: center;">
+              <h1>@movieTitle</h1>
+              @helper.form(routes.Application.getTicketFormAction(movieID, fromIndividualPage, newRelease)) {
+                  @helper.inputText(form("bookerName"), '_label -> "Booker's Full Name")
+                  @helper.inputText(form("bookerEmail"), '_label -> "Your Email")
+                  @if(!(fromIndividualPage | newRelease)) {
+                      @helper.select(form("movieTime"), options = timeOptions, '_label -> "Screening Time", '_showConstraints -> false)
+                  }
+                  @helper.inputText(form("adultTicket"),'_label -> "No. of Adult Tickets (£11.00) ", 'placeholder -> "0", '_showConstraints -> false)
+                  @helper.inputText(form("childTicket"),'_label -> "No. of Child Tickets (£6.00)",'placeholder -> "0", '_showConstraints -> false)
+                  @helper.inputText(form("concessionTicket"),'_label -> "No. of Concession Tickets (£8.00)",'placeholder -> "0", '_showConstraints -> false)
+                  <input type="submit" onclick="location.href='@controllers.routes.Application.getTicketFormAction(movieID, fromIndividualPage, newRelease)'" value="Select" />
+            }
+            </div>
+        </div>
+      </div>
+    </div>
+    <script src="@routes.Assets.at("templates/Bare/vendor/jquery/jquery.min.js")"></script>
+    <script src="@routes.Assets.at("templates/Bare/vendor/bootstrap/js/bootstrap.bundle.min.js")"></script>
+  </body>
+</html>
+}

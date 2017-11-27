@@ -1,20 +1,37 @@
 package models
 
-class Movies {
+import scala.collection.mutable.ArrayBuffer
 
-  private val urlData = scala.io.Source.fromURL("https://api.themoviedb.org/3/movie/upcoming?api_key=0e1152c2ffcd8427363a93caf8553082&language=en-UK&page=1").mkString
-  private val moviesJson = scala.util.parsing.json.JSON.parseFull(urlData)
-  private val movieList = moviesJson.get.asInstanceOf[Map[String, String]].get("results").get.asInstanceOf[List[Map[String, String]]]
+object Movies{
+  val newMovies = scala.util.parsing.json.JSON.parseFull(scala.io.Source.fromURL("https://api.themoviedb.org/3/movie/upcoming?api_key=0e1152c2ffcd8427363a93caf8553082&language=en-UK&page=1").mkString).
+    get.asInstanceOf[Map[String, String]].get("results").get.asInstanceOf[List[Map[String, String]]]
 
-  def id(value:Int):String = movieList(value).getOrElse("id","No Value")
-  def voteAvg(value:Int):String = movieList(value).getOrElse("vote_average","No Value")
-  def title(value:Int):String = movieList(value).getOrElse("title","No Value")
-  def popularity(value:Int):String = movieList(value).getOrElse("popularity","No Value")
-  def posterPath(value:Int):String = movieList(value).getOrElse("poster_path","No Value")
-  def originalLanguage(value:Int):String = movieList(value).getOrElse("original_language","No Value")
-  def genreIDs(value:Int):String = movieList(value).getOrElse("genre-ids","No Value")
-  def backdropPath(value:Int):String = movieList(value).getOrElse("backdrop_path","No Value")
-  def adult(value:Int):String = movieList(value).getOrElse("adult","No Value")
-  def overview(value:Int):String = movieList(value).getOrElse("overview", "No Value")
-  def releaseData(value:Int):String = movieList(value).getOrElse("release_date", "No Value")
+  val currentMovies = scala.util.parsing.json.JSON.parseFull(scala.io.Source.fromURL("https://api.themoviedb.org/3/movie/now_playing?api_key=0e1152c2ffcd8427363a93caf8553082&language=en-UK&page=1").mkString).
+    get.asInstanceOf[Map[String, String]].get("results").get.asInstanceOf[List[Map[String, String]]]
+
+  def filterList(filter:String):List[Map[String,String]] = {
+    val combinedFilms = newMovies:::currentMovies
+    val allMoviesFiltered:ArrayBuffer[Map[String,String]] = ArrayBuffer.empty[Map[String,String]]
+    for (i <- combinedFilms.indices)
+      {
+        if (combinedFilms(i).getOrElse("title","no value").toLowerCase().contains(filter.toLowerCase()))
+            allMoviesFiltered += combinedFilms(i)
+      }
+    allMoviesFiltered.toSet.toList
+  }
+
+  var currentMovieSelected = 0
+
+  def id(value:Int, movList:List[Map[String,String]]):String = movList(value).getOrElse("id","No Value")
+  def voteAvg(value:Int, movList:List[Map[String,String]]):Any = movList(value).getOrElse("vote_average","No Value")
+  def title(value:Int, movList:List[Map[String,String]]):String = movList(value).getOrElse("title","No Value")
+  def popularity(value:Int, movList:List[Map[String,String]]):Any = movList(value).getOrElse("popularity","No Value")
+  def posterPath(value:Int, movList:List[Map[String,String]]):String = movList(value).getOrElse("poster_path","No Value")
+  def originalLanguage(value:Int, movList:List[Map[String,String]]):String = movList(value).getOrElse("original_language","No Value")
+  def genreIDs(value:Int, movList:List[Map[String,String]]):Any = movList(value).getOrElse("genre_ids","No Value")
+  def backdropPath(value:Int, movList:List[Map[String,String]]):String = movList(value).getOrElse("backdrop_path","No Value")
+  def adult(value:Int, movList:List[Map[String,String]]):Any = movList(value).getOrElse("adult","No Value")
+  def overview(value:Int,movList:List[Map[String,String]]):String = movList(value).getOrElse("overview", "No Value")
+  def releaseData(value:Int,movList:List[Map[String,String]]):String = movList(value).getOrElse("release_date", "No Value")
+  def length(movList:List[Map[String,String]]):Int = movList.length
 }

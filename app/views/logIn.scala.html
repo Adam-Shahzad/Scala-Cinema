@@ -1,0 +1,74 @@
+@(userform:Form[UserForm],regform:Form[RegForm], result: String)(implicit messages: Messages, request: Request[AnyContent])
+@main("Log In") {
+<!DOCTYPE html>
+    <html lang="en">
+
+        <head>
+
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+            <meta name="description" content="">
+            <meta name="author" content="">
+
+            <title>LogIn</title>
+
+                <!-- Bootstrap core CSS -->
+            <link href="@routes.Assets.at("templates/Bare/vendor/bootstrap/css/bootstrap.min.css")" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <style>
+      table{
+          margin: 0 auto;
+      }
+        .loginAll input {
+            text-align: left;
+            float:right;
+            margin-left:5px;
+        }
+        .registerAll input {
+            text-align: left;
+            float:right;
+            margin-left:5px;
+        }
+
+    </style>
+            <p class="titleFormatting">Logging In</p>
+
+</head>
+
+
+<body>
+    <div class="container greyBoxes" style="width:60%; height:570px; padding-top:20px;">
+        @result
+            <div style="float:left; margin-left:2rem;">
+                <h2 class="section-heading ">Been here before?</h2>
+                <h2>Login</h2>
+                @helper.form(routes.LoginController.processLoginForm()){
+                <p class = "lead">@helper.inputText(userform("userName"), '_label -> "Username: ", '_showConstraints -> false)</P>
+                <p class = "lead">@helper.inputPassword(userform("hashedPass"), '_label -> "Password: ", '_showConstraints -> false)</p>
+                <button type = "submit" onclick = "Location.href='@routes.LoginController.processLoginForm()'" class="btn btn-primary" style = "color: white; background-color:rgba(0,0,0,0.7)">Login</button>
+                }
+            </div>
+
+            <div style="float:right; margin-right:2rem;">
+                <h2 class="section-heading ">New to QA Cinemas?</h2>
+                <h2>Create an account</h2>
+            @helper.form(routes.LoginController.processRegisterForm()){
+                <p class = "lead">@helper.inputText(regform("firstName"), '_label -> "First Name: ", '_showConstraints -> false)</P>
+                <p class = "lead">@helper.inputText(regform("lastName"), '_label -> "Last Name: ", '_showConstraints -> false)</p>
+                <p class = "lead">@helper.inputText(regform("userName"), '_label -> "Username: ", '_showConstraints -> false)</P>
+                <p class = "lead">@helper.inputPassword(regform("hashedPass"), '_label -> "Password: ", '_showConstraints -> false)</p>
+                <p class = "lead">@helper.inputText(regform("email"), '_label -> "email: ", '_showConstraints -> false)</p>
+                <button type = "submit" onclick = "Location.href='@routes.LoginController.processRegisterForm()'" class="btn btn-primary" style = "color: white; background-color:rgba(0,0,0,0.7)">Create Account</button>
+            }
+            </div>
+
+        </div>
+
+
+
+
+<br><br><br>
+</body>
+    </html>
+}

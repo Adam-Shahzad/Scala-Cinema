@@ -1,3 +1,5 @@
+@()(implicit messages: Messages, request: Request[AnyContent])
+
 @main("Screens"){
 <!DOCTYPE html>
 <html lang="en">
@@ -14,38 +16,24 @@
     <!-- Bootstrap core CSS -->
     <link href="@routes.Assets.at("templates/Bare/vendor/bootstrap/css/bootstrap.min.css")" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
-    <style>
-      body {
-        padding-top: 54px;
-      }
-      media (min-width: 992px) {
-        body {
-          padding-top: 56px;
-        }
-      }
-
-    </style>
-
   </head>
 
   <body>
 
-    <!-- Navigation -->
-
-
-    <!-- Page Content -->
     <div class="container">
       <div class="row">
         <div class="col-lg-12 text-center">
-          <h1 class="mt-5">A Bootstrap 4 Starter Template</h1>
-          <p class="lead">Complete with pre-defined file paths and responsive navigation!</p>
-          <ul class="list-unstyled">
-            <li>Bootstrap 4.0.0-beta</li>
-            <li>jQuery 3.2.1</li>
-          </ul>
+          <h1 class="mt-10 titleFormatting">Screens</h1>
+          <div class="greyBoxes" style="text-align:center;padding-left:5rem;width:100%;padding:3rem;align-content:center;">
+          <div class="row" style="width: 100%; background-color: rgba(0,0,0,0.5); margin-bottom: 5rem">
+            <div style="width: 50%; padding: 0.5rem"><img border="0" alt='standard screen' src="@routes.Assets.at("images/mainScreen.jpg")" width="100%" height="350px"></div>
+            <div style="width: 50%; padding: 0.5rem;"><img border="0" alt='standard screen' src="@routes.Assets.at("images/seatingArrangment.jpg")" width="100%" height="350px"></div>
+            <div style="width: 50%; padding: 0.5rem;"><img border="0" alt='standard screen' src="@routes.Assets.at("images/directorsBox.jpg")" width="100%" height="350px"></div>
+            <div style="width: 50%; padding: 0.5rem;"><img border="0" alt='standard screen' src="@routes.Assets.at("images/directorsBoxSeats.png")" width="100%" height="350px"></div>
+            <div></div>
+          </div>
+          </div>
         </div>
-      </div>
     </div>
 
     <!-- Bootstrap core JavaScript -->

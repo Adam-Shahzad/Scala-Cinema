@@ -1,0 +1,52 @@
+@(emailForm:Form[Emails])(implicit messages: Messages, request: Request[AnyContent])
+@main("Email") {
+<!DOCTYPE html>
+    <html lang="en">
+
+        <head>
+
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+            <meta name="description" content="">
+            <meta name="author" content="">
+
+            <title></title>
+
+                <!-- Bootstrap core CSS -->
+            <link href="@routes.Assets.at("templates/Bare/vendor/bootstrap/css/bootstrap.min.css")" rel="stylesheet">
+
+                <!-- Custom styles for this template -->
+            <style>
+                    body {
+                        padding-top: 54px;
+                    }
+                    media (min-width: 992px) {
+                    body {
+                        padding-top: 56px;
+                    }
+                    }
+                    table{
+                        margin: 0 auto;
+                    }
+
+            </style>
+
+        </head>
+
+        <body>
+
+
+                <!-- Navigation -->
+
+                <!-- Page Content -->
+
+
+                <!-- Bootstrap core JavaScript -->
+            <script src="@routes.Assets.at("templates/Bare/vendor/jquery/jquery.min.js")"></script>
+            <script src="@routes.Assets.at("templates/Bare/vendor/bootstrap/js/bootstrap.bundle.min.js")"></script>
+
+        </body>
+
+    </html>
+}
+

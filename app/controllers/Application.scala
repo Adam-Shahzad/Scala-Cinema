@@ -1,66 +1,129 @@
 package controllers
 
 import javax.inject.Inject
-import models.Payment
 
-import models.Movies
-
-import play.api._
-import play.api.libs.json
-import play.api.libs.json._
+import models.JsonFormats.{BookingFormat, screeningFormat, ticketFormat, userFormat}
 import play.api.libs.json.{JsPath, Json}
-import play.api.mvc._
-import reactivemongo.bson.BSONDocument
+import play.modules.reactivemongo.{MongoController, ReactiveMongoApi, ReactiveMongoComponents}
+import reactivemongo.api.Cursor
+import reactivemongo.play.json._
+
+import scala.util.{Failure, Success}
+import scala.concurrent.{Await, Future}
+import play.api.mvc.{Action, Controller}
+import models._
 import play.api.i18n.{I18nSupport, MessagesApi}
+import play.api.libs.mailer.MailerClient
+import play.modules.reactivemongo.json.collection.JSONCollection
+import reactivemongo.bson.BSONDocument
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.collection.mutable.ArrayBuffer
-import scala.concurrent.Future
-
-import scala.concurrent.Future
+import scala.concurrent.duration._
 
 
-class Application  @Inject() (val messagesApi: MessagesApi) extends Controller with I18nSupport {
-  
-val movie = new Movies
-  
- var seatList = ArrayBuffer[String]
-  def index = Action {
-    Ok(views.html.index("Your new application is ready."))
+
+
+object MyHelpers {
+  import views.html.helper.FieldConstructor
+  implicit val myFields = FieldConstructor(views.html.myFieldConstructorTemplate.f)
+}
+
+class Application  @Inject() (val messagesApi: MessagesApi)(val mailerClient: MailerClient)(val reactiveMongoApi: ReactiveMongoApi) extends Controller with I18nSupport with MongoController with ReactiveMongoComponents{
+
+
+  def screeningCollection : Future[JSONCollection] = database.map(_.collection[JSONCollection]("screening"))
+  def ticketCollection : Future[JSONCollection] = database.map(_.collection[JSONCollection]("tickets"))
+  def bookingCollection : Future[JSONCollection] = database.map(_.collection[JSONCollection]("bookings"))
+  def usersCollection : Future[JSONCollection] = database.map(_.collection[JSONCollection]("users"))
+  var seatList = scala.collection.mutable.ArrayBuffer[Boolean]()
+
+
+  def individualMovie(address:Int,newReleases:Boolean,searchString:String) = Action { implicit request=>
+    Ok(views.html.individualMovie(address, newReleases, searchString, ScreeningTimes.createForm, screenTimesToOptions(address), "Select Your Screening Time"))
+  }
+  def guestUserId: String = {
+    val id = scala.util.Random
+    id.nextInt().toString
   }
 
-  def homepage = Action {
-    val m = new Movies
-    Ok(views.html.homepage(movie))
+  def getButtonSelect(address:String, newReleases:String,searchString:String) = Action { implicit request =>
+    val formResult = ScreeningTimes.createForm.bindFromRequest()
+    formResult.fold({errors =>
+      BadRequest(views.html.individualMovie(address.toInt, newReleases.toBoolean, searchString, errors, screenTimesToOptions(address.toInt), "error"))
+    }, {form =>
+      val isGuest = request.session.get("user").isEmpty | (request.session.get("user").getOrElse("none") contains "guest")
+      if(isGuest){
+        Ok(views.html.ticketSelection(Movies.title(address.toInt,Movies.currentMovies),address.toInt ,TicketBooking.createForm, screenTimesToOptions(address.toInt), true, false)).withSession(request.session + ("time" -> form.time))
+      } else {
+        val userID = request.session.get("user").getOrElse("none")
+        val thisUser = Await.result(getUserInfoFromDB(userID.toInt), 5 second)
+        val filledForm = TicketBooking.createForm.fill(new TicketBooking(s"${thisUser.firstName} ${thisUser.lastName}", s"${thisUser.email}"))
+        Ok(views.html.ticketSelection(Movies.title(address.toInt,Movies.currentMovies),address.toInt,filledForm, screenTimesToOptions(address.toInt),true, false)).withSession(request.session)
+      }
+    })
   }
 
-  def classifications = Action {
-    Ok(views.html.classifications())
+
+  ///////////////////////////2
+  // from 1 session."user" will be set according to login or guest
+  def ticketSelectionForm(movieID: Int, fromIndividualPage : Boolean, newRelease: Boolean) = Action {implicit request =>
+    val isGuest = request.session.get("user").isEmpty | (request.session.get("user").getOrElse("none") contains "guest")
+    if(isGuest) {
+      val userID = "guest" + guestUserId
+      Ok(views.html.ticketSelection(Movies.title(movieID,Movies.currentMovies),movieID,TicketBooking.createForm, screenTimesToOptions(movieID), fromIndividualPage, newRelease)).withSession("user" -> userID)
+    }
+
+    else {
+      val userID = request.session.get("user").getOrElse("none")
+      val thisUser = Await.result(getUserInfoFromDB(userID.toInt), 5 second)
+      val filledForm = TicketBooking.createForm.fill(new TicketBooking(s"${thisUser.firstName} ${thisUser.lastName}", s"${thisUser.email}"))
+      Ok(views.html.ticketSelection(Movies.title(movieID,Movies.currentMovies),movieID,filledForm, screenTimesToOptions(movieID),fromIndividualPage, newRelease)).withSession(request.session)
+    }
+
   }
 
-  def individualMovie = Action {
-    Ok(views.html.individualMovie())
+  def getTicketFormAction( movieID: Int, fromIndividualPage: Boolean, newRelease: Boolean) = Action { implicit request =>
+    val formResult = TicketBooking.createForm.bindFromRequest()
+    formResult.fold({errors =>
+      BadRequest(views.html.ticketSelection(Movies.title(movieID,Movies.currentMovies),movieID,errors, screenTimesToOptions(movieID), fromIndividualPage, newRelease))
+    }, { form =>
+      if(fromIndividualPage){
+        Ok(views.html.payment(Movies.title(movieID,Movies.currentMovies), Payment.createForm)).withSession(request.session + ("bookerName" -> form.bookerName) + ("bookerEmail" -> form.bookerEmail)
+          + ("adult" -> form.adultTicket.getOrElse(0).toString) + ("child" -> form.childTicket.getOrElse(0).toString) + ("movieID" -> movieID.toString)
+          + ("concession" -> form.concessionTicket.getOrElse(0).toString))
+      }else {
+        Ok(views.html.payment(Movies.title(movieID,Movies.currentMovies), Payment.createForm)).withSession(request.session + ("bookerName" -> form.bookerName) + ("bookerEmail" -> form.bookerEmail) + ("time" -> form.movieTime.getOrElse("none"))
+          + ("adult" -> form.adultTicket.getOrElse(0).toString) + ("child" -> form.childTicket.getOrElse(0).toString) +  ("movieID" -> movieID.toString)
+          + ("concession" -> form.concessionTicket.getOrElse(0).toString))
+      }
+    })
   }
 
-  def listingsGallery = Action {
-    Ok(views.html.listingsGallery())
+  def getUserInfoFromDB(userID: Int): Future[Users] = {
+    val cursor: Future[Cursor[Users]] = usersCollection.map {
+      _.find(Json.obj("_id" -> userID)).cursor[Users]
+    }
+    val user : Future[List[Users]] = cursor.flatMap(_.collect[List]())
+    user.map{ usr=>
+      usr.head
+    }
   }
 
-  def newReleasesGallery = Action {
-    Ok(views.html.newReleasesGallery())
-  }
 
-  def openingTimes = Action {
-    Ok(views.html.openingTimes())
-  }
 
-  def payment = Action {
 
-      Ok(views.html.payment("Please enter your payment details",Payment.createForm))
+  ///////////////////////////////////3
+  def payment = Action { implicit request =>
+
+    Ok(views.html.payment("Payment for",Payment.createForm))
   }
 
   def processPaymentForm = Action { implicit request =>
     val formValidationResult = Payment.createForm.bindFromRequest()
     val action = request.body.asFormUrlEncoded.get("action").head
+    val mail = new MailerService(mailerClient)
+
 
     if (formValidationResult.hasErrors) {
       if (action == "empty") {
@@ -71,26 +134,114 @@ val movie = new Movies
     }
     else {
       action match {
-        case "pay" => Ok(views.html.payment("Thanks for you purchase! Your tickets are ready to be collected",Payment.createForm ))
-        case "empty" =>
+        case "pay" =>
+          val thisBooking = (request.session.get("time").getOrElse("none") + "," + request.session.get("adult").getOrElse("none") + ","
+          + request.session.get("child").getOrElse("none") + ","  + request.session.get("concession").getOrElse("none"))
 
+          mail.sendBookingConfirmation(formValidationResult.value.head.name, request.session.get("bookerEmail").getOrElse("none"), thisBooking)
+          val bookedTickets= Map("adult" -> request.session.get("adult").getOrElse("0").toInt, "child" -> request.session.get("child").getOrElse("0").toInt,
+            "concession" -> request.session.get("concession").getOrElse("0").toInt)
+
+          var userID = -1
+
+          if(!(request.session.get("user").getOrElse("-1") contains "guest")){
+             userID = request.session.get("user").getOrElse("-1").toInt
+          }
+
+          processTickets(userID,request.session.get("movieID").getOrElse("-1"),request.session.get("time").getOrElse("none"),bookedTickets)
+
+          Ok(views.html.payment(s"Thanks ${request.session.get("bookerName").getOrElse("none")} for you purchase! Your tickets are sent to ${request.session.get("bookerEmail").getOrElse("none")}",Payment.createForm ))
+        case "empty" =>
           Ok(views.html.payment("Basket Emptied", Payment.createForm))
       }
     }
   }
 
-  def screens = Action {
-    Ok(views.html.screens())
+  ///////////////////////////////////////4   Adapt to  overall database design
+  def insertTicketsToDB(latestBookingID: Int, ticketType: String) = {
+    val newTicket = Tickets(bookingID = latestBookingID,ticketType = ticketType)
+    ticketCollection.flatMap(_.insert(newTicket))
   }
 
-  def ticketBooking = Action {
-    Ok(views.html.ticketBooking())
+  def insertBookingToDB(userID: Int,movieID: Int,movieTime: String) = {
+    val newBookingID = Await.result(getLatestBookingID(), 5 second) +1
+    val thisScreeningID = getScreeningID(movieID,movieTime)
+
+    val newBooking = Booking(newBookingID,userID,thisScreeningID)
+    bookingCollection.flatMap(_.insert(newBooking))
+    println(s"booking inserted $newBookingID")
+    Thread.sleep(500)
+
+  }
+  def getScreeningID(movieID: Int,movieTime: String): Int= {
+    val screenings = Await.result(getScreeningsForMovie(movieID),5 second)
+    val thisScreeningID = screenings.filter(_.time == movieTime).head._id
+    thisScreeningID
   }
 
-  def seatSelection = Action {
-    val seatLetters = ('A' to 'F').toList
-    val rowNumbers = (1 to 10).toList
-    Ok(views.html.seatSelection(seatLetters, rowNumbers, seatList))
+  def processTickets(userID:Int,movieID: String, movieTime: String, tickets: Map[String,Int]) = {
+    insertBookingToDB(userID.toInt, movieID.toInt, movieTime )
+    for (ticketType <- tickets.keys){
+      if(tickets(ticketType) != 0){
+        val latestID = Await.result(getLatestBookingID(userID), 5 second)
+        for(i <-0 until tickets(ticketType)){
+          println(s"\n latest id : $latestID")
+          insertTicketsToDB(latestID,ticketType)
+        }
+      }
+    }
   }
 
+  def getLatestBookingID(userID: Int = -1): Future[Int] = {
+
+    val cursor: Future[Cursor[Booking]] = bookingCollection.map {
+      if(userID == -1){
+          println("\n\n\n user none")
+        _.find(Json.obj()).sort(Json.obj("$natural" -> -1)).cursor[Booking]
+      }
+      else {
+        println(s"\n\n\n user $userID")
+        _.find(Json.obj("userID" -> userID.toInt)).sort(Json.obj("$natural" -> -1)).cursor[Booking]
+      }
+    }
+    val sortedBookings: Future[ArrayBuffer[Booking]] = cursor.flatMap(_.collect[ArrayBuffer]())
+    val latestId = sortedBookings.map { bookings =>
+      bookings.head._id
+    }
+    latestId
+  }
+  //////////////////////////////////////////////////////////////////////////////////////////
+
+  def gettingTherePage = Action {implicit request=>
+    Ok(views.html.gettingThere(Emails.createForm, "Email"))
+  }
+  def sendEmail = Action { implicit request =>
+    val formResult = Emails.createForm.bindFromRequest()
+    val mail = new MailerService(mailerClient)
+    formResult.fold({errors =>
+      BadRequest(views.html.gettingThere(errors,"Please fill in carefully"))
+    }, { form =>
+      mail.sendEmail(form.subject,form.email,form.emailBody)
+      Ok(views.html.gettingThere(Emails.createForm, s"Email sent!"))
+    })
+  }
+
+
+  def getScreeningsForMovie(movieID: Int) : Future[List[Screening]] ={
+
+    val cursor: Future[Cursor[Screening]] = screeningCollection.map {
+      _.find(Json.obj("movie_ID" -> movieID)).cursor[Screening]
+    }
+    val screenigs : Future[List[Screening]] = cursor.flatMap(_.collect[List]())
+    screenigs
+  }
+
+  def screenTimesToOptions(movieID: Int): scala.collection.mutable.MutableList[(String,String)] =  {
+    val screeningsList = Await.result(getScreeningsForMovie(movieID), 5 second)
+    var times = ArrayBuffer[String]()
+    screeningsList.foldLeft(times)((times,time) => times += time.time)
+    var timeOptions = scala.collection.mutable.MutableList[(String,String)]()
+    times.foldLeft(timeOptions)((timeOptions,screenTime) => timeOptions += (screenTime -> screenTime))
+    timeOptions
+  }
 }
