@@ -12,7 +12,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Bare - Start Bootstrap Template</title>
+    <title>Payment</title>
 
     <!-- Bootstrap core CSS -->
     <link href="@routes.Assets.at("templates/Bare/vendor/bootstrap/css/bootstrap.min.css")" rel="stylesheet">
@@ -81,7 +81,7 @@
                 @helper.inputText(paymentForm("expiry"), '_label -> "Expiry (MM/YY)", '_showConstraints -> false)
                 @helper.inputText(paymentForm("csv"), '_label -> "CSV", '_showConstraints -> false)
 
-                <button class="btn btn-primary" style="width:80%;margin-left:12%;margin-right:8%;color: white; background-color: rgba(0,0,0,0.7);margin-top:20px; margin-bottom:20px" type="submit" name="action" value="pay">Make Payment</button>
+                <button id="paymentButton" class="btn btn-primary" style="width:80%;margin-left:12%;margin-right:8%;color: white; background-color: rgba(0,0,0,0.7);margin-top:20px; margin-bottom:20px" type="submit" name="action" value="pay">Make Payment</button>
                 <p>
                     <button class="btn btn-primary" style="width:80%;margin-left:12%;margin-right:8%;color: white; background-color: rgba(0,0,0,0.7);margin-top:20px; margin-bottom:20px" type="submit" name="action" value="empty">Empty Basket</button>
                 </p>

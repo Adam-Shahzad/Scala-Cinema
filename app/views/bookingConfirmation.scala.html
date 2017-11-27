@@ -1,6 +1,6 @@
 @(message: String)(implicit messages: Messages, request: Request[AnyContent])
 
-@main("Payment") {
+@main("Payment Confirmation") {
 
 <!DOCTYPE html>
 <html lang="en">
@@ -47,7 +47,7 @@
 
             <div style="text-align: center; margin-left: auto; margin-right: auto; margin-bottom: 50%; background-color: rgba(0,0,0,0.5);
                 width: 80%; padding: 3rem; align-content: center;">
-            <h2>@message</h2>
+            <h2 id="payConfMessage">@message</h2>
             </div>
         </div>
       </div>
