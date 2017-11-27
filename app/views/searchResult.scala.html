@@ -21,7 +21,7 @@
       <div class="card" style="width: 15rem; margin-left: 2rem; margin-top: 2rem; background-color: rgba(0,0,0,0.5)">
         <img class="card-img-top" src="http://image.tmdb.org/t/p/w640/@Movies.posterPath(i,movieList)" style="width: 240px; height: 360px; background-color: rgba(0,0,0,0.7)">
         <div class="card-block" style="height: 200px">
-          <h4 class="card-title" style="color: white">@Movies.title(i, movieList)</h4>
+          <h4 class="card-title" id="title@i" style="color: white">@Movies.title(i, movieList)</h4>
           <p class="card-text" style="height: 60px; line-height: 20px; overflow: hidden; text-overflow: ellipsis; color: white">@Movies.overview(i,movieList)</p>
             <a href="@routes.Application.individualMovie(i,false, Movies.title(i, movieList))" class="btn btn-primary" style="position:absolute; left: 0; bottom: 0; color: white; background-color: rgba(0,0,0,0.7)">More Details</a>
         </div>
@@ -31,7 +31,7 @@
     </div>
     } else {
       <div class="container">
-        <h1 class="my-4">No Results Found</h1>
+        <h1 class="my-4" id="noResult">No Results Found</h1>
       <div style="height: 500px"></div>
       </div>
 
