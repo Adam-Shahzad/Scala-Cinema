@@ -1,4 +1,4 @@
-@(message: String, paymentForm: Form[Payment] )(implicit messages: Messages, request: Request[AnyContent])
+@(message: String, paymentForm: Form[Payment], totalPrice: Int)(implicit messages: Messages, request: Request[AnyContent])
 
 @main("Payment") {
 
@@ -39,27 +39,56 @@
 
     <!-- Page Content -->
     <div class="container">
-      <div class="row">
-        <div class="col-lg-12 text-center">
-          <h1 class="mt-5">Payment Form</h1>
 
-            <div style="text-align: left; padding-left: 5rem; margin-bottom: 3rem; background-color: rgba(0,0,0,0.5);
-                width: 40%; padding: 3rem; align-content: center;">
-            <h2>@message</h2>
-            @helper.form(routes.Application.processPaymentForm()) {
+      <div class="row">
+        <div class="col-lg-12">
+          <h1 class="mt-5 titleFormatting">Payment Form</h1>
+            <div style="padding-left: 5rem; margin-bottom: 3rem; background-color: rgba(0,0,0,0.5);
+                width: 50%; padding: 3rem; margin-left:auto;margin-right:auto;">
+                <div style="text-align:center">
+                @if(totalPrice!=0) {
+                    <table style="margin-left:auto;margin-right:auto;font-size:14pt;">
+                        <thead>
+                            <tr><th></th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Movie:  </td>
+                                <td>@message</td></tr>
+                            <tr><td>Time:  </td>
+                                <td>@request.session.get("time").getOrElse("TBD")</td></tr>
+                            @if(!(request.session.get("adult").getOrElse(0) == "0")) {
+                                <tr><td>Adult Tickets:  </td>
+                                    <td>@request.session.get("adult").getOrElse("none")</td></tr>
+                            }
+                            @if(!(request.session.get("child").getOrElse("none") == "0")) {
+                                <tr><td>Child Tickets:  </td>
+                                    <td>@request.session.get("child").getOrElse(0) </td></tr>
+                            }
+                            @if(!(request.session.get("concession").getOrElse(0) == "0")) {
+                                <tr><td>Concession Tickets:  </td>
+                                    <td>@request.session.get("concession").getOrElse(0)</td></tr>
+                            }
+
+                        </tbody>
+                    </table>
+                    <br>
+                    <p style="font-size:18pt;">Total Price: £@totalPrice.00</p>
+                }
+                </div>
+            @helper.form(routes.Application.processPaymentForm(totalPrice)) {
                 @helper.inputText(paymentForm("name"), '_label -> "Full Card Holder Name", '_showConstraints -> false)
                 @helper.inputText(paymentForm("number"), '_label -> "Card Number", '_showConstraints -> false)
                 @helper.inputText(paymentForm("expiry"), '_label -> "Expiry (MM/YY)", '_showConstraints -> false)
                 @helper.inputText(paymentForm("csv"), '_label -> "CSV", '_showConstraints -> false)
 
-                <button type="submit" name="action" value="pay">Make Payment</button>
+                <button class="btn btn-primary" style="width:80%;margin-left:12%;margin-right:8%;color: white; background-color: rgba(0,0,0,0.7);margin-top:20px; margin-bottom:20px" type="submit" name="action" value="pay">Make Payment</button>
                 <p>
-                    <button type="submit" name="action" value="empty">Empty Basket</button>
+                    <button class="btn btn-primary" style="width:80%;margin-left:12%;margin-right:8%;color: white; background-color: rgba(0,0,0,0.7);margin-top:20px; margin-bottom:20px" type="submit" name="action" value="empty">Empty Basket</button>
                 </p>
             }
-            </div>
-        </div>
+          </div>
       </div>
+    </div>
     </div>
     <!-- Bootstrap core JavaScript -->
     <script src="@routes.Assets.at("templates/Bare/vendor/jquery/jquery.min.js")"></script>

@@ -19,9 +19,9 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-12 text-center" style="align-content: center">
-          <h1 class="titleFormatting">About Us</h1>
-            <div id= "ticketForm" style="text-align: left; padding-left: 5rem; margin:auto; margin-bottom: 5rem; background-color: rgba(0,0,0,0.5); width: 70%; padding: 3rem; align-content: center;">
-              <h1>@movieTitle</h1>
+          <h1 class="titleFormatting">Ticket Selection</h1>
+            <div id= "ticketForm" style="text-align: left; padding-left: 5rem; margin:auto; margin-bottom: 5rem; background-color: rgba(0,0,0,0.5); width: 50%; padding: 3rem; align-content: center;">
+              <h1 style="text-align: center;">@movieTitle</h1>
               @helper.form(routes.Application.getTicketFormAction(movieID, fromIndividualPage, newRelease)) {
                   @helper.inputText(form("bookerName"), '_label -> "Booker's Full Name")
                   @helper.inputText(form("bookerEmail"), '_label -> "Your Email")
@@ -31,7 +31,7 @@
                   @helper.inputText(form("adultTicket"),'_label -> "No. of Adult Tickets (£11.00) ", 'placeholder -> "0", '_showConstraints -> false)
                   @helper.inputText(form("childTicket"),'_label -> "No. of Child Tickets (£6.00)",'placeholder -> "0", '_showConstraints -> false)
                   @helper.inputText(form("concessionTicket"),'_label -> "No. of Concession Tickets (£8.00)",'placeholder -> "0", '_showConstraints -> false)
-                  <input type="submit" onclick="location.href='@controllers.routes.Application.getTicketFormAction(movieID, fromIndividualPage, newRelease)'" value="Select" />
+                  <input class="btn btn-primary" style="width:80%;margin-left:12%;margin-right:8%;color: white; background-color: rgba(0,0,0,0.7);margin-top:20px; margin-bottom:20px" type="submit" onclick="location.href='@controllers.routes.Application.getTicketFormAction(movieID, fromIndividualPage, newRelease)'" value="Select" />
             }
             </div>
         </div>

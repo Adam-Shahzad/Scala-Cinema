@@ -52,10 +52,10 @@ background-position: center center;
                                 @helper.inputText(myForm("value"), '_label -> null, '_showConstraints -> false)
                             </li>
                             <li style="padding-top: 1%">
-                                <button type="submit"> <i class="fa fa-search"></i> </button>
+                                <button class="btn btn-primary" style="width:100%; height:30px; padding-top:0px;padding-bottom:0px;padding-right:0.5rem;padding-left:0.5rem;margin-left:12%;margin-right:8%;color: white; background-color: rgba(0,0,0,0.7);" type="submit"> <i class="fa fa-search"></i> </button>
                             </li>
                         <li class="nav-item">
-                            @if(request.session.get("user").isEmpty | (request.session.get("user") contains "guest")){
+                            @if(request.session.get("user").isEmpty | (request.session.get("user").getOrElse("none") contains "guest")){
                                 <a class="nav-link" href=@routes.LoginController.loginPage()>Log In</a>
                             }else {
                                 <a class="nav-link" href=@routes.LoginController.logOut()>Log Out</a>
@@ -88,8 +88,12 @@ background-position: center center;
                     <a class="homenav" href=@routes.NavigationSimple.screens()>Screens</a>
                 </li>
                 <li style="display:inline-block; margin-left: 2%; margin-right: 2%">
+                    <a class="homenav" href=@routes.NavigationSimple.aroundUs()>Nearby</a>
+                </li>
+                <li style="display:inline-block; margin-left: 2%; margin-right: 2%">
                     <a class="homenav" href=@routes.NavigationSimple.aboutUs()>About Us</a>
                 </li>
+
             </ul>
             <p class="m-0 text-center" style="color: darkgray">Copyright &copy; QACinemas 2017</p>
         </div>
