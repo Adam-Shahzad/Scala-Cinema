@@ -33,7 +33,6 @@
                   @if(newReleases==false){
                       background-image: url('https://image.tmdb.org/t/p/w1400_and_h450_bestv2/@Movies.backdropPath(index,Movies.currentMovies)');
                   }
-
                   }
           </style>
 
@@ -43,7 +42,7 @@
             <div class = "row">
                 <div style="width:350px">
                 <img style="margin-left:2%; margin-top:auto;margin-bottom:auto; padding-top:2%; padding-bottom:2%;" src = "http://image.tmdb.org/t/p/w640/@Movies.posterPath(index,Movies.newMovies)" width="350px" height="525px">
-                <a href="@routes.Application.ticketSelectionForm(index,true, true)" class="btn btn-primary" style="width:80%;margin-left:12%;margin-right:8%;color: white; background-color: rgba(0,0,0,0.7);margin-top:20px; margin-bottom:20px">Book Now</a>
+                <a class="btn btn-primary" style="width:80%;margin-left:12%;margin-right:8%;color: white; background-color: rgba(0,0,0,0.7);margin-top:20px; margin-bottom:20px">Book Now</a>
                 </div>
                 <div style="width: 61%; margin-left:50px;">
                 <h1>@Movies.title(index,Movies.newMovies)</h1>
@@ -142,7 +141,7 @@
                       }
 
                       } else {
-                      <a href="@routes.Application.ticketSelectionForm(Movies.upComing(searchString)._2,false,true)" class="btn btn-primary" style="width:80%;margin-left:12%;margin-right:8%;color: white; background-color: rgba(0,0,0,0.7);margin-top:20px; margin-bottom:20px">Book Now</a>
+                      <a class="btn btn-primary" style="width:80%;margin-left:12%;margin-right:8%;color: white; background-color: rgba(0,0,0,0.7);margin-top:20px; margin-bottom:20px">Book Now</a>
                   }
               </div>
               <div style="width: 61%; margin-left:50px;">

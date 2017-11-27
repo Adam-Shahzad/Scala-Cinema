@@ -149,7 +149,7 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val mailerClient: Ma
   ///////////////////////////////////3
   def payment(movieTitle: String, totalPrice: Int) = Action { implicit request =>
 
-    Ok(views.html.payment(s"Payment for $movieTitle",Payment.createForm, totalPrice))
+    Ok(views.html.payment(s"$movieTitle",Payment.createForm, totalPrice))
   }
 
   def processPaymentForm(totalPrice: Int) = Action { implicit request =>
@@ -190,7 +190,7 @@ class Application  @Inject() (val messagesApi: MessagesApi)(val mailerClient: Ma
     }
   }
   def bookingConfirmationPage= Action {implicit request=>
-    Ok(views.html.bookingConfirmation(s"Thanks ${request.session.get("bookerName").getOrElse("none")} for you purchase! Your tickets are sent to ${request.session.get("bookerEmail").getOrElse("none")}" ))
+    Ok(views.html.bookingConfirmation(s"Thanks ${request.session.get("bookerName").getOrElse("none")} for you purchase! Your tickets have been sent to ${request.session.get("bookerEmail").getOrElse("none")}" ))
   }
 
   ///////////////////////////////////////4   Adapt to  overall database design

@@ -15,7 +15,7 @@
   <body>
     @if(movieList.nonEmpty){
     <div class="container">
-      <h1 class="my-4">Currently Showing @Movies.title(0, movieList) </h1>
+      <h1 class="my-4 titleFormatting">Search Results</h1>
       <div class="row">
       @for(i <- 0 until movieList.length){
       <div class="card" style="width: 15rem; margin-left: 2rem; margin-top: 2rem; background-color: rgba(0,0,0,0.5)">
