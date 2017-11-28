@@ -75,7 +75,7 @@
     </div>
     <div style="padding-top:2rem; margin-bottom:50px;background-color: rgba(0,0,0,0.5); text-align: center"><h3 style="color:white;">Showing Today</h3>
       <div class="row" style="width:1150px;padding-bottom: 2rem; margin-left:auto; margin-right:auto">
-        <a style="padding: 0.2rem" class="nav-link" href=@routes.Application.individualMovie(0,false,"")><img  src="http://image.tmdb.org/t/p/w640/@Movies.posterPath(0,Movies.currentMovies)" style="width:220px ;height:350px"></a>
+        <a id="posterClick" style="padding: 0.2rem" class="nav-link" href=@routes.Application.individualMovie(0,false,"")><img  src="http://image.tmdb.org/t/p/w640/@Movies.posterPath(0,Movies.currentMovies)" style="width:220px ;height:350px"></a>
         <a style="padding: 0.2rem" class="nav-link" href=@routes.Application.individualMovie(1,false,"")><img  src = "http://image.tmdb.org/t/p/w640/@Movies.posterPath(1,Movies.currentMovies)" style="width:220px ;height:350px"></a>
         <a style="padding: 0.2rem" class="nav-link" href=@routes.Application.individualMovie(2,false,"")><img  src = "http://image.tmdb.org/t/p/w640/@Movies.posterPath(2,Movies.currentMovies)" style="width:220px ;height:350px"></a>
         <a style="padding: 0.2rem" class="nav-link" href=@routes.Application.individualMovie(3,false,"")><img  src = "http://image.tmdb.org/t/p/w640/@Movies.posterPath(3,Movies.currentMovies)" style="width:220px ;height:350px"></a>
@@ -83,7 +83,7 @@
       </div>
     </div>
 
-  <div style="width:75%; margin-right:auto; margin-left:auto; margin-top:50px; margin-bottom:50px;background-color: rgba(0,0,0,0.5);"><h3 style="color:white;padding-left:5%; padding-top: 10px; padding-bottom: 10px">Great Offers </h3>
+  <div  style="width:75%; margin-right:auto; margin-left:auto; margin-top:50px; margin-bottom:50px;background-color: rgba(0,0,0,0.5);"><h3 id="greatOffers" style="color:white;padding-left:5%; padding-top: 10px; padding-bottom: 10px">Great Offers </h3>
     <div class="row">
       <img src="@routes.Assets.at("images/offer.jpg")" style="width: 25%; height:25%; margin-right: 5%; margin-left: 5%; padding-bottom: 20px">
       <div style="width: 60%; color: white">

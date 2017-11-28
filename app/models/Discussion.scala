@@ -9,27 +9,27 @@ case class Discussion (name: String, email:String, desc:String, filmName:String,
 
 object Discussion{
 
-  val allNumber = """\d*""".r
-  val allLetters = """[A-Za-z]*""".r
-
-  val checkContstraint: Constraint[String] = Constraint("constraints.passwordcheck")({
-    plainText =>
-      val errors = plainText match {
-        case allNumber() => Seq(ValidationError("Password is all numbers"))
-        case allLetters() => Seq(ValidationError("Password is all characters"))
-        case _ => Nil
-      }
-      if (errors.isEmpty)
-        Valid
-      else
-          Invalid(errors)
-  })
+//  val allNumber = """\d*""".r
+//  val allLetters = """[A-Za-z]*""".r
+//
+//  val checkContstraint: Constraint[String] = Constraint("constraints.passwordcheck")({
+//    plainText =>
+//      val errors = plainText match {
+//        case allNumber() => Seq(ValidationError("Password is all numbers"))
+//        case allLetters() => Seq(ValidationError("Password is all characters"))
+//        case _ => Nil
+//      }
+//      if (errors.isEmpty)
+//        Valid
+//      else
+//          Invalid(errors)
+//  })
 
 
 
   val createForm = Form(
     mapping (
-      "name" -> nonEmptyText.verifying(checkContstraint),
+      "name" -> nonEmptyText,
       "email" -> email,
       "desc" -> nonEmptyText(minLength = 50, maxLength = 500),
       "filmName" -> nonEmptyText,
