@@ -30,4 +30,16 @@ class BuyingATicket extends FlatSpec with Matchers with HtmlUnit {
     pageTitle should be ("Payment Confirmation")
     id("payConfMessage").webElement.getText should include ("mariannepearson0@gmail.com")
   }
+
+  "Entering the incorrect details into the fields" should "throw an error and refresh the page" in {
+    go to (host)
+    click on id("listingsGallery")
+    click on id("BookMovie0")
+    textField("bookerName").value = "Marianne"
+    textField("bookerEmail").value = "fakeEmail"
+    textField("adultTicket").value = "2"
+    click on id("selectButton")
+    pageTitle should be ("Ticket Selection")
+    id("bookerEmail_field").webElement.getText should include ("Valid email required")
+  }
 }
